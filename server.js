@@ -7,7 +7,7 @@ const PORT = process.env.port || 5000
 const app = express();
 
 app.use(cors());
-app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/client/public`));
 
 
 app.use('/graphql', graphqlHTTP({
