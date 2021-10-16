@@ -20,7 +20,7 @@ const root = {
     return users;
   },
   getUser: ({ id }) => {
-    return users.find((user) => user.id === id);
+    return users.find((user) => user.id === Number(id));
   },
   createUser: ({ input }) => {
     const newUser = { id: users.length + 1, ...input };
