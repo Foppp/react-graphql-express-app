@@ -1,43 +1,30 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const cors = require('cors');
-const schema = require('./schema');
+const schema = require('./graphql/schema');
+const root = require('./graphql/resolvers');
 
-const users = [
-  { id: 1, username: 'Michel', userlastname: 'Jackson', age: 34 },
-  { id: 2, username: 'David', userlastname: 'Clipper', age: 23 },
-  { id: 3, username: 'Jason', userlastname: 'PORN', age: 65 },
-];
+dotenv.config();
 
+const { DB_URI } = process.env;
 const PORT = process.env.port || 5000;
-const app = express();
 
+const app = express();
 app.use(cors());
 app.use(express.static(`${__dirname}/client/public`));
 
-const root = {
-  getUsers: () => {
-    return users;
-  },
-  getUser: ({ id }) => {
-    return users.find((user) => user.id === Number(id));
-  },
-  createUser: ({ input }) => {
-    const newUser = { id: users.length + 1, ...input };
-    users.push(newUser);
-    return newUser;
-  },
-};
+app.use('/graphql', graphqlHTTP({ schema, graphiql: true, rootValue: root }));
 
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema,
-    graphiql: true,
-    rootValue: root,
-  })
-);
+const start = async () => {
+  try {
+    await mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log("Connected successfully");
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (e) {
+    console.log(`Connection Error: ${e}`)
+  }
+}
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+start();
