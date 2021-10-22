@@ -1,76 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Container, Col, Row, Form, Button } from 'react-bootstrap';
-import { useMutation, useQuery } from '@apollo/client';
-import { GET_USERS } from './query/user';
-import { ADD_USER } from './mutation/user';
+import { useQuery, gql } from '@apollo/client';
+// import { GET_USERS } from './query/user';
+// import { LOGIN_USER } from './mutation/user';
+
+const GET_USERS = gql`
+  query GetUsers {
+    getUsers {
+      id, username, email, token
+    }
+  }
+`;
+
+export const LOGIN_USER = gql`
+  mutation LoginUser($input: LoginInput) {
+    login(input: $input) {
+      user { id, username }, token
+    }
+  }
+`;
 
 const App = () => {
-
-  const [users, setUsers] = useState([]);
-  // const [user, setUser] = useState(null);
-  // const [userId, setUserId] = useState('')
   const [username, setUsername] = useState('');
-  const [userlastname, setUserlastname] = useState('');
-  const [age, setAge] = useState(0);
+  const [password, setPassword] = useState('');
 
-  const { data, loading, refetch } = useQuery(GET_USERS);
-  // const { data: oneUser } = useQuery(GET_USER, {
-  //   variables: {
-  //     id: userId
-  //   }
-  // });
-  const [newUser] = useMutation(ADD_USER);
-  const addUser = (e) => {
-    e.preventDefault();
-    // setUser(oneUser.getUser)
-    newUser({
-      variables: {
-        input: {
-          username, userlastname, age
-        }
-      }
-    }).then(() => {
-      setUsername('');
-      setUserlastname('');
-      // setUserId('');
-      setAge(0);
-      refetch();
-    })
-  };
+  const { data } = useQuery(GET_USERS);
 
-  useEffect(() => {
-    if (!loading) {
-      setUsers(data.getUsers)
-    }
-  }, [data]);
+  // const [login] = useMutation(LOGIN_USER);
+  
+  // console.log(data)
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   login({ variables: { input: { username, password } } }, {
+  //     update(_, result) {
+  //       console.log(result)
+  //     }
+  //   });
+  // };
 
   return (
     <Container>
-      <Form className="form" onSubmit={(e) => addUser(e)}>
+      <Form className='form'>
         <Row className='mb-3'>
-          <Form.Group as={Col} controlId='formGridName'>
-            <Form.Label>Name</Form.Label>
-            <Form.Control value={username} onChange={(e) => setUsername(e.target.value)}/>
+          <Form.Group as={Col} controlId='formGridEmail'>
+            <Form.Label>Username</Form.Label>
+            <Form.Control value={username} type='text' placeholder='Enter email' onChange={(e) => setUsername(e.target.value)}/>
           </Form.Group>
-          <Form.Group as={Col} controlId='formGridLastName'>
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control value={userlastname} onChange={(e) => setUserlastname(e.target.value)}/>
-          </Form.Group>
-          <Form.Group as={Col} controlId='formGridAge'>
-            <Form.Label>Age</Form.Label>
-            <Form.Control value={age} onChange={(e) => setAge(Number(e.target.value))}/>
+          <Form.Group as={Col} controlId='formGridPassword'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control value={password} type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)}/>
           </Form.Group>
         </Row>
         <Button variant='primary' type='submit'>
           Submit
         </Button>
       </Form>
-      <Col className='data text-center'>
-        <h1>Data:</h1>
-        {users.map((user) => (
-          <p key={user.id}>{user.id}: {user.username} {user.userlastname} - {user.age} y/o</p>
-        ))}
-      </Col>
+      <Button variant='primary' type='button' onClick={() => console.log(data)}>
+          Submit
+        </Button>
     </Container>
   );
 };
