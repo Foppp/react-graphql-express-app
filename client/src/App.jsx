@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { Container, Col, Row, Form, Button } from 'react-bootstrap';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
+
 // import { GET_USERS } from './query/user';
 // import { LOGIN_USER } from './mutation/user';
 
 const GET_USERS = gql`
-  query GetUsers {
+  query getUsers {
     getUsers {
-      id, username, email, token
+      _id, username, email, displayName
     }
   }
 `;
 
-export const LOGIN_USER = gql`
-  mutation LoginUser($input: LoginInput) {
-    login(input: $input) {
-      user { id, username }, token
+const LOGIN_USER = gql`
+  mutation LoginUser($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      userId, token
     }
   }
 `;
@@ -25,22 +26,23 @@ const App = () => {
   const [password, setPassword] = useState('');
 
   const { data } = useQuery(GET_USERS);
+  const [login, { data: loginData, error, loading }] = useMutation(LOGIN_USER);
 
-  // const [login] = useMutation(LOGIN_USER);
-  
+  if (loginData) {
+    localStorage.setItem('userId', JSON.stringify(loginData.login))
+  }
   // console.log(data)
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   login({ variables: { input: { username, password } } }, {
-  //     update(_, result) {
-  //       console.log(result)
-  //     }
-  //   });
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login({ variables: { username, password } }).then(() => {
+      setUsername('');
+      setPassword('');
+    });
+  };
 
   return (
     <Container>
-      <Form className='form'>
+      <Form className='form' onSubmit={(e) => handleSubmit(e)}>
         <Row className='mb-3'>
           <Form.Group as={Col} controlId='formGridEmail'>
             <Form.Label>Username</Form.Label>
@@ -56,8 +58,14 @@ const App = () => {
         </Button>
       </Form>
       <Button variant='primary' type='button' onClick={() => console.log(data)}>
-          Submit
-        </Button>
+          show data
+      </Button>
+      <Button variant='primary' type='button' onClick={() => localStorage.removeItem('userId')}>
+          logout
+      </Button>
+      {/* {data.map((user) => (
+        <p key={user._id}>{user.username}</p>
+      ))} */}
     </Container>
   );
 };
