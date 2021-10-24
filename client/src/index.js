@@ -30,12 +30,12 @@ const getUserId = () => JSON.parse(localStorage.getItem('userId'));
 
 const link = ApolloLink.from([errorLink, httpLink]);
 
-const authLink = setContext(async (_, { headers }) => {
-  const userId = await JSON.parse(localStorage.getItem('userId'));
+const authLink = setContext((_, { headers }) => {
+  const userId = getUserId();
   return {
     headers: {
       ...headers,
-      authorization: userId && userId.token ? `${userId.token}` : '',
+      authorization: userId && userId.token ? userId.token : '',
     }
   }
 });
