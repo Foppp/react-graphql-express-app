@@ -3,6 +3,7 @@ import authContext from '../contexts/index.jsx';
 
 const AuthProvider = ({ children }) => {
   const loggedInUser = JSON.parse(localStorage.getItem('userId'));
+
   const [loggedIn, setLoggedIn] = useState(!!loggedInUser);
   const logIn = () => setLoggedIn(true);
   const logOut = () => {

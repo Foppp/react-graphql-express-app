@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import { useMutation, gql } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
@@ -17,30 +17,26 @@ const Login = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [login, { data, error, loading }] = useMutation(LOGIN_USER);
+  const [login, { error, loading }] = useMutation(LOGIN_USER);
   const history = useHistory();
   const auth = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login({ variables: { username, password } }).then(() => {
+    login({ variables: { username, password } }).then(({ data }) => {
+      localStorage.setItem('userId', JSON.stringify(data.login));
+      auth.logIn();
       setUsername('');
       setPassword('');
+      const { from } = location.state || { from: { pathname: '/' } };
+      history.replace(from);
     }).catch((e) => console.log('login error', e));
   };
 
-  useEffect(() => {
-    if (data) {
-      localStorage.setItem('userId', JSON.stringify(data.login));
-      auth.logIn();
-      const { from } = location.state || { from: { pathname: '/' } };
-      history.replace(from);
-    }
-  }, [data]);
-
-
-  return (
-    <Card>
+  return auth.loggedIn
+    ? (<h1>You already logged in</h1>)
+    : (
+      <Card>
       <Card.Body>
         <Form className='form p-5' onSubmit={(e) => handleSubmit(e)}>
           <Form.Group controlId='formGridEmail'>
@@ -74,7 +70,7 @@ const Login = () => {
         </Form>
       </Card.Body>
     </Card>
-  );
+    );
 };
 
 export default Login;

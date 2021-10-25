@@ -9,8 +9,9 @@ const pages = {
 }
 
 const MenuPages = () => {
-  const { page } = useParams();
-  const Component = pages[page];
+  const { nav } = useParams();
+  console.log(nav)
+  const Component = pages[nav];
   return <Component />
 }
 

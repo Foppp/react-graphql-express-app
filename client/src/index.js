@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+// import { MemoryRouter } from 'react-router-dom'
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 // import ApolloClient from 'apollo-boost';
 import { setContext } from '@apollo/client/link/context';
@@ -47,6 +48,6 @@ const client = new ApolloClient({
 render(
   <ApolloProvider client={client}>
     <App />
-  </ApolloProvider>,
+    </ApolloProvider>,
   document.getElementById('root')
 );
