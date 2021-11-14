@@ -12,11 +12,6 @@ module.exports = {
     filename: 'bundle.js',
     path: BUILD_DIR
   },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
-  },
   module: {
     rules: [
       {

@@ -1,0 +1,17 @@
+.navbar {
+  background-color: rgb(219, 215, 209);
+}
+
+.navbar {
+  transition: margin-left .1s;
+  padding: 10px;
+  margin-left: 200px;
+}
+
+@media (max-width: 750px) {
+
+  .navbar {
+    margin-left: 50px;
+  }
+
+}

@@ -1,0 +1,14 @@
+.content {
+  transition: margin-left .2s;
+  padding: 10px;
+  margin-left: 200px;
+  height: 100vh
+}
+
+@media (max-width: 750px) {
+
+  .content {
+    margin-left: 50px;
+  }
+
+}

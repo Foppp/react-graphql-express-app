@@ -32,16 +32,15 @@ const start = async () => {
   });
   
   await server.start();
+
   const app = express();
   app.use(cors());
   server.applyMiddleware({ app });
+
   app.use(express.static(`${__dirname}/client/public`));
-  app.get('*', (req, res) => {
-    res.sendFile(`${__dirname}/client/public/index.html`);
-  });
-  app.listen(PORT, () => {
-    console.log(`Server running at ${PORT}`);
-  });
+  app.get('*', (req, res) => res.sendFile(`${__dirname}/client/public/index.html`));
+
+  app.listen(PORT, () => console.log(`Server running at ${PORT}`));
 };
 
 start();

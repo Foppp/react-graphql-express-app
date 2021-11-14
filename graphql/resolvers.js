@@ -3,10 +3,11 @@ const { getToken } = require('../utils/index')
 const resolvers = {
   Mutation: {
     login: async (_, { username, password }, { db }) => {
-        const user = await db.collection('users').findOne({ username });
-        const isPasswordCorrect = password === user?.password;
-        if (!user || !isPasswordCorrect) throw new Error('Username or Password are incorrect!');
-        return { userId: user._id, token: getToken(user) };
+      const user = await db.collection('users').findOne({ username });
+      const isPasswordCorrect = password === user?.password;
+      if (!user) throw new Error('Username does not exist!');
+      if (!isPasswordCorrect) throw new Error('Password is incorrect!');
+      return { userId: user._id, token: getToken(user) };
     },
   },
   Query: {
