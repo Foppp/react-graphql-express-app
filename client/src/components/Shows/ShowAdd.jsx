@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Groups = () => {
+const ShowAdd = () => {
     return (
         <div>
-            <h1>Groups</h1>
+            Add Show
         </div>
     )
 }
 
-export default Groups
+export default ShowAdd

@@ -1,167 +1,177 @@
-import React from "react";
+import React, { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import { Link, useLocation } from 'react-router-dom';
+// import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import TheaterComedyOutlinedIcon from '@mui/icons-material/TheaterComedyOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 
-import '../../assets/styles/nabvar.css';
+const pages = [
+  {
+    id: 1,
+    name: 'Dashboard',
+    path: '/dashboard',
+    icon: <DashboardOutlinedIcon />,
+  },
+  { id: 2, name: 'Artists', path: '/artists', icon: <PeopleOutlinedIcon /> },
+  { id: 3, name: 'Shows', path: '/shows', icon: <TheaterComedyOutlinedIcon /> },
+];
+// const settings = [
+//   { id: 1, name: 'Account',  path: '/account', icon: <ManageAccountsOutlinedIcon /> },
+//   { id: 2, name: 'Logout',  path: '/logout', icon: <LogoutOutlinedIcon /> },
+// ];
 
 const Navbar = () => {
+  const location = useLocation();
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+  const handleCloseNavMenu = () => setAnchorElNav(null);
+  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+  const handleCloseUserMenu = () => setAnchorElUser(null);
+
   return (
-    <div className="d-flex navbar">
-      <div className="flex-grow-1">search</div>
-      <div className="px-2">
-      bell icon
-      </div>
-      <div className="px-2">user icon</div>
-    </div>
+    <AppBar position='static'>
+      <Container maxWidth='xl'>
+        <Toolbar disableGutters>
+          <Typography
+            variant='h6'
+            noWrap
+            component='div'
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+          >
+            LOGO
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size='large'
+              aria-label='account of current user'
+              aria-controls='menu-appbar'
+              aria-haspopup='true'
+              onClick={handleOpenNavMenu}
+              color='inherit'
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id='menu-appbar'
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem
+                  component={Link}
+                  to={page.path}
+                  key={page.id}
+                  onClick={handleCloseNavMenu}
+                >
+                  {page.icon}
+                  <Typography ml={1} textAlign='center'>
+                    {page.name}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <Typography
+            variant='h6'
+            noWrap
+            component='div'
+            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+          >
+            LOGO
+          </Typography>
+          <Box ml={4} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                id={page.id}
+                key={page.id}
+                component={Link}
+                to={page.path}
+                sx={{
+                  my: 1,
+                  ml: 2,
+                  color: 'white',
+                  display: 'flex',
+                  borderBottom: page.path === location.pathname ? 1 : 0,
+                }}
+                startIcon={page.icon}
+              >
+                {page.name}
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title='Open settings'>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt='' src='' />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id='menu-appbar'
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                component={Link}
+                to='/account'
+              >
+                <ManageAccountsOutlinedIcon />
+                <Typography textAlign='center' ml={2}>
+                  Account
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <LogoutOutlinedIcon />
+                <Typography textAlign='center' ml={2}>
+                  Logout
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
-
 export default Navbar;
-
-// import React, { useState } from "react";
-// import cn from "classnames";
-// import avatar from "../../assets/img/me.png";
-// import logoImg from "../../assets/img/LogoImg.png";
-// import logoName from "../../assets/img/LogoName3.png";
-
-// const Navbar = () => {
-//   const [userMenuOpen, setUserMenuOpen] = useState(false);
-//   const [notificationOpen, setNotificationOpen] = useState(false);
-
-//   const onUserMenuToggle = () => {
-//     setNotificationOpen(false);
-//     setUserMenuOpen(!userMenuOpen);
-//   };
-//   const onNotificationToggle = () => {
-//     setUserMenuOpen(false);
-//     setNotificationOpen(!notificationOpen);
-//   };
-
-//   const userMenuClass = cn("dropdown-menu userMenu dropdown-menu-dark", {
-//     show: userMenuOpen,
-//   });
-
-//   const notificationClass = cn(
-//     "dropdown-menu notificationMenu dropdown-menu-dark",
-//     { show: notificationOpen }
-//   );
-
-//   return (
-//     <div className="content-head">
-//       <div className="row">
-//         <div className="col-2 col-lg-2 col-md-3 col-sm-1 brand-logo-name">
-//           <div className="col my-auto text-center">
-//             <img className="brand-name" src={logoName} alt="" />
-//           </div>
-//         </div>
-//         <div className="col-2 d-flex justify-content-between">
-//         <div className="col d-flex justify-content-between">
-//           <div className="row my-auto ms-2">
-//             <div className="searchbar">
-//               <input
-//                 className="search_input"
-//                 type="text"
-//                 name=""
-//                 placeholder="Search... "
-//               />
-//               <i className="bx bx-search"></i>
-//             </div>
-//             </div>
-//             </div>
-//         </div>
-//         <div className="col">
-//           <div className="row text-center">
-//             <div className="col-2">
-//               <div className="notification-bell d-inline">
-//                 <button
-//                   type="button"
-//                   className="btn btn-default"
-//                   data-bs-toggle="dropdownnNotification"
-//                   aria-expanded="true"
-//                   onClick={onNotificationToggle}
-//                   onBlur={() => setNotificationOpen(false)}
-//                 >
-//                   <i className="bx bx-bell">
-//                     <span className="notify-circle position-absolute translate-middle p-1 bg-danger border border-light rounded-circle">
-//                       <span className="visually-hidden">New alerts</span>
-//                     </span>
-//                   </i>
-//                 </button>
-//                 <ul className={notificationClass}>
-//                   <li className="li">Notificationa</li>
-//                   <hr className="dropdown-divider" />
-//                   <li className="li">first notification</li>
-//                   <li className="li">second notify</li>
-//                   <hr className="dropdown-divider" />
-//                   <li>Logout</li>
-//                 </ul>
-//               </div>
-//             </div>
-//             <div className="col-6">User Name</div>
-//             <div className="col">
-//               <button
-//                 type="btn"
-//                 className="btn btn-danger btn-sm"
-//                 onClick={() => console.log("logout")}
-//               >
-//                 LogOut
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//         {/* <div className="col-2 col-lg-2 col-md-3 col-sm-1 brand-logo-name">
-//           <div className="col my-auto text-center">
-//             <img className="brand-name" src={logoName} alt="" />
-//           </div>
-//         </div>
-//         <div className="col d-flex justify-content-between">
-//           <div className="row my-auto ms-2">
-//             <div className="searchbar">
-//               <input
-//                 className="search_input"
-//                 type="text"
-//                 name=""
-//                 placeholder="Search... "
-//               />
-//               <i className="bx bx-search"></i>
-//             </div>
-//           </div>
-//           <div className="my-auto">
-//           <div className="notification-bell d-inline">
-            // <button
-            //   type="button"
-            //   className="btn btn-default"
-            //   data-bs-toggle="dropdownnNotification"
-            //   aria-expanded="true"
-            //   onClick={onNotificationToggle}
-            //   onBlur={() => setNotificationOpen(false)}
-            // >
-            //   <i className="bx bx-bell">
-            //     <span className="notify-circle position-absolute translate-middle p-1 bg-danger border border-light rounded-circle">
-            //       <span className="visually-hidden">New alerts</span>
-            //     </span>
-            //   </i>
-            // </button>
-            // <ul className={notificationClass}>
-            //   <li className="li">Notificationa</li>
-            //   <hr className="dropdown-divider" />
-            //   <li className="li">first notification</li>
-            //   <li className="li">second notify</li>
-            //   <hr className="dropdown-divider" />
-            //   <li>Logout</li>
-            // </ul>
-//           </div>
-//             <div className="d-inline">dgdgg</div>
-//             <div className="d-inline"><button
-//               type="btn"
-//               className="btn btn-danger btn-sm"
-//               onClick={() => console.log("logout")}
-//             >
-//               LogOut
-//             </button></div>
-//           </div>
-//         </div> */}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Navbar;

@@ -1,33 +1,79 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-
-import '../../assets/styles/content.css';
-
-import Dashboard from '../../components/Dashboard/Dashboard.jsx';
-import Orders from '../../components/Orders/Orders.jsx';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
 import Artists from '../../components/Artists/Artists.jsx';
-import Todos from '../../components/Todos/Todos.jsx';
-import Calendar from '../../components/Calendar/Calendar.jsx';
-import Groups from '../../components/Groups/Groups.jsx';
+import Shows from '../../components/Shows/Shows.jsx';
+import Dashboard from '../../components/Dashboard/Dashboard.jsx';
+import Account from '../../components/Account/Account.jsx';
+import ModalDialog from '../../components/Modals/ModalDialog.jsx';
+import ModalWindow from '../../components/Modals/ModalWindow.jsx';
 
 const menuContent = {
   dashboard: Dashboard,
-  orders: Orders,
   artists: Artists,
-  todos: Todos,
-  calendar: Calendar,
-  groups: Groups,
+  shows: Shows,
+  account: Account,
 };
 
 const Content = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDialogType, setModalDialogType] = useState(null);
+  const [currentId, setCurrentId] = useState(null);
+
+  const handleDialogOpen = (type, id = null) => {
+    setModalDialogType(type);
+    setCurrentId(id);
+    setDialogOpen(true);
+  };
+
+  const dialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleModalOpen = (id = null) => {
+    setCurrentId(id);
+    setModalOpen(true);
+  };
+
+  const modalClose = () => {
+    setModalOpen(false);
+  };
+
+  const navigate = useNavigate();
   const { content } = useParams();
-  console.log(content)
-  const ContentComponent = menuContent[content];
+  const ContentComponent = menuContent[content] ?? Dashboard;
+
+  useEffect(() => {
+    if (!content) navigate('/dashboard');
+  }, []);
 
   return (
-    <div className='content'>
-      <ContentComponent />
-    </div>
+    <Box component='main' sx={{ p: 3 }}>
+      <ContentComponent
+        dialogOpen={dialogOpen}
+        handleDialogOpen={handleDialogOpen}
+        handleModalOpen={handleModalOpen}
+        dialogClose={dialogClose}
+        id={currentId}
+      />
+      {modalDialogType && (
+        <ModalDialog
+          dialogOpen={dialogOpen}
+          handleDialogOpen={handleDialogOpen}
+          dialogClose={dialogClose}
+          type={modalDialogType}
+          id={currentId}
+        />
+      )}
+      {modalOpen && (
+        <ModalWindow
+          modalOpen={modalOpen}
+          modalClose={modalClose}
+          id={currentId}
+        />
+      )}
+    </Box>
   );
 };
 
