@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 // import { Form, Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { useMutation, gql } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import useAuth from '../../hooks/index.jsx';
 
@@ -21,7 +21,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null)
   const [login, { data, loading }] = useMutation(LOGIN_USER);
-  const history = useHistory();
+  const history = useNavigate();
   const auth = useAuth();
   const inputRef = useRef(null)
 
@@ -46,9 +46,9 @@ const Login = () => {
     }
   }, [data])
 
-  // useEffect(() => {
-  //   inputRef.current.focus();
-  // }, [inputRef]);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [inputRef]);
 
   const renderUnAuthenticated = () => {
     const classFeed = cn('input-line full-width', {

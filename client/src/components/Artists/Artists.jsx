@@ -1,4 +1,6 @@
 import React from "react";
+import { useMutation, useQuery, gql } from '@apollo/client';
+
 import Typography from "@mui/material/Typography";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -23,12 +25,19 @@ import {
 } from "../StyledComponents.jsx";
 import { artists } from '../../mocks/artistList'
 
+export const GET_ALL_ARTISTS = gql`
+  query {
+    getArtists {
+      id, name, age
+    }
+  }
+`;
 
 const Artists = ({ handleDialogOpen, handleModalOpen }) => {
-
+  const { data, loading, error, refetch } = useQuery(GET_ALL_ARTISTS);
   // const [modalType, setModalType] = useState(null);
   // const [artistId, setArtistId] = useState(null);
-
+  console.log(data);
   return (
     <>
       <Typography variant="h4" m={1} sx={{ textAlign: "center" }}>

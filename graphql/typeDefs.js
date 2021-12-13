@@ -8,6 +8,14 @@ const typeDefs = gql`
     displayName: String!
   }
 
+  type Artist {
+    _id: ID!,
+    name: String!
+    age: Int!
+    role: String!
+    status: String!
+  }
+
   input LoginInput {
     username: String!
     password: String!
@@ -24,6 +32,7 @@ const typeDefs = gql`
 
   type Query {
     getUsers: [User!]!
+    getArtists: [Artist!]!
   }
 `;
 
