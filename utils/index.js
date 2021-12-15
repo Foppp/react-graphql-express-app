@@ -6,7 +6,7 @@ dotenv.config();
 
 const { SECRET_KEY } = process.env;
 
-const getToken = (user) => jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: '30 days' });
+const getToken = (user) => jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: '300 days' });
 
 const getUserFromToken = async (token, db) => {
   if (!token) {

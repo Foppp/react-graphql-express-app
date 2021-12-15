@@ -1,17 +1,14 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Navigate, Route, Outlet } from 'react-router-dom';
 import useAuth from '../hooks/index.jsx';
 
-const PrivateRoute = ({ children, path }) => {
+const PrivateRoute = () => {
   const auth = useAuth();
-  return (
-    <Route
-      path={path}
-      render={({ location }) => (auth.loggedIn
-        ? children
-        : <Redirect to={{ pathname: '/login', state: { from: location } }} />)}
-    />
-  );
+  return auth.loggedIn
+        ? <Outlet />
+        : <Navigate to={{ pathname: '/login', state: { from: location } }} />
+    
+  
 };
 
 export default PrivateRoute;

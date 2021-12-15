@@ -18,6 +18,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import TheaterComedyOutlinedIcon from '@mui/icons-material/TheaterComedyOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import useAuth from '../../hooks/index.jsx';
 
 const pages = [
   {
@@ -42,6 +43,7 @@ const Navbar = () => {
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
+  const auth = useAuth();
 
   return (
     <AppBar position='static'>
@@ -161,7 +163,7 @@ const Navbar = () => {
                   Account
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
+              <MenuItem onClick={() => auth.logOut()}>
                 <LogoutOutlinedIcon />
                 <Typography textAlign='center' ml={2}>
                   Logout

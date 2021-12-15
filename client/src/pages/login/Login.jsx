@@ -17,11 +17,12 @@ const LOGIN_USER = gql`
 `;
 
 const Login = () => {
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null)
   const [login, { data, loading }] = useMutation(LOGIN_USER);
-  const history = useNavigate();
+  const navigate = useNavigate();
   const auth = useAuth();
   const inputRef = useRef(null)
 
@@ -41,7 +42,7 @@ const Login = () => {
       setUsername('');
       setPassword('');
       const { from } = location.state || { from: { pathname: '/' } };
-      history.replace(from);
+      navigate(from, { replace: true });
       auth.logIn();
     }
   }, [data])
@@ -94,7 +95,7 @@ const Login = () => {
       <div>
         <button className='ghost-round full-width mt-3' onClick={() => {
           const { from } = location.state || { from: { pathname: '/main' } };
-          history.replace(from);
+          navigate(from, { replace: true });
         }}>
           Continue to dashboard
         </button>
@@ -103,9 +104,11 @@ const Login = () => {
   );
 
   return (
-    <div className='container login-container d-flex justify-content-center'>
+    <React.Fragment>
+      <div className='container login-container d-flex justify-content-center'>
       {auth.loggedIn ? renderAuthenticated() : renderUnAuthenticated()}
     </div>
+    </React.Fragment>
   );
 
   //   <Card className='mx-5 shadow-sm'>

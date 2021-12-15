@@ -8,11 +8,13 @@ import Content from "./Content.jsx";
 const Home = () => {
 
   return (
+    <>
     <Box>
       <CssBaseline />
       <Navbar  />
       <Content />
-    </Box>
+      </Box>
+      </>
   );
 };
 
