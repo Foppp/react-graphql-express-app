@@ -28,7 +28,7 @@ import { artists } from '../../mocks/artistList'
 export const GET_ALL_ARTISTS = gql`
   query {
     getArtists {
-      id, name, age
+      _id, name, age
     }
   }
 `;
