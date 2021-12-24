@@ -1,12 +1,14 @@
-body {
+/* body {
   background-image: url('https://cdn.wallpapersafari.com/70/31/kKeDht.jpg');
-  background-repeat: no-repeat; /* Do not repeat the image */
-  /* background-size: cover; */
+  background-repeat: no-repeat;
+  background-size: cover;
   margin:0px;
 	padding: 0px;
 	overflow: hidden;
 	font-family: system-ui;
-}
-/* .main-container {
-  min-height: 1000px;
 } */
+
+body {
+  background: linear-gradient(0deg, rgba(14,115,254,1) 0%, rgba(255,239,205,1) 100%) no-repeat center center fixed;
+
+}
