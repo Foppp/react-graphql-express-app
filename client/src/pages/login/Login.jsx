@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/index.jsx';
 
@@ -10,14 +10,7 @@ import Grid from '@mui/material/Grid';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import Typography from '@mui/material/Typography';
 
-const LOGIN_USER = gql`
-  mutation LoginUser($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      userId
-      token
-    }
-  }
-`;
+import { LOGIN_USER } from '../../mutation/mutation.js';
 
 const Login = () => {
   const [username, setUsername] = useState('');

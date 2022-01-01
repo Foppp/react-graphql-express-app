@@ -1,3 +1,5 @@
+const { ObjectID } = require('mongodb');
+
 const { getToken } = require('../utils/index')
 
 const resolvers = {
@@ -8,6 +10,14 @@ const resolvers = {
       if (!user) throw new Error('Username does not exist!');
       if (!isPasswordCorrect) throw new Error('Password is incorrect!');
       return { userId: user._id, token: getToken(user) };
+    },
+    createArtist: async (_, { artist }, { db }) => {
+      const response = await db.collection('artists').insertOne(artist);
+      return { success: response.acknowledged };
+    },
+    removeArtist: async (_, { userId }, { db }) => {
+      const response = await db.collection('artists').deleteOne({ _id: ObjectID(userId) });
+      return { success: response.acknowledged };
     },
   },
   Query: {

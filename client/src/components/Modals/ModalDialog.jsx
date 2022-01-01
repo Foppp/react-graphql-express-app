@@ -10,21 +10,17 @@ import Slide from '@mui/material/Slide';
 
 import ArtistProfile from '../Artists/ArtistProfile.jsx';
 import ArtistEdit from '../Artists/ArtistEdit.jsx';
-import ArtistRemove from '../Artists/ArtistRemove.jsx';
 import ShowAdd from '../Shows/ShowAdd.jsx';
 import ShowEdit from '../Shows/ShowEdit.jsx';
-import ShowRemove from '../Shows/ShowRemove.jsx';
 import ShowProfile from '../Shows/ShowProfile.jsx';
 import ArtistAdd from '../Artists/ArtistAdd.jsx';
 
 const modals = {
   artistAdd: ArtistAdd,
   artistEdit: ArtistEdit,
-  artistRemove: ArtistRemove,
   artistProfile: ArtistProfile,
   showAdd: ShowAdd,
   showEdit: ShowEdit,
-  showRemove: ShowRemove,
   showProfile: ShowProfile,
 };
 

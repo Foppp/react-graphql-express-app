@@ -1,8 +1,12 @@
-import React from 'react'
-import { artists } from '../../mocks/artistList.js';
+import React from 'react';
+import { useQuery } from '@apollo/client';
+
+import { GET_ALL_ARTISTS } from '../../query/query';
 
 const ArtistProfile = ({ id }) => {
-    const artist = artists.find((artist) => artist.id === id);
+    const { data, loading, error, refetch } = useQuery(GET_ALL_ARTISTS);
+    
+    const artist = data.getArtists.find((artist) => artist._id === id);
     
     return (
         <div>
