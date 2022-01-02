@@ -7,3 +7,11 @@ export const GET_ALL_ARTISTS = gql`
     }
   }
 `;
+
+export const GET_ARTIST = gql`
+  query getArtist($userId: ID!) {
+    getArtist(userId: $userId) {
+      _id, name, age, role, status,
+    }
+  }
+`;

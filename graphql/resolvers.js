@@ -19,6 +19,10 @@ const resolvers = {
       const response = await db.collection('artists').deleteOne({ _id: ObjectID(userId) });
       return { success: response.acknowledged };
     },
+    editArtist: async (_, { userId, artist }, { db }) => {
+      const response = await db.collection('artists').replaceOne({ _id: ObjectID(userId) }, artist);
+      return { success: response.acknowledged };
+    },
   },
   Query: {
     getUsers: async (_, __, { db, user }) => {
@@ -29,6 +33,10 @@ const resolvers = {
       if (!user) throw new Error('Authentication Error. Please sign in');
       return await db.collection('artists').find().toArray();
     },
+    getArtist: async (_, { userId }, { db }) => {
+      const artist = await db.collection('artists').findOne({ _id: ObjectID(userId) });
+      return artist;
+    }
   },
 };
 

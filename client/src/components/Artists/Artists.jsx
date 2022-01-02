@@ -41,7 +41,7 @@ const Artists = ({ handleModalOpen, modalClose }) => {
       setArtists(data.getArtists)
       setFilteredList(data.getArtists)
     }
-  }, [data]);
+  }, [data, artists]);
 
   useEffect(() => {
     handleSearch(artists, searchQuery);

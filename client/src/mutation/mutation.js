@@ -25,3 +25,11 @@ export const REMOVE_ARTIST = gql`
     }
   }
 `;
+
+export const EDIT_ARTIST = gql`
+  mutation editArtist($userId: ID!, $artist: ArtistInput) {
+    editArtist(userId: $userId, artist: $artist) {
+      success
+    }
+  }
+`;

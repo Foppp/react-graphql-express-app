@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { Box, TextField, Button, Stack } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { CREATE_ARTIST } from '../../mutation/mutation';
 
@@ -15,7 +12,6 @@ const ArtistAdd = ({ modalClose }) => {
   const [addArtist] = useMutation(CREATE_ARTIST);
 
   // TODO : VALIDATION 
-
   
   const handleCreateArtist = async () => {
     try {
@@ -25,6 +21,7 @@ const ArtistAdd = ({ modalClose }) => {
       setError(e);
     }
   }
+
   return (
     <Box component='form' sx={{ m: 1 }} noValidate autoComplete='off'>
       <TextField
@@ -33,7 +30,7 @@ const ArtistAdd = ({ modalClose }) => {
         label='Name'
         variant='standard'
         margin='dense'
-        value={name}
+        defaultValue={name}
         onChange={(e) => setName(e.target.value)}
       />
       <TextField
@@ -70,7 +67,7 @@ const ArtistAdd = ({ modalClose }) => {
         spacing={2}
         sx={{ justifyContent: 'space-between', m: 2 }}
       >
-        <Button color='secondary'>Close</Button>
+        <Button color='secondary' onClick={modalClose}>Close</Button>
         <Button variant='outlined' color='info' onClick={() => handleCreateArtist()}>
           Save
         </Button>

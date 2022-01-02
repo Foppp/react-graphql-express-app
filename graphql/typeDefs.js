@@ -41,15 +41,21 @@ const typeDefs = gql`
     success: Boolean!
   }
 
+  type ArtistEditResponse {
+    success: Boolean!
+  }
+
   type Mutation {
     login(username: String!, password: String!): AuthUser!
     createArtist(artist: ArtistInput): ArtistCreateResponse!
     removeArtist(userId: ID!): ArtistDeleteResponse!
+    editArtist(userId: ID!, artist: ArtistInput): ArtistEditResponse!
   }
 
   type Query {
     getUsers: [User!]!
     getArtists: [Artist!]!
+    getArtist(userId: ID!): Artist!
   }
 `;
 
