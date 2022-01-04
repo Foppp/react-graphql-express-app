@@ -5,8 +5,10 @@ import { styled, alpha } from "@mui/material/styles";
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "grey",
-      color: theme.palette.common.white,
+      backgroundColor: "white",
+      color: theme.palette.common.black,
+    fontSize: 18,
+      border: 2,
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -18,7 +20,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
       backgroundColor: theme.palette.action.hover,
     },
     "&:last-child td, &:last-child th": {
-      border: 0,
+      border: 1,
     },
   }));
   

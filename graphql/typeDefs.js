@@ -11,9 +11,13 @@ const typeDefs = gql`
   type Artist {
     _id: ID!,
     name: String!
-    age: Int!
+    country: String!
     role: String!
-    status: String!
+    birthDate: String!
+    startDate: String!
+    finishDate: String!
+    email: String!
+    phoneNumber: String!
   }
 
   input LoginInput {
@@ -23,9 +27,13 @@ const typeDefs = gql`
 
   input ArtistInput {
     name: String!
-    age: Int!
+    country: String!
     role: String!
-    status: String!
+    birthDate: String!
+    startDate: String!
+    finishDate: String!
+    email: String!
+    phoneNumber: String!
   }
 
   type AuthUser {

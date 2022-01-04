@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,18 +14,17 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import Spinner from '../Spinners/Spinner.jsx';
 
 import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
 
 import { GET_ALL_ARTISTS } from '../../query/query';
 
-const Artists = ({ handleModalOpen, modalClose }) => {
+const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
   const [artists, setArtists] = useState([]);
   const [filteredArtistList, setFilteredList] = useState(artists);
   const [artistsError, setArtistsError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState('');
   const { data, loading, error, refetch } = useQuery(GET_ALL_ARTISTS);
 
   const handleSearch = (data, query) => {
@@ -35,13 +35,29 @@ const Artists = ({ handleModalOpen, modalClose }) => {
     setFilteredList(filteredData);
   };
 
+  const getAge = (birthDate) => {
+    if (birthDate === '') return 0;
+    const diff = Date.now() - new Date(birthDate);
+    const age = new Date(diff);
+    return Math.abs(age.getUTCFullYear() - 1970);
+  };
+
+  const formatDate = (date) => {
+    if (date === '') return '-';
+    return new Date(date).toLocaleDateString();
+  };
 
   useEffect(() => {
     if (data) {
-      setArtists(data.getArtists)
-      setFilteredList(data.getArtists)
+      const updatedData = data.getArtists.map((artist) => {
+        const isActive = artist.finishDate === '';
+        const age = getAge(artist.birthDate);
+        return { ...artist, isActive, age };
+      });
+      setArtists(updatedData);
+      setFilteredList(updatedData);
     }
-  }, [data, artists]);
+  }, [data]);
 
   useEffect(() => {
     handleSearch(artists, searchQuery);
@@ -62,58 +78,71 @@ const Artists = ({ handleModalOpen, modalClose }) => {
         <TableHead>
           <TableRow>
             <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell align='center'>Age</StyledTableCell>
             <StyledTableCell align='center'>Role</StyledTableCell>
+            <StyledTableCell align='center'>Country</StyledTableCell>
+            <StyledTableCell align='center'>Start Date</StyledTableCell>
+            <StyledTableCell align='center'>Age</StyledTableCell>
             <StyledTableCell align='center'>Status</StyledTableCell>
-            <StyledTableCell align='center'>Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredArtistList.map((artist) => (
-            <StyledTableRow key={artist._id}>
-              <StyledTableCell component='th' scope='row'>
-                {artist.name}
-              </StyledTableCell>
-              <StyledTableCell align='center'>{artist.age}</StyledTableCell>
-              <StyledTableCell align='center'>{artist.role}</StyledTableCell>
-              <StyledTableCell align='center'>
-                <Typography
-                  variant='caption'
-                  sx={{ color: artist.status === 'active' ? 'green' : 'red' }}
-                >
-                  {artist.status}
-                </Typography>
-              </StyledTableCell>
-              <StyledTableCell align='center'>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <IconButton
-                    aria-label='info'
-                    size='small'
-                    color='info'
-                    onClick={() => handleModalOpen('artistProfile', artist._id)}
+          {filteredArtistList.map((artist) => {
+            return (
+              <StyledTableRow key={artist._id}>
+                <StyledTableCell component='th' scope='row'>
+                  {artist.name}
+                </StyledTableCell>
+                <StyledTableCell align='center'>{artist.role}</StyledTableCell>
+                <StyledTableCell align='center'>
+                  {artist.country}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  {formatDate(artist.startDate)}
+                </StyledTableCell>
+                <StyledTableCell align='center'>{artist.age}</StyledTableCell>
+                <StyledTableCell align='center'>
+                  <Typography
+                    variant='caption'
+                    sx={{ color: artist.isActive ? 'green' : 'red' }}
                   >
-                    <InfoOutlinedIcon fontSize='small' />
-                  </IconButton>
-                  <IconButton
-                    aria-label='info'
-                    size='small'
-                    color='error'
-                    onClick={() => handleModalOpen('artistRemove', artist._id)}
-                  >
-                    <DeleteIcon fontSize='small' />
-                  </IconButton>
-                  <IconButton
-                    aria-label='info'
-                    size='small'
-                    color='secondary'
-                    onClick={() => handleModalOpen('artistEdit', artist._id)}
-                  >
-                    <ModeEditOutlineOutlinedIcon fontSize='small' />
-                  </IconButton>
-                </Box>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+                    {artist.isActive ? 'Active' : 'Not Active'}
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <IconButton
+                      aria-label='info'
+                      size='small'
+                      color='info'
+                      onClick={() =>
+                        handleModalOpen('artistProfile', artist._id)
+                      }
+                    >
+                      <InfoOutlinedIcon fontSize='small' />
+                    </IconButton>
+                    <IconButton
+                      aria-label='info'
+                      size='small'
+                      color='error'
+                      onClick={() =>
+                        handleModalOpen('artistRemove', artist._id)
+                      }
+                    >
+                      <DeleteIcon fontSize='small' />
+                    </IconButton>
+                    <IconButton
+                      aria-label='info'
+                      size='small'
+                      color='secondary'
+                      onClick={() => handleDialogOpen('artistEdit', artist._id)}
+                    >
+                      <ModeEditOutlineOutlinedIcon fontSize='small' />
+                    </IconButton>
+                  </Box>
+                </StyledTableCell>
+              </StyledTableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>
@@ -125,17 +154,16 @@ const Artists = ({ handleModalOpen, modalClose }) => {
         Artists
       </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <IconButton
-          aria-label='info'
-          color='inherit'
-          variant='button'
-          onClick={() => handleModalOpen('artistAdd')}
+        <Button
+          type='submit'
+          color='primary'
+          variant='contained'
+          sx={{ margin: '15px 0' }}
+          size='small'
+          onClick={() => handleDialogOpen('artistAdd')}
         >
-          <AddCircleOutlineRoundedIcon
-            fontSize='large'
-            sx={{ alignItems: 'end', mx: 1 }}
-          />
-        </IconButton>
+          Add new
+        </Button>
         <TextField
           id='input-with-sx'
           label='Search...'

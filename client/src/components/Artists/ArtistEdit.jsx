@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
+import { Typography, Box, TextField, Button, Stack, Grid } from '@mui/material';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+
 import { GET_ARTIST } from '../../query/query';
 import { EDIT_ARTIST } from '../../mutation/mutation';
-import { Typography, Box, TextField, Button, Stack } from '@mui/material';
+
 import Spinner from '../Spinners/Spinner.jsx';
 
-const ArtistEdit = ({ modalClose, id }) => {
+const ArtistEdit = ({ id, dialogClose }) => {
   const [name, setName] = useState('');
+  const [country, setCountry] = useState('');
   const [role, setRole] = useState('');
-  const [age, setAge] = useState('');
-  const [status, setStatus] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [finishDate, setFinishDate] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState(null);
 
   const { data, loading } = useQuery(GET_ARTIST, {
@@ -20,9 +29,21 @@ const ArtistEdit = ({ modalClose, id }) => {
   const handleEditArtist = async () => {
     try {
       await editArtist({
-        variables: { userId: id, artist: { name, role, age, status } },
+        variables: {
+          userId: id,
+          artist: {
+            name,
+            country,
+            role,
+            birthDate,
+            startDate,
+            finishDate,
+            email,
+            phoneNumber,
+          },
+        },
       });
-      modalClose();
+      dialogClose();
     } catch (e) {
       setError(e);
       console.log(error);
@@ -33,77 +54,142 @@ const ArtistEdit = ({ modalClose, id }) => {
     if (data) {
       const artist = data.getArtist;
       setName(artist.name);
+      setCountry(artist.country);
       setRole(artist.role);
-      setAge(artist.age);
-      setStatus(artist.status);
+      setBirthDate(artist.birthDate);
+      setStartDate(artist.startDate);
+      setFinishDate(artist.finishDate);
+      setEmail(artist.email);
+      setPhoneNumber(artist.phoneNumber);
     }
   }, [data]);
 
   return (
     <Box
       component='form'
-      sx={{ m: 1, minWidth: '250px', textAlign: 'center' }}
+      sx={{ m: 1, p: 1, textAlign: 'center' }}
       noValidate
       autoComplete='off'
     >
-      <Typography variant='h5'>Artist Edit</Typography>
+      <Typography variant='h4'>Edit Artist</Typography>
       {loading ? (
         <Spinner />
       ) : (
-        <>
-          <TextField
-            fullWidth
-            id='standard-basic'
-            value={name}
-            label='Name'
-            variant='standard'
-            margin='dense'
-            onChange={(e) => setName(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id='standard-basic'
-            label='Age'
-            variant='standard'
-            margin='dense'
-            value={age}
-            onChange={(e) => setAge(Number(e.target.value))}
-          />
-          <TextField
-            fullWidth
-            id='standard-basic'
-            label='Role'
-            variant='standard'
-            margin='dense'
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id='standard-basic'
-            label='Status'
-            variant='standard'
-            margin='dense'
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          />
-          <Stack
-            direction='row'
-            spacing={2}
-            sx={{ justifyContent: 'space-between', m: 2 }}
-          >
-            <Button color='secondary' onClick={modalClose}>
-              Close
-            </Button>
-            <Button
-              variant='outlined'
-              color='info'
-              onClick={() => handleEditArtist()}
+        <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              id='standard-basic'
+              label='Name'
+              variant='standard'
+              margin='dense'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              id='standard-basic'
+              label='Country'
+              variant='standard'
+              margin='dense'
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              id='standard-basic'
+              label='Role'
+              variant='standard'
+              margin='dense'
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              id='standard-basic'
+              label='Email'
+              variant='standard'
+              margin='dense'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              id='standard-basic'
+              label='Phone'
+              variant='standard'
+              margin='dense'
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Grid>
+          <Grid item sm={4} xs={4}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label='BirthDate'
+                value={birthDate}
+                onChange={(newValue) => {
+                  setBirthDate(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item sm={4} xs={4}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label='Start Date'
+                value={startDate}
+                onChange={(newValue) => {
+                  setStartDate(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item sm={4} xs={4}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label='Finish Date'
+                value={finishDate}
+                onChange={(newValue) => {
+                  setFinishDate(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12}>
+            <Stack
+              direction='row'
+              spacing={2}
+              sx={{ justifyContent: 'flex-end', m: 2 }}
             >
-              Save
-            </Button>
-          </Stack>
-        </>
+              <Button
+                variant='contained'
+                color='secondary'
+                onClick={dialogClose}
+              >
+                Close
+              </Button>
+              <Button
+                color='info'
+                variant='contained'
+                onClick={() => handleEditArtist()}
+              >
+                Save
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
       )}
     </Box>
   );

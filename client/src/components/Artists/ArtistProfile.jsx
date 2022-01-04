@@ -1,18 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
+import { GET_ARTIST } from '../../query/query';
+import { Typography, Box } from '@mui/material';
+import Spinner from '../Spinners/Spinner.jsx';
 
-import { GET_ALL_ARTISTS } from '../../query/query';
+const ArtistProfile = ({ id , dialogClose}) => {
+    const [artist, setArtist] = useState({});
+    console.log(dialogClose)
+//   const [error, setError] = useState(null);
 
-const ArtistProfile = ({ id }) => {
-    const { data, loading, error, refetch } = useQuery(GET_ALL_ARTISTS);
-    
-    const artist = data.getArtists.find((artist) => artist._id === id);
-    
-    return (
-        <div>
-            Artist Profile {artist.name}
-        </div>
-    )
-}
+  const { data, loading } = useQuery(GET_ARTIST, {
+    variables: { userId: id },
+  });
 
-export default ArtistProfile
+  useEffect(() => {
+    if (data) {
+      setArtist(data.getArtist);
+    }
+  }, [data]);
+
+  return (
+    <Box
+      component='form'
+      sx={{ m: 1, minWidth: '250px', textAlign: 'center' }}
+      noValidate
+      autoComplete='off'
+    >
+      <Typography variant='h5'>Artist Profile</Typography>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Typography>Name: {artist.name}</Typography>
+          <Typography>Age: {artist.age}</Typography>
+          <Typography>Role: {artist.role}</Typography>
+          <Typography>Status: {artist.status}</Typography>
+        </>
+      )}
+    </Box>
+  );
+};
+
+export default ArtistProfile;

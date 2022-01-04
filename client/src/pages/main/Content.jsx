@@ -5,7 +5,7 @@ import Artists from '../../components/Artists/Artists.jsx';
 import Shows from '../../components/Shows/Shows.jsx';
 import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 import Account from '../../components/Account/Account.jsx';
-// import ModalDialog from '../../components/Modals/ModalDialog.jsx';
+import ModalDialog from '../../components/Modals/ModalDialog.jsx';
 import ModalWindow from '../../components/Modals/ModalWindow.jsx';
 
 const menuContent = {
@@ -16,20 +16,20 @@ const menuContent = {
 };
 
 const Content = () => {
-  // const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [currentId, setCurrentId] = useState(null);
 
-  // const handleDialogOpen = (type, id = null) => {
-  //   setModalDialogType(type);
-  //   setCurrentId(id);
-  //   setDialogOpen(true);
-  // };
+  const handleDialogOpen = (type, id = null) => {
+    setModalType(type);
+    setCurrentId(id);
+    setDialogOpen(true);
+  };
 
-  // const dialogClose = () => {
-  //   setDialogOpen(false);
-  // };
+  const dialogClose = () => {
+    setDialogOpen(false);
+  };
 
   const handleModalOpen = (type, id = null) => {
     setModalType(type);
@@ -52,22 +52,22 @@ const Content = () => {
   return (
     <Box component='main' sx={{ p: 3 }}>
       <ContentComponent
-        // dialogOpen={dialogOpen}
+        dialogOpen={dialogOpen}
         setModalType={setModalType}
         handleModalOpen={handleModalOpen}
+        handleDialogOpen={handleDialogOpen}
         modalClose={modalClose}
-        // dialogClose={dialogClose}
+        dialogClose={dialogClose}
         id={currentId}
       />
-      {/* {modalDialogType && (
+      {dialogOpen && (
         <ModalDialog
           dialogOpen={dialogOpen}
-          handleDialogOpen={handleDialogOpen}
           dialogClose={dialogClose}
-          type={modalDialogType}
+          type={modalType}
           id={currentId}
         />
-      )} */}
+      )}
       {modalType && (
         <ModalWindow
           modalOpen={modalOpen}
