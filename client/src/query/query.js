@@ -6,6 +6,7 @@ export const GET_ALL_ARTISTS = gql`
       _id
       firstName
       lastName
+      gender
       country
       role
       birthDate
@@ -23,6 +24,7 @@ export const GET_ARTIST = gql`
       _id
       firstName
       lastName
+      gender
       country
       role
       birthDate

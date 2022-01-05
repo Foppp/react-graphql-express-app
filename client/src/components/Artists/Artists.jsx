@@ -14,6 +14,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import MaleIcon from '@mui/icons-material/Male';
+import FemaleIcon from '@mui/icons-material/Female';
 
 import Spinner from '../Spinners/Spinner.jsx';
 import { getAge, getFormatedDate } from '../../utils/index.js';
@@ -21,7 +23,7 @@ import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
 
 import { GET_ALL_ARTISTS } from '../../query/query';
 
-const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
+const Artists = ({ dialogClose, handleDialogOpen }) => {
   const [artists, setArtists] = useState([]);
   const [filteredArtistList, setFilteredList] = useState(artists);
   const [artistsError, setArtistsError] = useState(null);
@@ -59,15 +61,16 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
   }, [error]);
 
   useEffect(() => {
-    if (modalClose) refetch();
-  }, [modalClose]);
+    if (dialogClose) refetch();
+  }, [dialogClose]);
 
   const renderTable = () => (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label='customized table'>
         <TableHead>
           <TableRow>
-            <StyledTableCell>First Name</StyledTableCell>
+          <StyledTableCell></StyledTableCell>
+            <StyledTableCell align='center'>First Name</StyledTableCell>
             <StyledTableCell align='center'>Last Name</StyledTableCell>
             <StyledTableCell align='center'>Role</StyledTableCell>
             <StyledTableCell align='center'>Country</StyledTableCell>
@@ -79,9 +82,13 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
         </TableHead>
         <TableBody>
           {filteredArtistList.map((artist) => {
+            console.log(artist.gender)
             return (
               <StyledTableRow key={artist._id}>
                 <StyledTableCell component='th' scope='row'>
+                  {artist.gender === 'male' ? <MaleIcon color="primary"/> : <FemaleIcon color="secondary"/>}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
                   {artist.firstName}
                 </StyledTableCell>
                 <StyledTableCell align='center'>
