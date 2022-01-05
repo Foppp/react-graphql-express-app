@@ -82,7 +82,6 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
         </TableHead>
         <TableBody>
           {filteredArtistList.map((artist) => {
-            console.log(artist.gender)
             return (
               <StyledTableRow key={artist._id}>
                 <StyledTableCell component='th' scope='row'>
