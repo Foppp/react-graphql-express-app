@@ -8,10 +8,12 @@ import ShowAdd from '../Shows/ShowAdd.jsx';
 import ShowEdit from '../Shows/ShowEdit.jsx';
 import ShowProfile from '../Shows/ShowProfile.jsx';
 import ArtistAdd from '../Artists/ArtistAdd.jsx';
+import ArtistRemove from '../Artists/ArtistRemove.jsx';
 
 const modals = {
   artistAdd: ArtistAdd,
   artistEdit: ArtistEdit,
+  artistRemove: ArtistRemove,
   artistProfile: ArtistProfile,
   showAdd: ShowAdd,
   showEdit: ShowEdit,
@@ -24,9 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const ModalDialog = ({ dialogOpen, dialogClose, id, type }) => {
   const ModalContent = modals[type];
-  console.log(dialogClose)
   return (
-    <div>
       <Dialog
         open={dialogOpen}
         onClose={dialogClose}
@@ -34,7 +34,6 @@ const ModalDialog = ({ dialogOpen, dialogClose, id, type }) => {
       >
         <ModalContent id={id} dialogClose={dialogClose} />
       </Dialog>
-    </div>
   );
 }
 

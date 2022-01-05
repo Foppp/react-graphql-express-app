@@ -10,7 +10,8 @@ const typeDefs = gql`
 
   type Artist {
     _id: ID!,
-    name: String!
+    firstName: String!
+    lastName: String!
     country: String!
     role: String!
     birthDate: String!
@@ -26,7 +27,8 @@ const typeDefs = gql`
   }
 
   input ArtistInput {
-    name: String!
+    firstName: String!
+    lastName: String!
     country: String!
     role: String!
     birthDate: String!

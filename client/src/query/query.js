@@ -4,7 +4,8 @@ export const GET_ALL_ARTISTS = gql`
   query {
     getArtists {
       _id
-      name
+      firstName
+      lastName
       country
       role
       birthDate
@@ -20,7 +21,8 @@ export const GET_ARTIST = gql`
   query getArtist($userId: ID!) {
     getArtist(userId: $userId) {
       _id
-      name
+      firstName
+      lastName
       country
       role
       birthDate

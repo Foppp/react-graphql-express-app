@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ARTIST } from '../../query/query';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Grid, Button } from '@mui/material';
 import Spinner from '../Spinners/Spinner.jsx';
+import { getAge, getFormatedDate } from '../../utils';
 
-const ArtistProfile = ({ id , dialogClose}) => {
-    const [artist, setArtist] = useState({});
-    console.log(dialogClose)
-//   const [error, setError] = useState(null);
+const ArtistProfile = ({ id, dialogClose }) => {
+  const [artist, setArtist] = useState({});
+  //   const [error, setError] = useState(null);
 
   const { data, loading } = useQuery(GET_ARTIST, {
     variables: { userId: id },
@@ -26,16 +26,63 @@ const ArtistProfile = ({ id , dialogClose}) => {
       noValidate
       autoComplete='off'
     >
-      <Typography variant='h5'>Artist Profile</Typography>
+      <Typography variant='h6'>ARTIST PROFILE</Typography>
       {loading ? (
         <Spinner />
       ) : (
-        <>
-          <Typography>Name: {artist.name}</Typography>
-          <Typography>Age: {artist.age}</Typography>
-          <Typography>Role: {artist.role}</Typography>
-          <Typography>Status: {artist.status}</Typography>
-        </>
+        <Grid container spacing={2} sx={{ my: 2, textAlign: 'center' }}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              First Name: {artist.firstName}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              Last Name: {artist.lastName}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              Country: {artist.country}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>Role: {artist.role}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              Birth Date: {getFormatedDate(artist.birthDate)}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              Age: {getAge(artist.birthDate)}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              Start Date: {getFormatedDate(artist.startDate)}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              Finish Date: {getFormatedDate(artist.finishDate)}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>Email: {artist.email}</Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant='overline'>
+              Phone: {artist.phoneNumber}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant='contained' color='secondary' onClick={dialogClose}>
+              Close
+            </Button>
+          </Grid>
+        </Grid>
       )}
     </Box>
   );

@@ -11,7 +11,8 @@ import { EDIT_ARTIST } from '../../mutation/mutation';
 import Spinner from '../Spinners/Spinner.jsx';
 
 const ArtistEdit = ({ id, dialogClose }) => {
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [country, setCountry] = useState('');
   const [role, setRole] = useState('');
   const [birthDate, setBirthDate] = useState('');
@@ -32,7 +33,8 @@ const ArtistEdit = ({ id, dialogClose }) => {
         variables: {
           userId: id,
           artist: {
-            name,
+            firstName,
+            lastName,
             country,
             role,
             birthDate,
@@ -53,7 +55,8 @@ const ArtistEdit = ({ id, dialogClose }) => {
   useEffect(() => {
     if (data) {
       const artist = data.getArtist;
-      setName(artist.name);
+      setFirstName(artist.firstName);
+      setLastName(artist.lastName);
       setCountry(artist.country);
       setRole(artist.role);
       setBirthDate(artist.birthDate);
@@ -76,18 +79,29 @@ const ArtistEdit = ({ id, dialogClose }) => {
         <Spinner />
       ) : (
         <Grid container spacing={2} sx={{ textAlign: 'center' }}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               id='standard-basic'
-              label='Name'
+              label='First Name'
               variant='standard'
               margin='dense'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              id='standard-basic'
+              label='Last Name'
+              variant='standard'
+              margin='dense'
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               id='standard-basic'
@@ -98,7 +112,7 @@ const ArtistEdit = ({ id, dialogClose }) => {
               onChange={(e) => setCountry(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               id='standard-basic'

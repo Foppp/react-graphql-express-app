@@ -7,8 +7,8 @@ import { useMutation } from '@apollo/client';
 import { CREATE_ARTIST } from '../../mutation/mutation';
 
 const ArtistAdd = ({ dialogClose }) => {
-
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [country, setCountry] = useState('');
   const [role, setRole] = useState('');
   const [birthDate, setBirthDate] = useState('');
@@ -27,7 +27,8 @@ const ArtistAdd = ({ dialogClose }) => {
       await addArtist({
         variables: {
           artist: {
-            name,
+            firstName,
+            lastName,
             country,
             role,
             birthDate,
@@ -41,26 +42,42 @@ const ArtistAdd = ({ dialogClose }) => {
       dialogClose();
     } catch (e) {
       setError(e);
-      console.log(error)
+      console.log(error);
     }
   };
 
   return (
-    <Box component='form' sx={{ m: 1, p: 1, textAlign: 'center' }} noValidate autoComplete='off'>
-      <Typography variant="h4">Add New Artist</Typography>
-      <Grid container spacing={2} sx={{ textAlign: 'center'}}>
-        <Grid item xs={12} sm={4}>
+    <Box
+      component='form'
+      sx={{ m: 1, p: 1, textAlign: 'center' }}
+      noValidate
+      autoComplete='off'
+    >
+      <Typography variant='h4'>Add New Artist</Typography>
+      <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             id='standard-basic'
-            label='Name'
+            label='First Name'
             variant='standard'
             margin='dense'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            id='standard-basic'
+            label='Last Name'
+            variant='standard'
+            margin='dense'
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             id='standard-basic'
@@ -71,7 +88,7 @@ const ArtistAdd = ({ dialogClose }) => {
             onChange={(e) => setCountry(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             id='standard-basic'
@@ -146,12 +163,12 @@ const ArtistAdd = ({ dialogClose }) => {
             spacing={2}
             sx={{ justifyContent: 'flex-end', m: 2 }}
           >
-            <Button variant="contained" color='secondary' onClick={dialogClose}>
+            <Button variant='contained' color='secondary' onClick={dialogClose}>
               Close
             </Button>
             <Button
               color='info'
-              variant="contained"
+              variant='contained'
               onClick={() => handleCreateArtist()}
             >
               Save

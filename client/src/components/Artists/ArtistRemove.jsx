@@ -3,14 +3,14 @@ import { Box, Typography, Stack, Button } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { REMOVE_ARTIST } from '../../mutation/mutation';
 
-const ArtistRemove = ({ id, modalClose }) => {
+const ArtistRemove = ({ id, dialogClose }) => {
   const [remove] = useMutation(REMOVE_ARTIST);
   const [error, setError] = useState(null);
 
   const handleRemoveArtist = async (id) => {
     try {
       await remove({ variables: { userId: id } });
-      modalClose();
+      dialogClose();
     } catch (e) {
       setError(e);
       console.log(error);
@@ -18,14 +18,14 @@ const ArtistRemove = ({ id, modalClose }) => {
   };
 
   return (
-    <Box sx={{ textAlign: 'center' }}>
+    <Box sx={{ m: 2, minWidth: '250px', textAlign: 'center' }}>
       <Typography variant='h5'>Are you sure ?</Typography>
       <Stack
         direction='row'
         spacing={2}
         sx={{ justifyContent: 'center', m: 2 }}
       >
-        <Button color='secondary' onClick={modalClose}>
+        <Button color='secondary' onClick={dialogClose}>
           Close
         </Button>
         <Button

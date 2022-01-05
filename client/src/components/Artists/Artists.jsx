@@ -14,8 +14,9 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import Spinner from '../Spinners/Spinner.jsx';
 
+import Spinner from '../Spinners/Spinner.jsx';
+import { getAge, getFormatedDate } from '../../utils/index.js';
 import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
 
 import { GET_ALL_ARTISTS } from '../../query/query';
@@ -29,22 +30,12 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
 
   const handleSearch = (data, query) => {
     if (query === '') setFilteredList(data);
-    const filteredData = data.filter(({ name }) =>
-      name.toLowerCase().includes(query.toLowerCase())
-    );
+    const filteredData = data.filter((artist) => {
+      const firstName = artist.firstName.toLowerCase().includes(query.toLowerCase());
+      const lastName = artist.lastName.toLowerCase().includes(query.toLowerCase());
+      return firstName || lastName;
+    });
     setFilteredList(filteredData);
-  };
-
-  const getAge = (birthDate) => {
-    if (birthDate === '') return 0;
-    const diff = Date.now() - new Date(birthDate);
-    const age = new Date(diff);
-    return Math.abs(age.getUTCFullYear() - 1970);
-  };
-
-  const formatDate = (date) => {
-    if (date === '') return '-';
-    return new Date(date).toLocaleDateString();
   };
 
   useEffect(() => {
@@ -58,7 +49,6 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
       setFilteredList(updatedData);
     }
   }, [data]);
-
   useEffect(() => {
     handleSearch(artists, searchQuery);
   }, [searchQuery]);
@@ -77,12 +67,14 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
       <Table sx={{ minWidth: 500 }} aria-label='customized table'>
         <TableHead>
           <TableRow>
-            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell>First Name</StyledTableCell>
+            <StyledTableCell align='center'>Last Name</StyledTableCell>
             <StyledTableCell align='center'>Role</StyledTableCell>
             <StyledTableCell align='center'>Country</StyledTableCell>
             <StyledTableCell align='center'>Start Date</StyledTableCell>
             <StyledTableCell align='center'>Age</StyledTableCell>
             <StyledTableCell align='center'>Status</StyledTableCell>
+            <StyledTableCell align='center'>Action</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -90,14 +82,17 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
             return (
               <StyledTableRow key={artist._id}>
                 <StyledTableCell component='th' scope='row'>
-                  {artist.name}
+                  {artist.firstName}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  {artist.lastName}
                 </StyledTableCell>
                 <StyledTableCell align='center'>{artist.role}</StyledTableCell>
                 <StyledTableCell align='center'>
                   {artist.country}
                 </StyledTableCell>
                 <StyledTableCell align='center'>
-                  {formatDate(artist.startDate)}
+                  {getFormatedDate(artist.startDate)}
                 </StyledTableCell>
                 <StyledTableCell align='center'>{artist.age}</StyledTableCell>
                 <StyledTableCell align='center'>
@@ -115,7 +110,7 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
                       size='small'
                       color='info'
                       onClick={() =>
-                        handleModalOpen('artistProfile', artist._id)
+                        handleDialogOpen('artistProfile', artist._id)
                       }
                     >
                       <InfoOutlinedIcon fontSize='small' />
@@ -125,7 +120,7 @@ const Artists = ({ handleModalOpen, modalClose, handleDialogOpen }) => {
                       size='small'
                       color='error'
                       onClick={() =>
-                        handleModalOpen('artistRemove', artist._id)
+                        handleDialogOpen('artistRemove', artist._id)
                       }
                     >
                       <DeleteIcon fontSize='small' />
