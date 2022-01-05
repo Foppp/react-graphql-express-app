@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { Typography, Box, TextField, Button, Stack, Grid } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
@@ -15,6 +25,7 @@ const ArtistEdit = ({ id, dialogClose }) => {
   const [lastName, setLastName] = useState('');
   const [country, setCountry] = useState('');
   const [role, setRole] = useState('');
+  const [gender, setGender] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [startDate, setStartDate] = useState('');
   const [finishDate, setFinishDate] = useState('');
@@ -37,6 +48,7 @@ const ArtistEdit = ({ id, dialogClose }) => {
             lastName,
             country,
             role,
+            gender,
             birthDate,
             startDate,
             finishDate,
@@ -59,6 +71,7 @@ const ArtistEdit = ({ id, dialogClose }) => {
       setLastName(artist.lastName);
       setCountry(artist.country);
       setRole(artist.role);
+      setGender(artist.gender)
       setBirthDate(artist.birthDate);
       setStartDate(artist.startDate);
       setFinishDate(artist.finishDate);
@@ -75,6 +88,7 @@ const ArtistEdit = ({ id, dialogClose }) => {
       autoComplete='off'
     >
       <Typography variant='h4'>Edit Artist</Typography>
+      <Divider />
       {loading ? (
         <Spinner />
       ) : (
@@ -101,7 +115,7 @@ const ArtistEdit = ({ id, dialogClose }) => {
               onChange={(e) => setLastName(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id='standard-basic'
@@ -112,7 +126,7 @@ const ArtistEdit = ({ id, dialogClose }) => {
               onChange={(e) => setCountry(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
               id='standard-basic'
@@ -122,7 +136,25 @@ const ArtistEdit = ({ id, dialogClose }) => {
               value={role}
               onChange={(e) => setRole(e.target.value)}
             />
-          </Grid>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+          <FormControl variant='standard' fullWidth sx={{ m: 1 }}>
+            <InputLabel id='demo-simple-select-standard-label'>
+              Gender
+            </InputLabel>
+            <Select
+              labelId='demo-simple-select-standard-label'
+              id='demo-simple-select-standard'
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              label='Gender'
+            >
+              <MenuItem value=''><em>None</em></MenuItem>
+              <MenuItem value='male'>Male</MenuItem>
+              <MenuItem value='female'>Female</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth

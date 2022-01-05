@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import { useQuery } from '@apollo/client';
+
 import { GET_ARTIST } from '../../query/query';
-import { Typography, Box, Grid, Button } from '@mui/material';
 import Spinner from '../Spinners/Spinner.jsx';
 import { getAge, getFormatedDate } from '../../utils';
 
@@ -27,6 +32,7 @@ const ArtistProfile = ({ id, dialogClose }) => {
       autoComplete='off'
     >
       <Typography variant='h6'>ARTIST PROFILE</Typography>
+      <Divider />
       {loading ? (
         <Spinner />
       ) : (
@@ -49,14 +55,19 @@ const ArtistProfile = ({ id, dialogClose }) => {
           <Grid item xs={12} sm={6}>
             <Typography variant='overline'>Role: {artist.role}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <Typography variant='overline'>
               Birth Date: {getFormatedDate(artist.birthDate)}
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <Typography variant='overline'>
               Age: {getAge(artist.birthDate)}
+            </Typography>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+            <Typography variant='overline'>
+              Gender: {artist.gender}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>

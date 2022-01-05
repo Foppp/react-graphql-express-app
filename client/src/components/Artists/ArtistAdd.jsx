@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Stack, Grid, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+
 import { useMutation } from '@apollo/client';
 import { CREATE_ARTIST } from '../../mutation/mutation';
 
@@ -11,6 +22,7 @@ const ArtistAdd = ({ dialogClose }) => {
   const [lastName, setLastName] = useState('');
   const [country, setCountry] = useState('');
   const [role, setRole] = useState('');
+  const [gender, setGender] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [startDate, setStartDate] = useState('');
   const [finishDate, setFinishDate] = useState('');
@@ -31,6 +43,7 @@ const ArtistAdd = ({ dialogClose }) => {
             lastName,
             country,
             role,
+            gender,
             birthDate,
             startDate,
             finishDate,
@@ -54,6 +67,7 @@ const ArtistAdd = ({ dialogClose }) => {
       autoComplete='off'
     >
       <Typography variant='h4'>Add New Artist</Typography>
+      <Divider />
       <Grid container spacing={2} sx={{ textAlign: 'center' }}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -77,7 +91,7 @@ const ArtistAdd = ({ dialogClose }) => {
             onChange={(e) => setLastName(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
             id='standard-basic'
@@ -88,7 +102,7 @@ const ArtistAdd = ({ dialogClose }) => {
             onChange={(e) => setCountry(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
             id='standard-basic'
@@ -98,6 +112,24 @@ const ArtistAdd = ({ dialogClose }) => {
             value={role}
             onChange={(e) => setRole(e.target.value)}
           />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <FormControl variant='standard' fullWidth sx={{ m: 1 }}>
+            <InputLabel id='demo-simple-select-standard-label'>
+              Gender
+            </InputLabel>
+            <Select
+              labelId='demo-simple-select-standard-label'
+              id='demo-simple-select-standard'
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              label='Gender'
+            >
+              <MenuItem value=''><em>None</em></MenuItem>
+              <MenuItem value='male'>Male</MenuItem>
+              <MenuItem value='female'>Female</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
