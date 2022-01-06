@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
@@ -14,50 +16,63 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
+import validationSchema from '../../utils/validation';
 import { useMutation } from '@apollo/client';
 import { CREATE_ARTIST } from '../../mutation/mutation';
 
 const ArtistAdd = ({ dialogClose }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [country, setCountry] = useState('');
-  const [role, setRole] = useState('');
-  const [gender, setGender] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [finishDate, setFinishDate] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [error, setError] = useState(null);
-
+  const [error, setErrors] = useState(null);
   const [addArtist] = useMutation(CREATE_ARTIST);
 
-  // TODO : VALIDATION
-
-  const handleCreateArtist = async () => {
+  const handleCreateArtist = async (artist) => {
     try {
       await addArtist({
         variables: {
           artist: {
-            firstName,
-            lastName,
-            country,
-            role,
-            gender,
-            birthDate,
-            startDate,
-            finishDate,
-            email,
-            phoneNumber,
+            firstName: artist.firstName,
+            lastName: artist.lastName,
+            country: artist.country,
+            role: artist.role,
+            gender: artist.gender,
+            birthDate: artist.birthDate,
+            startDate: artist.startDate,
+            finishDate: artist.finishDate,
+            email: artist.email,
+            phoneNumber: artist.phoneNumber,
           },
         },
       });
       dialogClose();
     } catch (e) {
-      setError(e);
+      setErrors(e);
       console.log(error);
     }
   };
+
+  const renderError = () => (
+    <Box sx={{my: 1}}>
+      <Typography color="error">Oops! Something went wrong! Try Again!</Typography>
+    </Box>
+  );
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      role: '',
+      gender: '',
+      birthDate: '',
+      startDate: '',
+      finishDate: '',
+      email: '',
+      phoneNumber: '',
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      handleCreateArtist(values);
+    },
+  });
 
   return (
     <Box
@@ -65,70 +80,105 @@ const ArtistAdd = ({ dialogClose }) => {
       sx={{ m: 1, p: 1, textAlign: 'center' }}
       noValidate
       autoComplete='off'
+      onSubmit={formik.handleSubmit}
     >
       <Typography variant='h4'>Add New Artist</Typography>
       <Divider />
-      <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+      {error && renderError()}
+        <Grid container spacing={2} sx={{ textAlign: 'center' }}>
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
+            required
             id='standard-basic'
             label='First Name'
+            name='firstName'
             variant='standard'
             margin='dense'
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+            helperText={formik.touched.firstName && formik.errors.firstName}
+            value={formik.values.firstName}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting && !error}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
+            required
             id='standard-basic'
             label='Last Name'
+            name='lastName'
             variant='standard'
             margin='dense'
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+            helperText={formik.touched.lastName && formik.errors.lastName}
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting && !error}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
+            required
             id='standard-basic'
             label='Country'
+            name='country'
             variant='standard'
             margin='dense'
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
+            error={formik.touched.country && Boolean(formik.errors.country)}
+            helperText={formik.touched.country && formik.errors.country}
+            value={formik.values.country}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting && !error}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
+            required
             id='standard-basic'
             label='Role'
+            name='role'
             variant='standard'
             margin='dense'
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+            error={formik.touched.role && Boolean(formik.errors.role)}
+            helperText={formik.touched.role && formik.errors.role}
+            value={formik.values.role}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting && !error}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <FormControl variant='standard' fullWidth sx={{ m: 1 }}>
+          <FormControl
+            variant='standard'
+            required
+            error={formik.touched.gender && Boolean(formik.errors.gender)}
+            fullWidth
+            disabled={formik.isSubmitting && !error}
+            sx={{ m: 1 }}
+          >
             <InputLabel id='demo-simple-select-standard-label'>
               Gender
             </InputLabel>
             <Select
               labelId='demo-simple-select-standard-label'
               id='demo-simple-select-standard'
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
+              name='gender'
+              value={formik.values.gender}
+              onChange={formik.handleChange}
               label='Gender'
             >
-              <MenuItem value=''><em>None</em></MenuItem>
+              <MenuItem value=''>
+                <em>None</em>
+              </MenuItem>
               <MenuItem value='male'>Male</MenuItem>
               <MenuItem value='female'>Female</MenuItem>
             </Select>
+            <FormHelperText id='component-helper-text'>
+              {formik.touched.gender && formik.errors.gender}
+            </FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -136,10 +186,12 @@ const ArtistAdd = ({ dialogClose }) => {
             fullWidth
             id='standard-basic'
             label='Email'
+            name='email'
             variant='standard'
             margin='dense'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting && !error}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -147,20 +199,24 @@ const ArtistAdd = ({ dialogClose }) => {
             fullWidth
             id='standard-basic'
             label='Phone'
+            name='phoneNumber'
             variant='standard'
             margin='dense'
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            value={formik.values.phoneNumber}
+            onChange={formik.handleChange}
+            disabled={formik.isSubmitting && !error}
           />
         </Grid>
         <Grid item sm={4} xs={4}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label='BirthDate'
-              value={birthDate}
-              onChange={(newValue) => {
-                setBirthDate(newValue);
-              }}
+              name='birthDate'
+              value={formik.values.birthDate}
+              disabled={formik.isSubmitting && !error}
+              onChange={(newValue) =>
+                formik.setFieldValue('birthDate', newValue)
+              }
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
@@ -169,10 +225,11 @@ const ArtistAdd = ({ dialogClose }) => {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label='Start Date'
-              value={startDate}
-              onChange={(newValue) => {
-                setStartDate(newValue);
-              }}
+              value={formik.values.startDate}
+              disabled={formik.isSubmitting && !error}
+              onChange={(newValue) =>
+                formik.setFieldValue('startDate', newValue)
+              }
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
@@ -181,10 +238,11 @@ const ArtistAdd = ({ dialogClose }) => {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label='Finish Date'
-              value={finishDate}
-              onChange={(newValue) => {
-                setFinishDate(newValue);
-              }}
+              value={formik.values.finishDate}
+              disabled={formik.isSubmitting && !error}
+              onChange={(newValue) =>
+                formik.setFieldValue('finishDate', newValue)
+              }
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
@@ -198,11 +256,7 @@ const ArtistAdd = ({ dialogClose }) => {
             <Button variant='contained' color='secondary' onClick={dialogClose}>
               Close
             </Button>
-            <Button
-              color='info'
-              variant='contained'
-              onClick={() => handleCreateArtist()}
-            >
+            <Button color='info' variant='contained' type='submit' disabled={formik.isSubmitting && !error}>
               Save
             </Button>
           </Stack>
