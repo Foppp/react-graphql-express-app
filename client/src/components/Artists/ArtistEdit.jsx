@@ -273,8 +273,9 @@ const ArtistEdit = ({ id, dialogClose }) => {
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
-                </Grid>
-                <Grid item xs={12}>
+                  </Grid>
+                  <Grid item xs={12}>
+                  <Divider />
                   <Stack
                     direction='row'
                     spacing={2}

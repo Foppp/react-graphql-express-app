@@ -41,7 +41,6 @@
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.4",
     "react": "^17.0.2",
-    "react-bootstrap": "^2.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "webpack": "^5.65.0",

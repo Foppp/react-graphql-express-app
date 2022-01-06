@@ -18,7 +18,8 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 
 import Spinner from '../Spinners/Spinner.jsx';
-import { getAge, getFormatedDate } from '../../utils/index.js';
+import getAge from '../../utils/ageCount';
+import getFormatedDate from '../../utils/dateFormat'
 import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
 
 import { GET_ALL_ARTISTS } from '../../query/query';

@@ -8,7 +8,8 @@ import { useQuery } from '@apollo/client';
 
 import { GET_ARTIST } from '../../query/query';
 import Spinner from '../Spinners/Spinner.jsx';
-import { getAge, getFormatedDate } from '../../utils';
+import getAge from '../../utils/ageCount';
+import getFormatedDate from '../../utils/dateFormat'
 
 const ArtistProfile = ({ id, dialogClose }) => {
   const [artist, setArtist] = useState({});
@@ -88,8 +89,9 @@ const ArtistProfile = ({ id, dialogClose }) => {
               Phone: {artist.phoneNumber}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Button variant='contained' color='secondary' onClick={dialogClose}>
+            <Grid item xs={12}>
+            <Divider />
+            <Button variant='contained' color='secondary' onClick={dialogClose} sx={{mt: 1}}>
               Close
             </Button>
           </Grid>

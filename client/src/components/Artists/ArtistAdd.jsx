@@ -248,6 +248,7 @@ const ArtistAdd = ({ dialogClose }) => {
           </LocalizationProvider>
         </Grid>
         <Grid item xs={12}>
+        <Divider />
           <Stack
             direction='row'
             spacing={2}
