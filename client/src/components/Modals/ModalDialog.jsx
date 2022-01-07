@@ -7,6 +7,7 @@ import ArtistEdit from '../Artists/ArtistEdit.jsx';
 import ShowAdd from '../Shows/ShowAdd.jsx';
 import ShowEdit from '../Shows/ShowEdit.jsx';
 import ShowProfile from '../Shows/ShowProfile.jsx';
+import ShowRemove from '../Shows/ShowRemove.jsx';
 import ArtistAdd from '../Artists/ArtistAdd.jsx';
 import ArtistRemove from '../Artists/ArtistRemove.jsx';
 
@@ -16,6 +17,7 @@ const modals = {
   artistRemove: ArtistRemove,
   artistProfile: ArtistProfile,
   showAdd: ShowAdd,
+  showRemove: ShowRemove,
   showEdit: ShowEdit,
   showProfile: ShowProfile,
 };

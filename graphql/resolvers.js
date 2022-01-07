@@ -23,6 +23,18 @@ const resolvers = {
       const response = await db.collection('artists').replaceOne({ _id: ObjectID(userId) }, artist);
       return { success: response.acknowledged };
     },
+    createShow: async (_, { show }, { db }) => {
+      const response = await db.collection('shows').insertOne(show);
+      return { success: response.acknowledged };
+    },
+    removeShow: async (_, { showId }, { db }) => {
+      const response = await db.collection('shows').deleteOne({ _id: ObjectID(showId) });
+      return { success: response.acknowledged };
+    },
+    editShow: async (_, { showId, show }, { db }) => {
+      const response = await db.collection('shows').replaceOne({ _id: ObjectID(showId) }, show);
+      return { success: response.acknowledged };
+    },
   },
   Query: {
     getUsers: async (_, __, { db, user }) => {
@@ -37,7 +49,16 @@ const resolvers = {
       if (!user) throw new Error('Authentication Error. Please sign in');
       const artist = await db.collection('artists').findOne({ _id: ObjectID(userId) });
       return artist;
-    }
+    },
+    getShows: async (_, __, { db, user }) => {
+      if (!user) throw new Error('Authentication Error. Please sign in');
+      return await db.collection('shows').find().toArray();
+    },
+    getShow: async (_, { showId }, { db, user }) => {
+      if (!user) throw new Error('Authentication Error. Please sign in');
+      const show = await db.collection('shows').findOne({ _id: ObjectID(showId) });
+      return show;
+    },
   },
 };
 

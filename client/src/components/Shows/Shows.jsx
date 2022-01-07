@@ -1,43 +1,168 @@
-import React from "react";
-// import Typography from "@mui/material/Typography";
-// import Table from "@mui/material/Table";
-// import TableBody from "@mui/material/TableBody";
-// import TableContainer from "@mui/material/TableContainer";
-// import TableHead from "@mui/material/TableHead";
-// import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
-// import Box from "@mui/material/Box";
-// import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-// import IconButton from "@mui/material/IconButton";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-// import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-// import Grid from "@mui/material/Grid";
-// import SearchIcon from "@mui/icons-material/Search";
-// import {
-//   StyledTableCell, StyledTableRow, Search, SearchIconWrapper, StyledInputBase,
-// } from "../StyledComponents";
-// import im from '../../assets/img/1.jpg'
-// import { useTheme } from '@mui/material/styles';
-// import Box from '@mui/material/Box';
-// import Card from '@mui/material/Card';
-// import CardContent from '@mui/material/CardContent';
-// import CardMedia from '@mui/material/CardMedia';
-// import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
-// import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-// import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-// import SkipNextIcon from '@mui/icons-material/SkipNext';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import TextField from '@mui/material/TextField';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 
 
-// import { shows } from "../../mocks/showList";
+import Spinner from '../Spinners/Spinner.jsx';
+import getFormatedDate from '../../utils/dateFormat'
+import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
 
-const Shows = () => {
-  // const theme = useTheme();
+import { GET_ALL_SHOWS } from '../../query/query';
+
+const Shows = ({ dialogClose, handleDialogOpen }) => {
+  const [shows, setShows] = useState([]);
+  const [filteredShowList, setFilteredShowList] = useState(shows);
+  const [showsError, setShowsError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data, loading, error, refetch } = useQuery(GET_ALL_SHOWS);
+
+  const handleSearch = (data, query) => {
+    if (query === '') setFilteredShowList(data);
+    const filteredData = data.filter((show) => {
+      const firstName = show.firstName.toLowerCase().includes(query.toLowerCase());
+      const lastName = show.lastName.toLowerCase().includes(query.toLowerCase());
+      return firstName || lastName;
+    });
+    setFilteredShowList(filteredData);
+  };
+
+  useEffect(() => {
+    if (data) {
+      console.log(data)
+      const updatedData = data.getShows.map((show) => {
+        const isActive = show.finishDate === '';
+        return { ...show, isActive };
+      });
+      setShows(updatedData);
+      setFilteredShowList(updatedData);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    handleSearch(shows, searchQuery);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (error) setShowsError(error);
+    console.log(showsError);
+  }, [error]);
+
+  useEffect(() => {
+    if (dialogClose) refetch();
+  }, [dialogClose]);
+
+  const renderTable = () => (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 500 }} aria-label='customized table'>
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Show Name</StyledTableCell>
+            <StyledTableCell align='center'>Start Date</StyledTableCell>
+            <StyledTableCell align='center'>Artists</StyledTableCell>
+            <StyledTableCell align='center'>Status</StyledTableCell>
+            <StyledTableCell align='center'>Action</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {filteredShowList.map((show) => {
+            return (
+              <StyledTableRow key={show._id}>
+                <StyledTableCell component='th' scope='row'>
+                  {show.name}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  {getFormatedDate(show.startDate)}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  {show.artists.length}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  <Typography
+                    variant='caption'
+                    sx={{ color: show.isActive ? 'green' : 'red' }}
+                  >
+                    {show.isActive ? 'Active' : 'Not Active'}
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <IconButton
+                      aria-label='info'
+                      size='small'
+                      color='info'
+                      onClick={() =>
+                        handleDialogOpen('showProfile', show._id)
+                      }
+                    >
+                      <InfoOutlinedIcon fontSize='small' />
+                    </IconButton>
+                    <IconButton
+                      aria-label='info'
+                      size='small'
+                      color='error'
+                      onClick={() =>
+                        handleDialogOpen('showRemove', show._id)
+                      }
+                    >
+                      <DeleteIcon fontSize='small' />
+                    </IconButton>
+                    <IconButton
+                      aria-label='info'
+                      size='small'
+                      color='secondary'
+                      onClick={() => handleDialogOpen('showEdit', show._id)}
+                    >
+                      <ModeEditOutlineOutlinedIcon fontSize='small' />
+                    </IconButton>
+                  </Box>
+                </StyledTableCell>
+              </StyledTableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 
   return (
     <>
-      <div className="">kkkkkkk</div>
+      <Typography variant='h4' m={1} sx={{ textAlign: 'center' }}>
+        Shows
+      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button
+          type='submit'
+          color='primary'
+          variant='contained'
+          sx={{ margin: '15px 0' }}
+          size='small'
+          onClick={() => handleDialogOpen('showAdd')}
+        >
+          Add new
+        </Button>
+        <TextField
+          id='input-with-sx'
+          label='Search...'
+          variant='standard'
+          sx={{ mb: 2, mx: 2 }}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </Box>
+      {loading ? <Spinner /> : renderTable()}
     </>
   );
 };

@@ -6,7 +6,6 @@ import Shows from '../../components/Shows/Shows.jsx';
 import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 import Account from '../../components/Account/Account.jsx';
 import ModalDialog from '../../components/Modals/ModalDialog.jsx';
-import ModalWindow from '../../components/Modals/ModalWindow.jsx';
 
 const menuContent = {
   dashboard: Dashboard,
@@ -17,7 +16,6 @@ const menuContent = {
 
 const Content = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [currentId, setCurrentId] = useState(null);
 
@@ -31,15 +29,6 @@ const Content = () => {
     setDialogOpen(false);
   };
 
-  const handleModalOpen = (type, id = null) => {
-    setModalType(type);
-    setCurrentId(id);
-    setModalOpen(true);
-  };
-
-  const modalClose = () => {
-    setModalOpen(false);
-  };
 
   const navigate = useNavigate();
   const { content } = useParams();
@@ -54,9 +43,7 @@ const Content = () => {
       <ContentComponent
         dialogOpen={dialogOpen}
         setModalType={setModalType}
-        handleModalOpen={handleModalOpen}
         handleDialogOpen={handleDialogOpen}
-        modalClose={modalClose}
         dialogClose={dialogClose}
         id={currentId}
       />
@@ -64,14 +51,6 @@ const Content = () => {
         <ModalDialog
           dialogOpen={dialogOpen}
           dialogClose={dialogClose}
-          type={modalType}
-          id={currentId}
-        />
-      )}
-      {modalType && (
-        <ModalWindow
-          modalOpen={modalOpen}
-          modalClose={modalClose}
           type={modalType}
           id={currentId}
         />

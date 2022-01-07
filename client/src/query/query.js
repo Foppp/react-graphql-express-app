@@ -35,3 +35,29 @@ export const GET_ARTIST = gql`
     }
   }
 `;
+
+export const GET_ALL_SHOWS = gql`
+  query {
+    getShows {
+      _id
+      name
+      artists
+      startDate
+      finishDate
+      description
+    }
+  }
+`;
+
+export const GET_SHOW = gql`
+  query getShow($showId: ID!) {
+    getShow(showId: $showId) {
+      _id
+      name
+      artists
+      startDate
+      finishDate
+      description
+    }
+  }
+`;

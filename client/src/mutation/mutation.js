@@ -33,3 +33,27 @@ export const EDIT_ARTIST = gql`
     }
   }
 `;
+
+export const CREATE_SHOW = gql`
+  mutation createShow($show: ShowInput) {
+    createShow(show: $show) {
+      success
+    }
+  }
+`;
+
+export const REMOVE_SHOW = gql`
+  mutation removeShow($showId: ID!) {
+    removeShow(showId: $showId) {
+      success
+    }
+  }
+`;
+
+export const EDIT_SHOW = gql`
+  mutation editShow($showId: ID!, $show: ShowInput) {
+    editShow(showId: $showId, show: $show) {
+      success
+    }
+  }
+`;
