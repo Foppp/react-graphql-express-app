@@ -19,6 +19,7 @@ const typeDefs = gql`
     lastName: String!
     gender: String!
     country: String!
+    showIds: [ID!]!
     role: String!
     birthDate: String!
     startDate: String!
@@ -32,6 +33,7 @@ const typeDefs = gql`
     lastName: String!
     gender: String!
     country: String!
+    showIds: [ID!]!
     role: String!
     birthDate: String!
     startDate: String!
@@ -43,7 +45,7 @@ const typeDefs = gql`
   type Show {
     _id: ID!
     name: String!
-    artists: [ID!]!
+    artistIds: [ID!]!
     startDate: String!
     finishDate: String!
     description: String!
@@ -51,10 +53,10 @@ const typeDefs = gql`
 
   input ShowInput {
     name: String!
+    artistIds: [ID!]!
     startDate: String!
     finishDate: String!
     description: String!
-    artists: [ID!]
   }
 
   type AuthUser {
@@ -88,11 +90,11 @@ const typeDefs = gql`
 
   type Mutation {
     login(username: String!, password: String!): AuthUser!
-    createArtist(artist: ArtistInput): ArtistCreateResponse!
+    createArtist(artist: ArtistInput!): ArtistCreateResponse!
     removeArtist(userId: ID!): ArtistDeleteResponse!
-    editArtist(userId: ID!, artist: ArtistInput): ArtistEditResponse!
-    createShow(show: ShowInput): ShowCreateResponse!
-    editShow(showId: ID!): ShowEditResponse!
+    editArtist(userId: ID!, artist: ArtistInput!): ArtistEditResponse!
+    createShow(show: ShowInput!): ShowCreateResponse!
+    editShow(showId: ID!, show: ShowInput!): ShowEditResponse!
     removeShow(showId: ID!): ShowRemoveResponse!
   }
 

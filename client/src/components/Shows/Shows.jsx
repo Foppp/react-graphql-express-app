@@ -1,3 +1,5 @@
+// TODO CATEGORY
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import Button from '@mui/material/Button';
@@ -15,7 +17,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 
-
 import Spinner from '../Spinners/Spinner.jsx';
 import getFormatedDate from '../../utils/dateFormat'
 import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
@@ -27,21 +28,18 @@ const Shows = ({ dialogClose, handleDialogOpen }) => {
   const [filteredShowList, setFilteredShowList] = useState(shows);
   const [showsError, setShowsError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, loading, error, refetch } = useQuery(GET_ALL_SHOWS);
+  const { data, error, refetch } = useQuery(GET_ALL_SHOWS);
 
   const handleSearch = (data, query) => {
     if (query === '') setFilteredShowList(data);
     const filteredData = data.filter((show) => {
-      const firstName = show.firstName.toLowerCase().includes(query.toLowerCase());
-      const lastName = show.lastName.toLowerCase().includes(query.toLowerCase());
-      return firstName || lastName;
+      return show.name.toLowerCase().includes(query.toLowerCase());
     });
     setFilteredShowList(filteredData);
   };
 
   useEffect(() => {
     if (data) {
-      console.log(data)
       const updatedData = data.getShows.map((show) => {
         const isActive = show.finishDate === '';
         return { ...show, isActive };
@@ -56,8 +54,10 @@ const Shows = ({ dialogClose, handleDialogOpen }) => {
   }, [searchQuery]);
 
   useEffect(() => {
-    if (error) setShowsError(error);
-    console.log(showsError);
+    if (error) {
+      setShowsError(error);
+      console.log(showsError);
+    }
   }, [error]);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const Shows = ({ dialogClose, handleDialogOpen }) => {
                   {getFormatedDate(show.startDate)}
                 </StyledTableCell>
                 <StyledTableCell align='center'>
-                  {show.artists.length}
+                  {show.artistIds.length}
                 </StyledTableCell>
                 <StyledTableCell align='center'>
                   <Typography
@@ -162,7 +162,7 @@ const Shows = ({ dialogClose, handleDialogOpen }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </Box>
-      {loading ? <Spinner /> : renderTable()}
+      {shows.length === 0 ? <Spinner /> : renderTable()}
     </>
   );
 };

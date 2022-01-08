@@ -1,9 +1,11 @@
 import React from 'react'
+import Alert from '@mui/material/Alert';
 
 const Dashboard = () => {
     return (
         <>
-            Dashboard
+                  <Alert severity="success">This is a success alert — check it out!</Alert>
+
         </>
     )
 }

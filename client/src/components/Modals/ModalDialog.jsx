@@ -26,7 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ModalDialog = ({ dialogOpen, dialogClose, id, type }) => {
+const ModalDialog = ({ dialogOpen, dialogClose, handleSnackBarOpen, id, type }) => {
   const ModalContent = modals[type];
   return (
       <Dialog
@@ -34,7 +34,7 @@ const ModalDialog = ({ dialogOpen, dialogClose, id, type }) => {
         onClose={dialogClose}
         TransitionComponent={Transition}
       >
-        <ModalContent id={id} dialogClose={dialogClose} />
+      <ModalContent id={id} dialogClose={dialogClose} handleSnackBarOpen={handleSnackBarOpen} />
       </Dialog>
   );
 }

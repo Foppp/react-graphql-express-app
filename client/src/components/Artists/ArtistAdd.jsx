@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
+import { useMutation, useQuery } from '@apollo/client';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -15,14 +16,23 @@ import Select from '@mui/material/Select';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import Checkbox from '@mui/material/Checkbox';
+import Autocomplete from '@mui/material/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 import validationSchema from '../../utils/validation';
-import { useMutation } from '@apollo/client';
 import { CREATE_ARTIST } from '../../mutation/mutation';
+import { GET_ALL_SHOWS } from '../../query/query';
 
-const ArtistAdd = ({ dialogClose }) => {
+const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
+const checkedIcon = <CheckBoxIcon fontSize='small' />;
+
+const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
+  const [shows, setShows] = useState([]);
   const [error, setErrors] = useState(null);
   const [addArtist] = useMutation(CREATE_ARTIST);
+  const { data } = useQuery(GET_ALL_SHOWS);
 
   const handleCreateArtist = async (artist) => {
     try {
@@ -33,6 +43,7 @@ const ArtistAdd = ({ dialogClose }) => {
             lastName: artist.lastName,
             country: artist.country,
             role: artist.role,
+            showIds: artist.showIds,
             gender: artist.gender,
             birthDate: artist.birthDate,
             startDate: artist.startDate,
@@ -43,15 +54,24 @@ const ArtistAdd = ({ dialogClose }) => {
         },
       });
       dialogClose();
+      handleSnackBarOpen();
     } catch (e) {
       setErrors(e);
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      setShows(data.getShows);
+    }
+  }, [data]);
+
   const renderError = () => (
-    <Box sx={{my: 1}}>
-      <Typography color="error">Oops! Something went wrong! Try Again!</Typography>
+    <Box sx={{ my: 1 }}>
+      <Typography color='error'>
+        Oops! Something went wrong! Try Again!
+      </Typography>
     </Box>
   );
 
@@ -61,6 +81,7 @@ const ArtistAdd = ({ dialogClose }) => {
       lastName: '',
       country: '',
       role: '',
+      showIds: [],
       gender: '',
       birthDate: '',
       startDate: '',
@@ -85,8 +106,8 @@ const ArtistAdd = ({ dialogClose }) => {
       <Typography variant='h4'>Add New Artist</Typography>
       <Divider />
       {error && renderError()}
-        <Grid container spacing={2} sx={{ textAlign: 'center' }}>
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+        <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
             required
@@ -102,7 +123,7 @@ const ArtistAdd = ({ dialogClose }) => {
             disabled={formik.isSubmitting && !error}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
             required
@@ -134,7 +155,7 @@ const ArtistAdd = ({ dialogClose }) => {
             disabled={formik.isSubmitting && !error}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
             required
@@ -150,7 +171,7 @@ const ArtistAdd = ({ dialogClose }) => {
             disabled={formik.isSubmitting && !error}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <FormControl
             variant='standard'
             required
@@ -192,6 +213,8 @@ const ArtistAdd = ({ dialogClose }) => {
             value={formik.values.email}
             onChange={formik.handleChange}
             disabled={formik.isSubmitting && !error}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -205,6 +228,40 @@ const ArtistAdd = ({ dialogClose }) => {
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
             disabled={formik.isSubmitting && !error}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Autocomplete
+            multiple
+            id='checkboxes-tags-demo'
+            name='showIds'
+            options={shows}
+            disableCloseOnSelect
+            getOptionLabel={(option) => option.name}
+            renderOption={(props, option, { selected }) => (
+              <li {...props}>
+                <Checkbox
+                  icon={icon}
+                  checkedIcon={checkedIcon}
+                  style={{ marginRight: 8 }}
+                  checked={selected}
+                />
+                {option.name}
+              </li>
+            )}
+            onChange={(event, newValue) => {
+              const showIds = newValue.map((show) => show._id);
+              return formik.setFieldValue('showIds', showIds);
+            }}
+            fullWidth
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label='Shows'
+                name='showIds'
+                value={formik.values.showIds}
+              />
+            )}
           />
         </Grid>
         <Grid item sm={4} xs={4}>
@@ -248,7 +305,7 @@ const ArtistAdd = ({ dialogClose }) => {
           </LocalizationProvider>
         </Grid>
         <Grid item xs={12}>
-        <Divider />
+          <Divider />
           <Stack
             direction='row'
             spacing={2}
@@ -257,7 +314,12 @@ const ArtistAdd = ({ dialogClose }) => {
             <Button variant='contained' color='secondary' onClick={dialogClose}>
               Close
             </Button>
-            <Button color='info' variant='contained' type='submit' disabled={formik.isSubmitting && !error}>
+            <Button
+              color='info'
+              variant='contained'
+              type='submit'
+              disabled={formik.isSubmitting && !error}
+            >
               Save
             </Button>
           </Stack>

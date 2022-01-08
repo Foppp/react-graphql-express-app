@@ -11,7 +11,7 @@ export const LOGIN_USER = gql`
 `;
 
 export const CREATE_ARTIST = gql`
-  mutation createArtist($artist: ArtistInput) {
+  mutation createArtist($artist: ArtistInput!) {
     createArtist(artist: $artist) {
       success
     }
@@ -27,7 +27,7 @@ export const REMOVE_ARTIST = gql`
 `;
 
 export const EDIT_ARTIST = gql`
-  mutation editArtist($userId: ID!, $artist: ArtistInput) {
+  mutation editArtist($userId: ID!, $artist: ArtistInput!) {
     editArtist(userId: $userId, artist: $artist) {
       success
     }
@@ -35,7 +35,7 @@ export const EDIT_ARTIST = gql`
 `;
 
 export const CREATE_SHOW = gql`
-  mutation createShow($show: ShowInput) {
+  mutation createShow($show: ShowInput!) {
     createShow(show: $show) {
       success
     }
@@ -51,7 +51,7 @@ export const REMOVE_SHOW = gql`
 `;
 
 export const EDIT_SHOW = gql`
-  mutation editShow($showId: ID!, $show: ShowInput) {
+  mutation editShow($showId: ID!, $show: ShowInput!) {
     editShow(showId: $showId, show: $show) {
       success
     }

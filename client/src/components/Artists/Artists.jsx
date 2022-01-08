@@ -29,7 +29,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
   const [filteredArtistList, setFilteredList] = useState(artists);
   const [artistsError, setArtistsError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, loading, error, refetch } = useQuery(GET_ALL_ARTISTS);
+  const { data, error, refetch } = useQuery(GET_ALL_ARTISTS);
 
   const handleSearch = (data, query) => {
     if (query === '') setFilteredList(data);
@@ -52,6 +52,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
       setFilteredList(updatedData);
     }
   }, [data]);
+  
   useEffect(() => {
     handleSearch(artists, searchQuery);
   }, [searchQuery]);
@@ -175,7 +176,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </Box>
-      {loading ? <Spinner /> : renderTable()}
+      {artists.length === 0 ? <Spinner /> : renderTable()}
     </>
   );
 };

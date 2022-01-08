@@ -6,6 +6,7 @@ import Shows from '../../components/Shows/Shows.jsx';
 import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 import Account from '../../components/Account/Account.jsx';
 import ModalDialog from '../../components/Modals/ModalDialog.jsx';
+import SnackBar from '../../components/Modals/SnackBar.jsx';
 
 const menuContent = {
   dashboard: Dashboard,
@@ -15,9 +16,21 @@ const menuContent = {
 };
 
 const Content = () => {
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [currentId, setCurrentId] = useState(null);
+
+  const handleSnackBarOpen = () => {
+    setSnackBarOpen(true);
+  };
+
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackBarOpen(false);
+  };
 
   const handleDialogOpen = (type, id = null) => {
     setModalType(type);
@@ -42,17 +55,28 @@ const Content = () => {
     <Box component='main' sx={{ p: 3 }}>
       <ContentComponent
         dialogOpen={dialogOpen}
+        snackBarOpen={snackBarOpen}
         setModalType={setModalType}
         handleDialogOpen={handleDialogOpen}
         dialogClose={dialogClose}
+        handleSnackBarClose={handleSnackBarClose}
+        handleSnackBarOpen={handleSnackBarOpen}
         id={currentId}
       />
       {dialogOpen && (
         <ModalDialog
           dialogOpen={dialogOpen}
+          handleSnackBarOpen={handleSnackBarOpen}
           dialogClose={dialogClose}
           type={modalType}
           id={currentId}
+        />
+      )}
+      {snackBarOpen && (
+        <SnackBar
+        snackBarOpen={snackBarOpen}
+        handleSnackBarClose={handleSnackBarClose}
+        type={modalType}
         />
       )}
     </Box>

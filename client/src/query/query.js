@@ -7,6 +7,7 @@ export const GET_ALL_ARTISTS = gql`
       firstName
       lastName
       gender
+      showIds
       country
       role
       birthDate
@@ -26,6 +27,7 @@ export const GET_ARTIST = gql`
       lastName
       gender
       country
+      showIds
       role
       birthDate
       startDate
@@ -41,7 +43,7 @@ export const GET_ALL_SHOWS = gql`
     getShows {
       _id
       name
-      artists
+      artistIds
       startDate
       finishDate
       description
@@ -54,7 +56,7 @@ export const GET_SHOW = gql`
     getShow(showId: $showId) {
       _id
       name
-      artists
+      artistIds
       startDate
       finishDate
       description
