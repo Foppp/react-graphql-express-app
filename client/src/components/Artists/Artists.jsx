@@ -23,6 +23,7 @@ import getFormatedDate from '../../utils/dateFormat'
 import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
 
 import { GET_ALL_ARTISTS } from '../../query/query';
+import { Divider } from '@mui/material';
 
 const Artists = ({ dialogClose, handleDialogOpen }) => {
   const [artists, setArtists] = useState([]);
@@ -176,6 +177,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </Box>
+      <Divider />
       {artists.length === 0 ? <Spinner /> : renderTable()}
     </>
   );

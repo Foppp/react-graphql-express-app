@@ -1,13 +1,18 @@
-import React from 'react'
-import Alert from '@mui/material/Alert';
+import React from 'react';
+import Badge from '@mui/material/Badge';
+
+import { Button, Card, Typography } from '@mui/material';
 
 const Dashboard = () => {
-    return (
-        <>
-                  <Alert severity="success">This is a success alert — check it out!</Alert>
+  return (
+    <>
+      <Card elevation={6} component={Button}>
+        <Typography>
+          <Badge badgeContent='Active' color='primary'></Badge>
+        </Typography>
+      </Card>
+    </>
+  );
+};
 
-        </>
-    )
-}
-
-export default Dashboard
+export default Dashboard;
