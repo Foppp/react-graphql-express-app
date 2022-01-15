@@ -3,7 +3,6 @@ import authContext from '../contexts/index.jsx';
 
 const AuthProvider = ({ children }) => {
   const loggedInUser = JSON.parse(localStorage.getItem('userId'));
-
   const [loggedIn, setLoggedIn] = useState(!!loggedInUser);
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
@@ -12,7 +11,7 @@ const AuthProvider = ({ children }) => {
   };
   return (
     <>
-    <authContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <authContext.Provider value={{ loggedIn, logIn, logOut, loggedInUser }}>
       {children}
       </authContext.Provider>
       </>

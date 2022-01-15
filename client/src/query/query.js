@@ -1,5 +1,16 @@
 import { gql } from '@apollo/client';
 
+export const GET_USER = gql`
+  query getUser($userId: ID!) {
+    getUser(userId: $userId) {
+      _id
+      username
+      email
+      displayName
+    }
+  }
+`;
+
 export const GET_ALL_ARTISTS = gql`
   query {
     getArtists {

@@ -52,7 +52,7 @@ const Content = () => {
   }, []);
 
   return (
-    <Box component='main' sx={{ p: 3 }}>
+    <Box component='main'>
       <ContentComponent
         dialogOpen={dialogOpen}
         snackBarOpen={snackBarOpen}

@@ -1,24 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { indigo } from '@mui/material/colors';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { Link, useLocation } from 'react-router-dom';
-// import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import TheaterComedyOutlinedIcon from '@mui/icons-material/TheaterComedyOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import Avatar from '@mui/material/Avatar';
+
 import useAuth from '../../hooks/index.jsx';
+import Content from './Content.jsx';
+
+import { GET_USER } from '../../query/query.js';
+
+const drawerWidth = 200;
 
 const pages = [
   {
@@ -30,150 +39,162 @@ const pages = [
   { id: 2, name: 'Artists', path: '/artists', icon: <PeopleOutlinedIcon /> },
   { id: 3, name: 'Shows', path: '/shows', icon: <TheaterComedyOutlinedIcon /> },
 ];
-// const settings = [
-//   { id: 1, name: 'Account',  path: '/account', icon: <ManageAccountsOutlinedIcon /> },
-//   { id: 2, name: 'Logout',  path: '/logout', icon: <LogoutOutlinedIcon /> },
-// ];
 
-const Navbar = () => {
-  const location = useLocation();
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
-  const handleCloseNavMenu = () => setAnchorElNav(null);
-  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
-  const handleCloseUserMenu = () => setAnchorElUser(null);
+const settings = [
+  { id: 1, name: 'Account', path: '/account', icon: <ManageAccountsOutlinedIcon /> },
+];
+
+const Navbar = (props) => {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [userName, setUserName] = useState('');
   const auth = useAuth();
+  const { data } = useQuery(GET_USER, { variables: { userId: auth.loggedInUser.userId } });
+  
+  useEffect(() => {
+    if (data) {
+      setUserName(data.getUser.displayName);
+    }
+  }, [data]);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <div>
+      <Toolbar>
+        {userName && (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <Avatar sx={{ bgcolor: indigo[500] }}>{userName.slice(0, 1)}</Avatar>
+            <Typography variant='body2' m={1}>
+              {userName}
+            </Typography>
+          </Box>
+        )}
+      </Toolbar>
+      <Divider />
+      <List>
+        {pages.map((page) => (
+          <ListItem
+            key={page.id}
+            component={Link}
+            to={page.path}
+            onClick={handleDrawerToggle}
+          >
+            <ListItemIcon>{page.icon}</ListItemIcon>
+            <ListItemText primary={page.name} />
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {settings.map((menu) => (
+          <ListItem
+            key={menu.id}
+            component={Link}
+            to={menu.path}
+            onClick={handleDrawerToggle}
+          >
+            <ListItemIcon>{menu.icon}</ListItemIcon>
+            <ListItemText primary={menu.name} />
+          </ListItem>
+        ))}
+        <ListItem button onClick={() => auth.logOut()}>
+          <ListItemIcon>
+            <LogoutOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary='LogOut' />
+        </ListItem>
+      </List>
+    </div>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <AppBar position='static'>
-      <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          <Typography
-            variant='h6'
-            noWrap
-            component='div'
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar
+        position='fixed'
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color='inherit'
+            aria-label='open drawer'
+            edge='start'
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
           >
-            ENTERTAINMENT
+            <MenuIcon />
+          </IconButton>
+          <Typography variant='h6' noWrap component='div'>
+            ENTARTAINMENT
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem
-                  component={Link}
-                  to={page.path}
-                  key={page.id}
-                  onClick={handleCloseNavMenu}
-                >
-                  {page.icon}
-                  <Typography ml={1} textAlign='center'>
-                    {page.name}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Typography
-            variant='h6'
-            noWrap
-            component='div'
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-          >
-            ENTERTAINMENT
-          </Typography>
-          <Box ml={4} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                id={page.id}
-                key={page.id}
-                component={Link}
-                to={page.path}
-                sx={{
-                  my: 1,
-                  ml: 2,
-                  color: 'white',
-                  display: 'flex',
-                  borderBottom: page.path === location.pathname ? 1 : 0,
-                }}
-                startIcon={page.icon}
-              >
-                {page.name}
-              </Button>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='' src='' />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem
-                onClick={handleCloseUserMenu}
-                component={Link}
-                to='/account'
-              >
-                <ManageAccountsOutlinedIcon />
-                <Typography textAlign='center' ml={2}>
-                  Account
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={() => auth.logOut()}>
-                <LogoutOutlinedIcon />
-                <Typography textAlign='center' ml={2}>
-                  Logout
-                </Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
         </Toolbar>
-      </Container>
-    </AppBar>
+      </AppBar>
+      <Box
+        component='nav'
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label='mailbox folders'
+      >
+        <Drawer
+          container={container}
+          variant='temporary'
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant='permanent'
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component='main'
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
+        <Toolbar />
+        <Content />
+      </Box>
+    </Box>
   );
 };
+
 export default Navbar;

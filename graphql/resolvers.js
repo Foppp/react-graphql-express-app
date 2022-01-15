@@ -41,6 +41,10 @@ const resolvers = {
       if (!user) throw new Error('Authentication Error. Please sign in');
       return await db.collection('users').find().toArray();
     },
+    getUser: async (_, { userId }, { db, user }) => {
+      if (!user) throw new Error('Authentication Error. Please sign in');
+      return await db.collection('users').findOne({ _id: ObjectID(userId) });
+    },
     getArtists: async (_, __, { db, user }) => {
       if (!user) throw new Error('Authentication Error. Please sign in');
       return await db.collection('artists').find().toArray();

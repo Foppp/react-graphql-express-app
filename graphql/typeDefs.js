@@ -100,6 +100,7 @@ const typeDefs = gql`
 
   type Query {
     getUsers: [User!]!
+    getUser(userId: ID!): User!
     getArtists: [Artist!]!
     getArtist(userId: ID!): Artist!
     getShows: [Show!]!
