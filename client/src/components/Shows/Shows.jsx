@@ -1,4 +1,3 @@
-// TODO CATEGORY
 
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
@@ -22,6 +21,8 @@ import getFormatedDate from '../../utils/dateFormat'
 import { StyledTableCell, StyledTableRow } from '../StyledComponents.jsx';
 
 import { GET_ALL_SHOWS } from '../../query/query';
+import { Grid } from '@mui/material';
+import Show from './Show.jsx';
 
 const Shows = ({ dialogClose, handleDialogOpen }) => {
   const [shows, setShows] = useState([]);
@@ -162,7 +163,13 @@ const Shows = ({ dialogClose, handleDialogOpen }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </Box>
-      {shows.length === 0 ? <Spinner /> : renderTable()}
+      {shows.length === 0 ? <Spinner /> : (
+        <Grid container spacing={2} >
+          {filteredShowList.map((show) => (
+            <Show key={show._id} show={show} handleDialogOpen={handleDialogOpen} fadeIn={shows.length} />
+          ))}
+        </Grid>
+      )}
     </>
   );
 };

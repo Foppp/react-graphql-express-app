@@ -104,7 +104,7 @@ const typeDefs = gql`
     getArtists: [Artist!]!
     getArtist(userId: ID!): Artist!
     getShows: [Show!]!
-    getShow(showId: ID!): Show! 
+    getShow(showId: ID!): Show!
   }
 `;
 

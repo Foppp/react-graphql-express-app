@@ -62,7 +62,7 @@ const Navbar = (props) => {
   };
 
   const drawer = (
-    <div>
+    <>
       <Toolbar>
         {userName && (
           <Box
@@ -81,6 +81,7 @@ const Navbar = (props) => {
         )}
       </Toolbar>
       <Divider />
+      <Box mt={6}>
       <List>
         {pages.map((page) => (
           <ListItem
@@ -114,7 +115,8 @@ const Navbar = (props) => {
           <ListItemText primary='LogOut' />
         </ListItem>
       </List>
-    </div>
+      </Box>
+    </>
   );
 
   const container =

@@ -18,7 +18,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
   const [filteredArtistList, setFilteredList] = useState(artists);
   const [artistsError, setArtistsError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, error, refetch } = useQuery(GET_ALL_ARTISTS);
+  const { data, error, loading, refetch } = useQuery(GET_ALL_ARTISTS);
 
   const handleSearch = (data, query) => {
     if (query === '') setFilteredList(data);
@@ -91,8 +91,8 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
         <Spinner />
       ) : (
           <Grid container spacing={2} >
-          {filteredArtistList.map((artist) => (
-            <Artist key={artist._id} artist={artist} handleDialogOpen={handleDialogOpen}/>
+            {filteredArtistList.map((artist) => (
+              <Artist key={artist._id} artist={artist} handleDialogOpen={handleDialogOpen} fadeIn={artists.length}/>
           ))}
         </Grid>
       )}

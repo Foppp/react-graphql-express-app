@@ -6,19 +6,18 @@ import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ManIcon from '@mui/icons-material/Man';
-import WomanIcon from '@mui/icons-material/Woman';
+import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { pink, indigo } from '@mui/material/colors';
+import { teal } from '@mui/material/colors';
 import Fade from '@mui/material/Fade';
 
 
-const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
+const Show = ({ show, handleDialogOpen, fadeIn }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -35,7 +34,7 @@ const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
         aria-label='info'
         size='small'
         color='info'
-        onClick={() => handleDialogOpen('artistProfile', artist._id)}
+        onClick={() => handleDialogOpen('showProfile', show._id)}
       >
         <InfoOutlinedIcon fontSize='small' />
       </IconButton>
@@ -61,7 +60,7 @@ const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
               aria-label='info'
               size='small'
               color='error'
-              onClick={() => handleDialogOpen('artistRemove', artist._id)}
+              onClick={() => handleDialogOpen('showRemove', show._id)}
             >
               <DeleteIcon fontSize='small' />
             </IconButton>
@@ -71,7 +70,7 @@ const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
               aria-label='info'
               size='small'
               color='secondary'
-              onClick={() => handleDialogOpen('artistEdit', artist._id)}
+              onClick={() => handleDialogOpen('showEdit', show._id)}
             >
               <ModeEditOutlineOutlinedIcon fontSize='small' />
             </IconButton>
@@ -82,12 +81,12 @@ const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
   );
 
   const avatarSection = (
-    <Badge variant='dot' color={artist.isActive ? 'success' : 'error'}>
+    <Badge variant='dot' color={show.isActive ? 'success' : 'error'}>
       <Avatar
-        sx={{ bgcolor: artist.gender === 'male' ? indigo[500] : pink[500] }}
+        sx={{ bgcolor: teal[200] }}
         aria-label='recipe'
       >
-        {artist.gender === 'male' ? <ManIcon /> : <WomanIcon />}
+        <TheaterComedyIcon />
       </Avatar>
     </Badge>
   );
@@ -99,8 +98,8 @@ const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
         <CardHeader
           avatar={avatarSection}
           action={actionSection}
-          title={`${artist.firstName} ${artist.lastName}`}
-          subheader={artist.role}
+          title={show.name}
+          subheader={show.description}
         />
       </Card>
       </Fade>
@@ -108,4 +107,4 @@ const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
   );
 };
 
-export default Artist;
+export default Show;
