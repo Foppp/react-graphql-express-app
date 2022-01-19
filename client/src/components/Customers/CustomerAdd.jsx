@@ -13,6 +13,22 @@ import Divider from '@mui/material/Divider';
 
 import { CREATE_CUSTOMER } from '../../mutation/mutation';
 
+const validationSchema = yup.object({
+  name: yup
+    .string('Enter valid name')
+    .min(2, 'Name should be of minimum 2 characters length')
+    .required('Name is required'),
+  country: yup
+    .string('Enter valid country')
+    .min(2, 'Country should be of minimum 2 characters length')
+    .required('Country is required'),
+  city: yup
+    .string('Enter valid city')
+    .min(2, 'Role should be of minimum 2 characters length')
+    .required('City is required'),
+  email: yup.string('Enter email').email('Enter a valid email'),
+});
+
 const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
   const [error, setErrors] = useState(null);
   const [addCustomer] = useMutation(CREATE_CUSTOMER);
@@ -44,21 +60,7 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
       email: '',
       phoneNumber: '',
     },
-    validationSchema: yup.object({
-      name: yup
-        .string('Enter valid name')
-        .min(2, 'Name should be of minimum 2 characters length')
-        .required('Name is required'),
-      country: yup
-        .string('Enter valid country')
-        .min(2, 'Country should be of minimum 2 characters length')
-        .required('Country is required'),
-      city: yup
-        .string('Enter valid city')
-        .min(2, 'Role should be of minimum 2 characters length')
-        .required('City is required'),
-      email: yup.string('Enter email').email('Enter a valid email'),
-    }),
+    validationSchema,
     onSubmit: (values) => {
       handleCreateCustomer(values);
     },

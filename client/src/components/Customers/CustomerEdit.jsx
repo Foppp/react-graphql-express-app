@@ -1,51 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import { useMutation, useQuery } from '@apollo/client';
+import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
-import Checkbox from '@mui/material/Checkbox';
-import Autocomplete from '@mui/material/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import BackDrop from '../Spinners/BackDrop.jsx';
 
-import validationSchema from '../../utils/validation';
-import { EDIT_ARTIST } from '../../mutation/mutation';
-import { GET_ALL_SHOWS, GET_ARTIST } from '../../query/query';
+import { EDIT_CUSTOMER } from '../../mutation/mutation';
+import { GET_CUSTOMER } from '../../query/query';
 
-const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
-const checkedIcon = <CheckBoxIcon fontSize='small' />;
 
-const getValuesById = (ids, data) =>
-  data.filter((value) => ids.includes(value._id));
+  const validationSchema = yup.object({
+    name: yup
+      .string('Enter valid name')
+      .min(2, 'Name should be of minimum 2 characters length')
+      .required('Name is required'),
+    country: yup
+      .string('Enter valid country')
+      .min(2, 'Country should be of minimum 2 characters length')
+      .required('Country is required'),
+    city: yup
+      .string('Enter valid city')
+      .min(2, 'Role should be of minimum 2 characters length')
+      .required('City is required'),
+    email: yup.string('Enter email').email('Enter a valid email'),
+  });
 
 const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
-  const [artist, setArtist] = useState(null);
+  const [customer, setCustomer] = useState(null);
   const [error, setError] = useState(null);
-  const [shows, setShows] = useState([]);
 
-  const { data: showsData } = useQuery(GET_ALL_SHOWS);
-  const { data } = useQuery(GET_ARTIST, {
-    variables: { userId: id },
+  const { data } = useQuery(GET_CUSTOMER, {
+    variables: { customerId: id },
   });
-  const [editArtist] = useMutation(EDIT_ARTIST);
+  const [editCustomer] = useMutation(EDIT_CUSTOMER);
 
-  const handleEditArtist = async (artist) => {
+  const handleEditCustomer = async (customer) => {
     try {
-      await editArtist({ variables: { userId: id, artist } });
+      await editCustomer({ variables: { customerId: id, customer } });
       dialogClose();
       handleSnackBarOpen();
     } catch (e) {
@@ -64,18 +61,12 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
 
   useEffect(() => {
     if (data) {
-      setArtist(data.getArtist);
+      setCustomer(data.getCustomer);
     }
   }, [data]);
 
-  useEffect(() => {
-    if (showsData) {
-      setShows(showsData.getShows);
-    }
-  }, [showsData]);
-
-  return !artist ? (
-    <BackDrop backDropIsOpen={!artist} />
+  return !customer ? (
+    <BackDrop backDropIsOpen={!customer} />
   ) : (
     <Box sx={{ m: 1, p: 1, textAlign: 'center' }}>
       <Typography variant='h4'>Edit Artist</Typography>
@@ -83,21 +74,15 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
       {error && renderError()}
       <Formik
         initialValues={{
-          firstName: artist.firstName,
-          lastName: artist.lastName,
-          country: artist.country,
-          role: artist.role,
-          showIds: artist.showIds,
-          gender: artist.gender,
-          birthDate: artist.birthDate,
-          startDate: artist.startDate,
-          finishDate: artist.finishDate,
-          email: artist.email,
-          phoneNumber: artist.phoneNumber,
+          name: customer.name,
+          country: customer.country,
+          city: customer.city,
+          email: customer.email,
+          phoneNumber: customer.phoneNumber,
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          handleEditArtist(values);
+          handleEditCustomer(values);
         }}
       >
         {(props) => (
@@ -108,43 +93,23 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
             onSubmit={props.handleSubmit}
           >
             <Grid container spacing={2} sx={{ textAlign: 'center' }}>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12}>
                 <TextField
                   fullWidth
                   required
                   id='standard-basic'
-                  label='First Name'
-                  name='firstName'
+                  label='Name'
+                  name='name'
                   variant='standard'
                   margin='dense'
-                  error={
-                    props.touched.firstName && Boolean(props.errors.firstName)
-                  }
-                  helperText={props.touched.firstName && props.errors.firstName}
-                  value={props.values.firstName}
+                  error={props.touched.name && Boolean(props.errors.name)}
+                  helperText={props.touched.name && props.errors.name}
+                  value={props.values.name}
                   onChange={props.handleChange}
                   disabled={props.isSubmitting && !error}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  fullWidth
-                  required
-                  id='standard-basic'
-                  label='Last Name'
-                  name='lastName'
-                  variant='standard'
-                  margin='dense'
-                  error={
-                    props.touched.lastName && Boolean(props.errors.lastName)
-                  }
-                  helperText={props.touched.lastName && props.errors.lastName}
-                  value={props.values.lastName}
-                  onChange={props.handleChange}
-                  disabled={props.isSubmitting && !error}
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   required
@@ -165,47 +130,16 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
                   fullWidth
                   required
                   id='standard-basic'
-                  label='Role'
-                  name='role'
+                  label='City'
+                  name='city'
                   variant='standard'
                   margin='dense'
-                  error={props.touched.role && Boolean(props.errors.role)}
-                  helperText={props.touched.role && props.errors.role}
-                  value={props.values.role}
+                  error={props.touched.city && Boolean(props.errors.city)}
+                  helperText={props.touched.city && props.errors.city}
+                  value={props.values.city}
                   onChange={props.handleChange}
                   disabled={props.isSubmitting && !error}
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl
-                  variant='standard'
-                  required
-                  error={props.touched.gender && Boolean(props.errors.gender)}
-                  fullWidth
-                  disabled={props.isSubmitting && !error}
-                  sx={{ m: 1 }}
-                >
-                  <InputLabel id='demo-simple-select-standard-label'>
-                    Gender
-                  </InputLabel>
-                  <Select
-                    labelId='demo-simple-select-standard-label'
-                    id='demo-simple-select-standard'
-                    name='gender'
-                    value={props.values.gender}
-                    onChange={props.handleChange}
-                    label='Gender'
-                  >
-                    <MenuItem value=''>
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value='male'>Male</MenuItem>
-                    <MenuItem value='female'>Female</MenuItem>
-                  </Select>
-                  <FormHelperText id='component-helper-text'>
-                    {props.touched.gender && props.errors.gender}
-                  </FormHelperText>
-                </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -218,6 +152,8 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
                   value={props.values.email}
                   onChange={props.handleChange}
                   disabled={props.isSubmitting && !error}
+                  error={props.touched.email && Boolean(props.errors.email)}
+                  helperText={props.touched.email && props.errors.email}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -232,76 +168,6 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
                   onChange={props.handleChange}
                   disabled={props.isSubmitting && !error}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <Autocomplete
-                  multiple
-                  id='checkboxes-tags-demo'
-                  name='showIds'
-                  options={shows}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.name}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                      />
-                      {option.name}
-                    </li>
-                  )}
-                  onChange={(event, newValue) => {
-                    const showIds = newValue.map((show) => show._id);
-                    return props.setFieldValue('showIds', showIds);
-                  }}
-                  fullWidth
-                  value={getValuesById(props.values.showIds, shows)}
-                  renderInput={(params) => (
-                    <TextField {...params} label='Shows' name='showIds' />
-                  )}
-                />
-              </Grid>
-              <Grid item sm={4} xs={4}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label='BirthDate'
-                    name='birthDate'
-                    value={props.values.birthDate}
-                    disabled={props.isSubmitting && !error}
-                    onChange={(newValue) =>
-                      props.setFieldValue('birthDate', newValue)
-                    }
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item sm={4} xs={4}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label='Start Date'
-                    value={props.values.startDate}
-                    disabled={props.isSubmitting && !error}
-                    onChange={(newValue) =>
-                      props.setFieldValue('startDate', newValue)
-                    }
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item sm={4} xs={4}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label='Finish Date'
-                    value={props.values.finishDate}
-                    disabled={props.isSubmitting && !error}
-                    onChange={(newValue) =>
-                      props.setFieldValue('finishDate', newValue)
-                    }
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
                 <Divider />
