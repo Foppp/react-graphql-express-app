@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import { useMutation, useQuery } from '@apollo/client';
-import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -23,6 +22,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import BackDrop from '../Spinners/BackDrop.jsx';
 
+import validationSchema from '../../utils/validation';
 import { EDIT_ARTIST } from '../../mutation/mutation';
 import { GET_ALL_SHOWS, GET_ARTIST } from '../../query/query';
 
@@ -32,28 +32,7 @@ const checkedIcon = <CheckBoxIcon fontSize='small' />;
 const getValuesById = (ids, data) =>
   data.filter((value) => ids.includes(value._id));
 
-const validationSchema = yup.object({
-  firstName: yup
-    .string('Enter valid name')
-    .min(2, 'Name should be of minimum 2 characters length')
-    .required('Name is required'),
-  lastName: yup
-    .string('Enter valid last name')
-    .min(2, 'Last name should be of minimum 2 characters length')
-    .required('Last name is required'),
-  country: yup
-    .string('Enter valid country')
-    .min(2, 'Country should be of minimum 2 characters length')
-    .required('Country is required'),
-  role: yup
-    .string('Enter valid role')
-    .min(2, 'Role should be of minimum 2 characters length')
-    .required('Role is required'),
-  gender: yup.string().required('Gender is required'),
-  email: yup.string('Enter email').email('Enter a valid email'),
-});
-
-const ArtistEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
+const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
   const [artist, setArtist] = useState(null);
   const [error, setError] = useState(null);
   const [shows, setShows] = useState([]);
@@ -239,8 +218,6 @@ const ArtistEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
                   value={props.values.email}
                   onChange={props.handleChange}
                   disabled={props.isSubmitting && !error}
-                  error={props.touched.email && Boolean(props.errors.email)}
-                  helperText={props.touched.email && props.errors.email}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -358,4 +335,4 @@ const ArtistEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
   );
 };
 
-export default ArtistEdit;
+export default CustomerEdit;

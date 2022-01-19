@@ -35,6 +35,18 @@ const resolvers = {
       const response = await db.collection('shows').replaceOne({ _id: ObjectID(showId) }, show);
       return { success: response.acknowledged };
     },
+    createCustomer: async (_, { customer }, { db }) => {
+      const response = await db.collection('customers').insertOne(customer);
+      return { success: response.acknowledged };
+    },
+    removeCustomer: async (_, { customerId }, { db }) => {
+      const response = await db.collection('customers').deleteOne({ _id: ObjectID(customerId) });
+      return { success: response.acknowledged };
+    },
+    editCustomer: async (_, { customerId, customer }, { db }) => {
+      const response = await db.collection('customers').replaceOne({ _id: ObjectID(customerId) }, customer);
+      return { success: response.acknowledged };
+    },
   },
   Query: {
     getUsers: async (_, __, { db, user }) => {
@@ -62,6 +74,15 @@ const resolvers = {
       if (!user) throw new Error('Authentication Error. Please sign in');
       const show = await db.collection('shows').findOne({ _id: ObjectID(showId) });
       return show;
+    },
+    getCustomers: async (_, __, { db, user }) => {
+      if (!user) throw new Error('Authentication Error. Please sign in');
+      return await db.collection('customers').find().toArray();
+    },
+    getCustomer: async (_, { customerId }, { db, user }) => {
+      if (!user) throw new Error('Authentication Error. Please sign in');
+      const customer = await db.collection('customers').findOne({ _id: ObjectID(customerId) });
+      return customer;
     },
   },
 };

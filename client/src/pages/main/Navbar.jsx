@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { indigo } from '@mui/material/colors';
 import AppBar from '@mui/material/AppBar';
@@ -20,6 +20,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import TheaterComedyOutlinedIcon from '@mui/icons-material/TheaterComedyOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import CountertopsOutlinedIcon from '@mui/icons-material/CountertopsOutlined';
 import Avatar from '@mui/material/Avatar';
 
 import useAuth from '../../hooks/index.jsx';
@@ -38,19 +39,29 @@ const pages = [
   },
   { id: 2, name: 'Artists', path: '/artists', icon: <PeopleOutlinedIcon /> },
   { id: 3, name: 'Shows', path: '/shows', icon: <TheaterComedyOutlinedIcon /> },
+  { id: 4, name: 'Customers', path: '/customers', icon: <CountertopsOutlinedIcon /> },
 ];
 
 const settings = [
-  { id: 1, name: 'Account', path: '/account', icon: <ManageAccountsOutlinedIcon /> },
+  {
+    id: 1,
+    name: 'Account',
+    path: '/account',
+    icon: <ManageAccountsOutlinedIcon />,
+  },
 ];
 
 const Navbar = (props) => {
   const { window } = props;
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userName, setUserName] = useState('');
   const auth = useAuth();
-  const { data } = useQuery(GET_USER, { variables: { userId: auth.loggedInUser.userId } });
-  
+
+  const { data } = useQuery(GET_USER, {
+    variables: { userId: auth.loggedInUser.userId },
+  });
+
   useEffect(() => {
     if (data) {
       setUserName(data.getUser.displayName);
@@ -62,7 +73,7 @@ const Navbar = (props) => {
   };
 
   const drawer = (
-    <>
+    <Box sx={{ backgroundColor: '#e3f2fd', height: '100vh'}}>
       <Toolbar>
         {userName && (
           <Box
@@ -73,7 +84,9 @@ const Navbar = (props) => {
               textAlign: 'center',
             }}
           >
-            <Avatar sx={{ bgcolor: indigo[500] }}>{userName.slice(0, 1)}</Avatar>
+            <Avatar sx={{ bgcolor: indigo[500] }}>
+              {userName.slice(0, 1)}
+            </Avatar>
             <Typography variant='body2' m={1}>
               {userName}
             </Typography>
@@ -81,42 +94,48 @@ const Navbar = (props) => {
         )}
       </Toolbar>
       <Divider />
-      <Box mt={6}>
-      <List>
-        {pages.map((page) => (
-          <ListItem
-            key={page.id}
-            component={Link}
-            to={page.path}
-            onClick={handleDrawerToggle}
-          >
-            <ListItemIcon>{page.icon}</ListItemIcon>
-            <ListItemText primary={page.name} />
+      <Box mt={6} >
+        <List>
+          {pages.map((page) => (
+            <ListItem
+              button
+              key={page.id}
+              component={Link}
+              to={page.path}
+              onClick={handleDrawerToggle}
+              sx={{
+                borderRight: location.pathname === page.path ? 3 : 'none',
+              }}
+            >
+              <ListItemIcon>{page.icon}</ListItemIcon>
+              <ListItemText primary={page.name} />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {settings.map((menu) => (
+            <ListItem
+              button
+              key={menu.id}
+              component={Link}
+              to={menu.path}
+              onClick={handleDrawerToggle}
+              sx={{ borderRight: location.pathname === menu.path ? 3 : 'none'}}
+            >
+              <ListItemIcon>{menu.icon}</ListItemIcon>
+              <ListItemText primary={menu.name} />
+            </ListItem>
+          ))}
+          <ListItem button onClick={() => auth.logOut()}>
+            <ListItemIcon>
+              <LogoutOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary='LogOut' />
           </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {settings.map((menu) => (
-          <ListItem
-            key={menu.id}
-            component={Link}
-            to={menu.path}
-            onClick={handleDrawerToggle}
-          >
-            <ListItemIcon>{menu.icon}</ListItemIcon>
-            <ListItemText primary={menu.name} />
-          </ListItem>
-        ))}
-        <ListItem button onClick={() => auth.logOut()}>
-          <ListItemIcon>
-            <LogoutOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary='LogOut' />
-        </ListItem>
-      </List>
+        </List>
       </Box>
-    </>
+    </Box>
   );
 
   const container =

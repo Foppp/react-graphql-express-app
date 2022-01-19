@@ -57,3 +57,27 @@ export const EDIT_SHOW = gql`
     }
   }
 `;
+
+export const CREATE_CUSTOMER = gql`
+  mutation createCustomer($customer: CustomerInput!) {
+    createCustomer(customer: $customer) {
+      success
+    }
+  }
+`;
+
+export const REMOVE_CUSTOMER = gql`
+  mutation removeCustomer($customerId: ID!) {
+    removeCustomer(customerId: $customerId) {
+      success
+    }
+  }
+`;
+
+export const EDIT_CUSTOMER = gql`
+  mutation editCustomer($customerId: ID!, $customer: CustomerInput!) {
+    editCustomer(customerId: $customerId, customer: $customer) {
+      success
+    }
+  }
+`;

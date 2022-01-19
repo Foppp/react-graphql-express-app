@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useMutation, useQuery } from '@apollo/client';
+import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -21,7 +22,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-import validationSchema from '../../utils/validation';
 import { CREATE_ARTIST } from '../../mutation/mutation';
 import { GET_ALL_SHOWS } from '../../query/query';
 
@@ -36,23 +36,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
 
   const handleCreateArtist = async (artist) => {
     try {
-      await addArtist({
-        variables: {
-          artist: {
-            firstName: artist.firstName,
-            lastName: artist.lastName,
-            country: artist.country,
-            role: artist.role,
-            showIds: artist.showIds,
-            gender: artist.gender,
-            birthDate: artist.birthDate,
-            startDate: artist.startDate,
-            finishDate: artist.finishDate,
-            email: artist.email,
-            phoneNumber: artist.phoneNumber,
-          },
-        },
-      });
+      await addArtist({ variables: { artist } });
       dialogClose();
       handleSnackBarOpen();
     } catch (e) {
@@ -89,7 +73,26 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
       email: '',
       phoneNumber: '',
     },
-    validationSchema,
+    validationSchema: yup.object({
+      firstName: yup
+        .string('Enter valid name')
+        .min(2, 'Name should be of minimum 2 characters length')
+        .required('Name is required'),
+      lastName: yup
+        .string('Enter valid last name')
+        .min(2, 'Last name should be of minimum 2 characters length')
+        .required('Last name is required'),
+      country: yup
+        .string('Enter valid country')
+        .min(2, 'Country should be of minimum 2 characters length')
+        .required('Country is required'),
+      role: yup
+        .string('Enter valid role')
+        .min(2, 'Role should be of minimum 2 characters length')
+        .required('Role is required'),
+      gender: yup.string().required('Gender is required'),
+      email: yup.string('Enter email').email('Enter a valid email'),
+    }),
     onSubmit: (values) => {
       handleCreateArtist(values);
     },

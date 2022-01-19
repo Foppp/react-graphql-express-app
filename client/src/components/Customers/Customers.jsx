@@ -4,24 +4,22 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Artist from './Artist.jsx';
 import Spinner from '../Spinners/Spinner.jsx';
 import Grid from '@mui/material/Grid';
 
-import getAge from '../../utils/ageCount';
+import Customer from './Customer.jsx';
 
+import { GET_ALL_CUSTOMERS } from '../../query/query';
 
-import { GET_ALL_ARTISTS } from '../../query/query';
-
-const Artists = ({ dialogClose, handleDialogOpen }) => {
-  const [artists, setArtists] = useState([]);
-  const [filteredArtistList, setFilteredList] = useState(artists);
-  const [artistsError, setArtistsError] = useState(null);
+const Customers = ({ dialogClose, handleDialogOpen }) => {
+  const [customers, setCustomers] = useState([]);
+  const [filteredCustomerList, setFilteredCustomerList] = useState(customers);
+  const [customersError, setCustomersError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, error, refetch } = useQuery(GET_ALL_ARTISTS);
+  const { data, error, refetch } = useQuery(GET_ALL_CUSTOMERS);
 
   const handleSearch = (data, query) => {
-    if (query === '') setFilteredList(data);
+    if (query === '') setFilteredCustomerList(data);
     const filteredData = data.filter((artist) => {
       const firstName = artist.firstName
         .toLowerCase()
@@ -31,29 +29,24 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
         .includes(query.toLowerCase());
       return firstName || lastName;
     });
-    setFilteredList(filteredData);
+    setFilteredCustomerList(filteredData);
   };
 
   useEffect(() => {
     if (data) {
-      const updatedData = data.getArtists.map((artist) => {
-        const isActive = artist.finishDate === '';
-        const age = getAge(artist.birthDate);
-        return { ...artist, isActive, age };
-      });
-      setArtists(updatedData);
-      setFilteredList(updatedData);
+      setCustomers(data.getCustomers);
+      setFilteredCustomerList(data.getCustomers);
     }
   }, [data]);
 
   useEffect(() => {
-    handleSearch(artists, searchQuery);
+    handleSearch(customers, searchQuery);
   }, [searchQuery]);
 
   useEffect(() => {
     if (error) {
-      setArtistsError(error);
-      console.log(artistsError);
+      setCustomersError(error);
+      console.log(customersError);
     }
   }, [error]);
 
@@ -61,11 +54,10 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
     if (dialogClose) refetch();
   }, [dialogClose]);
 
-
   return (
     <>
       <Typography variant='h4' m={1} sx={{ textAlign: 'center' }}>
-        Artists
+        Customers
       </Typography>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button
@@ -74,7 +66,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
           variant='contained'
           sx={{ margin: '15px 0' }}
           size='small'
-          onClick={() => handleDialogOpen('artistAdd')}
+          onClick={() => handleDialogOpen('customerAdd')}
         >
           Add new
         </Button>
@@ -87,12 +79,17 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </Box>
-      {artists.length === 0 ? (
+      {customers.length === 0 ? (
         <Spinner />
       ) : (
-          <Grid container spacing={2} >
-            {filteredArtistList.map((artist) => (
-              <Artist key={artist._id} artist={artist} handleDialogOpen={handleDialogOpen} fadeIn={artists.length}/>
+        <Grid container spacing={2}>
+          {filteredCustomerList.map((customer) => (
+            <Customer
+              key={customer._id}
+              customer={customer}
+              handleDialogOpen={handleDialogOpen}
+              fadeIn={customers.length}
+            />
           ))}
         </Grid>
       )}
@@ -100,4 +97,4 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
   );
 };
 
-export default Artists;
+export default Customers;

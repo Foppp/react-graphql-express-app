@@ -74,3 +74,29 @@ export const GET_SHOW = gql`
     }
   }
 `;
+
+export const GET_ALL_CUSTOMERS = gql`
+  query {
+    getCustomers {
+      _id
+      name
+      country
+      city
+      email
+      phoneNumber
+    }
+  }
+`;
+
+export const GET_CUSTOMER = gql`
+  query getCustomer($customerId: ID!) {
+    getCustomer(customerId: $customerId) {
+      _id
+      name
+      country
+      city
+      email
+      phoneNumber
+    }
+  }
+`;

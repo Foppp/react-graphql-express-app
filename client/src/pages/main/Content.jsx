@@ -7,11 +7,13 @@ import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 import Account from '../../components/Account/Account.jsx';
 import ModalDialog from '../../components/Modals/ModalDialog.jsx';
 import SnackBar from '../../components/Modals/SnackBar.jsx';
+import Customers from '../../components/Customers/Customers.jsx';
 
 const menuContent = {
   dashboard: Dashboard,
   artists: Artists,
   shows: Shows,
+  customers: Customers,
   account: Account,
 };
 

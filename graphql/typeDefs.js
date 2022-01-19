@@ -42,6 +42,23 @@ const typeDefs = gql`
     phoneNumber: String!
   }
 
+  type Customer {
+    _id: ID!
+    name: String!
+    country: String!
+    city: String!
+    email: String!
+    phoneNumber: String!
+  }
+
+  input CustomerInput {
+    name: String!
+    country: String!
+    city: String!
+    email: String!
+    phoneNumber: String!
+  }
+
   type Show {
     _id: ID!
     name: String!
@@ -88,6 +105,18 @@ const typeDefs = gql`
     success: Boolean!
   }
 
+  type CustomerCreateResponse {
+    success: Boolean!
+  }
+
+  type CustomerRemoveResponse {
+    success: Boolean!
+  }
+
+  type CustomerEditResponse {
+    success: Boolean!
+  }
+
   type Mutation {
     login(username: String!, password: String!): AuthUser!
     createArtist(artist: ArtistInput!): ArtistCreateResponse!
@@ -96,6 +125,9 @@ const typeDefs = gql`
     createShow(show: ShowInput!): ShowCreateResponse!
     editShow(showId: ID!, show: ShowInput!): ShowEditResponse!
     removeShow(showId: ID!): ShowRemoveResponse!
+    createCustomer(customer: CustomerInput!): CustomerCreateResponse!
+    removeCustomer(customerId: ID!): CustomerRemoveResponse!
+    editCustomer(customerId: ID!, customer: CustomerInput!): CustomerEditResponse!
   }
 
   type Query {
@@ -105,6 +137,8 @@ const typeDefs = gql`
     getArtist(userId: ID!): Artist!
     getShows: [Show!]!
     getShow(showId: ID!): Show!
+    getCustomers: [Customer!]!
+    getCustomer(customerId: ID!): Customer!
   }
 `;
 

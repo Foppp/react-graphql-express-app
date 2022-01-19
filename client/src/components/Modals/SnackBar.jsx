@@ -15,6 +15,9 @@ const messages = {
   showAdd: 'Show was added seccessfully!',
   showRemove: 'Show was removed seccessfully!',
   showEdit: 'Show was edited seccessfully!',
+  customerAdd: 'Customer was added seccessfully!',
+  customerRemove: 'Customer was removed seccessfully!',
+  customerEdit: 'Customer was edited seccessfully!',
 };
 
 const SnackBar = ({ handleSnackBarClose, snackBarOpen, type }) => {

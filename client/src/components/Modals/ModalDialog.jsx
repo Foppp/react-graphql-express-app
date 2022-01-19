@@ -10,6 +10,10 @@ import ShowProfile from '../Shows/ShowProfile.jsx';
 import ShowRemove from '../Shows/ShowRemove.jsx';
 import ArtistAdd from '../Artists/ArtistAdd.jsx';
 import ArtistRemove from '../Artists/ArtistRemove.jsx';
+import CustomerAdd from '../Customers/CustomerAdd.jsx';
+import CustomerEdit from '../Customers/CustomerEdit.jsx';
+import CustomerRemove from '../Customers/CustomerRemove.jsx';
+import CustomerProfile from '../Customers/CustomerProfile.jsx';
 
 const modals = {
   artistAdd: ArtistAdd,
@@ -20,6 +24,10 @@ const modals = {
   showRemove: ShowRemove,
   showEdit: ShowEdit,
   showProfile: ShowProfile,
+  customerAdd: CustomerAdd,
+  customerEdit: CustomerEdit,
+  customerRemove: CustomerRemove,
+  customerProfile: CustomerProfile,
 };
 
 const Transition = React.forwardRef(function Transition(props, ref) {

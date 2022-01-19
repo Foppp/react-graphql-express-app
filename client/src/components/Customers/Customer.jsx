@@ -6,18 +6,16 @@ import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { teal } from '@mui/material/colors';
 import Fade from '@mui/material/Fade';
+import CountertopsOutlinedIcon from '@mui/icons-material/CountertopsOutlined';
 
-
-const Show = ({ show, handleDialogOpen, fadeIn }) => {
+const Customer = ({ customer, handleDialogOpen, fadeIn }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -34,7 +32,7 @@ const Show = ({ show, handleDialogOpen, fadeIn }) => {
         aria-label='info'
         size='small'
         color='info'
-        onClick={() => handleDialogOpen('showProfile', show._id)}
+        onClick={() => handleDialogOpen('customerProfile', customer._id)}
       >
         <InfoOutlinedIcon fontSize='small' />
       </IconButton>
@@ -52,7 +50,7 @@ const Show = ({ show, handleDialogOpen, fadeIn }) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{ sx: { borderRadius: '15px' }}}
+        PaperProps={{ sx: { borderRadius: '15px' } }}
       >
         <Box sx={{ display: 'flex' }}>
           <MenuItem onClick={handleClose}>
@@ -60,7 +58,7 @@ const Show = ({ show, handleDialogOpen, fadeIn }) => {
               aria-label='info'
               size='small'
               color='error'
-              onClick={() => handleDialogOpen('showRemove', show._id)}
+              onClick={() => handleDialogOpen('customerRemove', customer._id)}
             >
               <DeleteIcon fontSize='small' />
             </IconButton>
@@ -70,7 +68,7 @@ const Show = ({ show, handleDialogOpen, fadeIn }) => {
               aria-label='info'
               size='small'
               color='secondary'
-              onClick={() => handleDialogOpen('showEdit', show._id)}
+              onClick={() => handleDialogOpen('artistEdit', customer._id)}
             >
               <ModeEditOutlineOutlinedIcon fontSize='small' />
             </IconButton>
@@ -81,30 +79,25 @@ const Show = ({ show, handleDialogOpen, fadeIn }) => {
   );
 
   const avatarSection = (
-    <Badge variant='dot' color={show.isActive ? 'success' : 'error'}>
-      <Avatar
-        sx={{ bgcolor: teal[200] }}
-        aria-label='recipe'
-      >
-        <TheaterComedyIcon />
-      </Avatar>
-    </Badge>
+    <Avatar sx={{ bgcolor: teal[200] }} aria-label='recipe'>
+      <CountertopsOutlinedIcon />
+    </Avatar>
   );
 
   return (
     <Grid item xs={12} sm={12} md={6} lg={4}>
       <Fade in={fadeIn !== 0}>
-      <Card>
-        <CardHeader
-          avatar={avatarSection}
-          action={actionSection}
-          title={show.name}
-          subheader={show.description}
-        />
-      </Card>
+        <Card>
+          <CardHeader
+            avatar={avatarSection}
+            action={actionSection}
+            title={customer.name}
+            subheader={customer.city}
+          />
+        </Card>
       </Fade>
     </Grid>
   );
 };
 
-export default Show;
+export default Customer;

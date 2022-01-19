@@ -93,7 +93,7 @@ const Artist = ({ artist, handleDialogOpen, fadeIn }) => {
   );
 
   return (
-    <Grid item xs={12} sm={12} md={6}>
+    <Grid item xs={12} sm={12} md={6} lg={4}>
       <Fade in={fadeIn !== 0}>
       <Card>
         <CardHeader
