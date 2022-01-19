@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { Formik } from 'formik';
+import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -24,6 +25,13 @@ import { GET_SHOW } from '../../query/query';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
+
+const validationSchema = yup.object({
+  name: yup
+    .string('Enter valid name')
+    .min(2, 'Name should be of minimum 2 characters length')
+    .required('Name is required'),
+});
 
 const getValuesById = (ids, data) =>
   data.filter((value) => ids.includes(value._id));
@@ -84,7 +92,8 @@ const ShowEdit = ({ dialogClose, id, handleSnackBarOpen }) => {
           startDate: show.startDate,
           finishDate: show.finishDate,
           description: show.description,
-        }}
+          }}
+        validationSchema={validationSchema}
         onSubmit={(values) => {
           handleEditShow(values);
         }}

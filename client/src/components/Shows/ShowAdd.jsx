@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -12,7 +13,6 @@ import Divider from '@mui/material/Divider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-
 import Checkbox from '@mui/material/Checkbox';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -23,6 +23,13 @@ import { GET_ALL_ARTISTS } from '../../query/query';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
+
+const validationSchema = yup.object({
+  name: yup
+    .string('Enter valid name')
+    .min(2, 'Name should be of minimum 2 characters length')
+    .required('Name is required'),
+});
 
 const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
   const [error, setError] = useState(null);
@@ -64,6 +71,7 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
       finishDate: '',
       description: '',
     },
+    validationSchema,
     onSubmit: (values) => {
       handleCreateShow(values);
     },

@@ -73,7 +73,7 @@ const Navbar = (props) => {
   };
 
   const drawer = (
-    <Box sx={{ backgroundColor: '#e3f2fd', height: '100vh'}}>
+    <Box sx={{ backgroundColor: '#e3f2fd', height: '100vh' }}>
       <Toolbar>
         {userName && (
           <Box
@@ -147,8 +147,8 @@ const Navbar = (props) => {
       <AppBar
         position='fixed'
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          // width: { sm: `calc(100% - ${drawerWidth}px)` },
+          // ml: { sm: `${drawerWidth}px` },
         }}
       >
         <Toolbar>
@@ -196,6 +196,7 @@ const Navbar = (props) => {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
+              mt: '65px',
             },
           }}
           open
