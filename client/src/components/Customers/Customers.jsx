@@ -20,14 +20,8 @@ const Customers = ({ dialogClose, handleDialogOpen }) => {
 
   const handleSearch = (data, query) => {
     if (query === '') setFilteredCustomerList(data);
-    const filteredData = data.filter((artist) => {
-      const firstName = artist.firstName
-        .toLowerCase()
-        .includes(query.toLowerCase());
-      const lastName = artist.lastName
-        .toLowerCase()
-        .includes(query.toLowerCase());
-      return firstName || lastName;
+    const filteredData = data.filter((customer) => {
+      return customer.name.toLowerCase().includes(query.toLowerCase());
     });
     setFilteredCustomerList(filteredData);
   };
