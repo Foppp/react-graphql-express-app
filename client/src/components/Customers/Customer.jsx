@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { teal } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 import Fade from '@mui/material/Fade';
 import CountertopsOutlinedIcon from '@mui/icons-material/CountertopsOutlined';
 
@@ -68,7 +68,7 @@ const Customer = ({ customer, handleDialogOpen, fadeIn }) => {
               aria-label='info'
               size='small'
               color='secondary'
-              onClick={() => handleDialogOpen('artistEdit', customer._id)}
+              onClick={() => handleDialogOpen('customerEdit', customer._id)}
             >
               <ModeEditOutlineOutlinedIcon fontSize='small' />
             </IconButton>
@@ -79,7 +79,7 @@ const Customer = ({ customer, handleDialogOpen, fadeIn }) => {
   );
 
   const avatarSection = (
-    <Avatar sx={{ bgcolor: teal[200] }} aria-label='recipe'>
+    <Avatar sx={{ bgcolor: red[400] }} aria-label='recipe'>
       <CountertopsOutlinedIcon />
     </Avatar>
   );

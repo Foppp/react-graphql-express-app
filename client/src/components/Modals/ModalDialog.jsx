@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { forwardRef } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 
@@ -30,7 +30,7 @@ const modals = {
   customerProfile: CustomerProfile,
 };
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
