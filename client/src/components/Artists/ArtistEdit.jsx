@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import ruLocale from 'date-fns/locale/ru';
 import Checkbox from '@mui/material/Checkbox';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -286,46 +287,48 @@ const ArtistEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
                   )}
                 />
               </Grid>
-              <Grid item sm={4} xs={4}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                locale={ruLocale}
+              >
+                <Grid item sm={4} xs={4}>
                   <DatePicker
+                    mask='__.__.____'
                     label='BirthDate'
                     name='birthDate'
                     value={props.values.birthDate}
                     disabled={props.isSubmitting && !error}
                     onChange={(newValue) =>
-                      props.setFieldValue('birthDate', newValue)
+                      props.setFieldValue('birthDate', newValue ?? '')
                     }
                     renderInput={(params) => <TextField {...params} />}
                   />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item sm={4} xs={4}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                </Grid>
+                <Grid item sm={4} xs={4}>
                   <DatePicker
+                    mask='__.__.____'
                     label='Start Date'
                     value={props.values.startDate}
                     disabled={props.isSubmitting && !error}
                     onChange={(newValue) =>
-                      props.setFieldValue('startDate', newValue)
+                      props.setFieldValue('startDate', newValue ?? '')
                     }
                     renderInput={(params) => <TextField {...params} />}
                   />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item sm={4} xs={4}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                </Grid>
+                <Grid item sm={4} xs={4}>
                   <DatePicker
+                    mask='__.__.____'
                     label='Finish Date'
                     value={props.values.finishDate}
                     disabled={props.isSubmitting && !error}
                     onChange={(newValue) =>
-                      props.setFieldValue('finishDate', newValue)
+                      props.setFieldValue('finishDate', newValue ?? '')
                     }
                     renderInput={(params) => <TextField {...params} />}
                   />
-                </LocalizationProvider>
-              </Grid>
+                </Grid>
+              </LocalizationProvider>
               <Grid item xs={12}>
                 <Divider />
                 <Stack

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { indigo } from '@mui/material/colors';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,7 +17,6 @@ import Typography from '@mui/material/Typography';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import TheaterComedyOutlinedIcon from '@mui/icons-material/TheaterComedyOutlined';
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import CountertopsOutlinedIcon from '@mui/icons-material/CountertopsOutlined';
 import Avatar from '@mui/material/Avatar';
@@ -84,7 +82,7 @@ const Navbar = (props) => {
               textAlign: 'center',
             }}
           >
-            <Avatar sx={{ bgcolor: indigo[500] }}>
+            <Avatar sx={{ bgcolor: '#3f51b5' }}>
               {userName.slice(0, 1)}
             </Avatar>
             <Typography variant='body2' m={1}>
@@ -104,9 +102,9 @@ const Navbar = (props) => {
               to={page.path}
               onClick={handleDrawerToggle}
               sx={{
-                backgroundColor: location.pathname === page.path ? '#c1eff4' : 'inherit',
+                backgroundColor: location.pathname === page.path ? '#e0e0e0' : 'inherit',
                 '&:hover': {
-                  backgroundColor: '#c1eff4',
+                  backgroundColor: '#e0e0e0',
                 },
               }}
             >

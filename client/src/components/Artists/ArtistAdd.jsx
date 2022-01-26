@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import ruLocale from 'date-fns/locale/ru';
 import Checkbox from '@mui/material/Checkbox';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -68,7 +69,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
       showIds: [],
       gender: '',
       birthDate: '',
-      startDate: '',
+      startDate: new Date(),
       finishDate: '',
       email: '',
       phoneNumber: '',
@@ -267,9 +268,10 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
             )}
           />
         </Grid>
-        <Grid item sm={4} xs={4}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} locale={ruLocale}>
+          <Grid item sm={4} xs={4}>
             <DatePicker
+              mask='__.__.____'
               label='BirthDate'
               name='birthDate'
               value={formik.values.birthDate}
@@ -279,11 +281,10 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
               }
               renderInput={(params) => <TextField {...params} />}
             />
-          </LocalizationProvider>
-        </Grid>
-        <Grid item sm={4} xs={4}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          </Grid>
+          <Grid item sm={4} xs={4}>
             <DatePicker
+              mask='__.__.____'
               label='Start Date'
               value={formik.values.startDate}
               disabled={formik.isSubmitting && !error}
@@ -292,11 +293,10 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
               }
               renderInput={(params) => <TextField {...params} />}
             />
-          </LocalizationProvider>
-        </Grid>
-        <Grid item sm={4} xs={4}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          </Grid>
+          <Grid item sm={4} xs={4}>
             <DatePicker
+              mask='__.__.____'
               label='Finish Date'
               value={formik.values.finishDate}
               disabled={formik.isSubmitting && !error}
@@ -305,8 +305,9 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
               }
               renderInput={(params) => <TextField {...params} />}
             />
-          </LocalizationProvider>
-        </Grid>
+          </Grid>
+        </LocalizationProvider>
+
         <Grid item xs={12}>
           <Divider />
           <Stack

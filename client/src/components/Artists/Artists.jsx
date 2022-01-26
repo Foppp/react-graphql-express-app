@@ -8,13 +8,12 @@ import Spinner from '../Spinners/Spinner.jsx';
 import Grid from '@mui/material/Grid';
 import Pagination from '@mui/material/Pagination';
 import List from '@mui/material/List';
-import ArtistList from './ArtistList.jsx';
+import Artist from './Artist.jsx';
 import paginate from '../../utils/pagination';
 import getAge from '../../utils/ageCount';
 import Paper from '@mui/material/Paper';
 
 import { GET_ALL_ARTISTS } from '../../query/query';
-import ArtistsSummary from './ArtistsSummary.jsx';
 import ArtistProfile from './ArtistProfile.jsx';
 import { Stack } from '@mui/material';
 
@@ -61,7 +60,6 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
       setCurrentId(currentId ?? data.getArtists[0]._id);
     }
   }, [data]);
-
 
   useEffect(() => {
     setPaginatedList(paginate(currentPage, perPage, filteredArtistList));
@@ -126,7 +124,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
                   </Box>
                   <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {paginatedList.map((artist) => (
-                      <ArtistList
+                      <Artist
                         key={artist._id}
                         artist={artist}
                         setCurrentId={setCurrentId}
@@ -151,6 +149,7 @@ const Artists = ({ dialogClose, handleDialogOpen }) => {
                 ) : (
                   <ArtistProfile
                     handleDialogOpen={handleDialogOpen}
+                    artists={artists}
                     id={currentId}
                   />
                 )}

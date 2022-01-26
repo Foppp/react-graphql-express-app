@@ -2,7 +2,6 @@ import React, { forwardRef } from 'react';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 
-import ArtistProfile from '../Artists/ArtistProfile.jsx';
 import ArtistEdit from '../Artists/ArtistEdit.jsx';
 import ShowAdd from '../Shows/ShowAdd.jsx';
 import ShowEdit from '../Shows/ShowEdit.jsx';
