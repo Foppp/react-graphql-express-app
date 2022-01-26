@@ -28,15 +28,15 @@ import Content from './Content.jsx';
 
 import { GET_USER } from '../../query/query.js';
 
-const drawerWidth = 200;
+const drawerWidth = 180;
 
 const pages = [
-  {
-    id: 1,
-    name: 'Dashboard',
-    path: '/dashboard',
-    icon: <DashboardOutlinedIcon />,
-  },
+  // {
+  //   id: 1,
+  //   name: 'Dashboard',
+  //   path: '/dashboard',
+  //   icon: <DashboardOutlinedIcon />,
+  // },
   { id: 2, name: 'Artists', path: '/artists', icon: <PeopleOutlinedIcon /> },
   { id: 3, name: 'Shows', path: '/shows', icon: <TheaterComedyOutlinedIcon /> },
   { id: 4, name: 'Customers', path: '/customers', icon: <CountertopsOutlinedIcon /> },
@@ -104,7 +104,10 @@ const Navbar = (props) => {
               to={page.path}
               onClick={handleDrawerToggle}
               sx={{
-                borderRight: location.pathname === page.path ? 3 : 'none',
+                backgroundColor: location.pathname === page.path ? '#c1eff4' : 'inherit',
+                '&:hover': {
+                  backgroundColor: '#c1eff4',
+                },
               }}
             >
               <ListItemIcon>{page.icon}</ListItemIcon>
@@ -144,13 +147,7 @@ const Navbar = (props) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        position='fixed'
-        sx={{
-          // width: { sm: `calc(100% - ${drawerWidth}px)` },
-          // ml: { sm: `${drawerWidth}px` },
-        }}
-      >
+      <AppBar position='fixed'>
         <Toolbar>
           <IconButton
             color='inherit'

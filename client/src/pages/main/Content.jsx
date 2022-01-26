@@ -47,10 +47,10 @@ const Content = () => {
 
   const navigate = useNavigate();
   const { content } = useParams();
-  const ContentComponent = menuContent[content] ?? Dashboard;
+  const ContentComponent = menuContent[content] ?? Artists;
 
   useEffect(() => {
-    if (!content) navigate('/dashboard');
+    if (!content) navigate('/artists');
   }, []);
 
   return (
@@ -63,6 +63,7 @@ const Content = () => {
         dialogClose={dialogClose}
         handleSnackBarClose={handleSnackBarClose}
         handleSnackBarOpen={handleSnackBarOpen}
+        type={modalType}
         id={currentId}
       />
       {dialogOpen && (

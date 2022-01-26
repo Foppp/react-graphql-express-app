@@ -19,7 +19,7 @@ const modals = {
   artistAdd: ArtistAdd,
   artistEdit: ArtistEdit,
   artistRemove: ArtistRemove,
-  artistProfile: ArtistProfile,
+  // artistProfile: ArtistProfile,
   showAdd: ShowAdd,
   showRemove: ShowRemove,
   showEdit: ShowEdit,
@@ -31,20 +31,30 @@ const modals = {
 };
 
 const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const ModalDialog = ({ dialogOpen, dialogClose, handleSnackBarOpen, id, type }) => {
+const ModalDialog = ({
+  dialogOpen,
+  dialogClose,
+  handleSnackBarOpen,
+  id,
+  type,
+}) => {
   const ModalContent = modals[type];
   return (
-      <Dialog
-        open={dialogOpen}
-        onClose={dialogClose}
-        TransitionComponent={Transition}
-      >
-      <ModalContent id={id} dialogClose={dialogClose} handleSnackBarOpen={handleSnackBarOpen} />
-      </Dialog>
+    <Dialog
+      open={dialogOpen}
+      onClose={dialogClose}
+      TransitionComponent={Transition}
+    >
+      <ModalContent
+        id={id}
+        dialogClose={dialogClose}
+        handleSnackBarOpen={handleSnackBarOpen}
+      />
+    </Dialog>
   );
-}
+};
 
 export default ModalDialog;

@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+// import Box from '@mui/material/Box';
+// import Button from '@mui/material/Button';
+// import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import { useQuery } from '@apollo/client';
+import IconButton from '@mui/material/IconButton';
+import { Box, Collapse, Divider, Stack } from '@mui/material';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ManIcon from '@mui/icons-material/Man';
+
+import WomanIcon from '@mui/icons-material/Woman';
+import { pink, indigo } from '@mui/material/colors';
 
 import { GET_ARTIST } from '../../query/query';
-import BackDrop from '../Spinners/BackDrop.jsx';
 import getAge from '../../utils/ageCount';
 import getFormatedDate from '../../utils/dateFormat';
+import Spinner from '../Spinners/Spinner.jsx';
+import { Card, CardContent } from '@mui/material';
 
-const ArtistProfile = ({ id, dialogClose }) => {
+const ArtistProfile = ({ id, handleDialogOpen }) => {
   const [artist, setArtist] = useState({});
   //   const [error, setError] = useState(null);
 
@@ -26,76 +34,53 @@ const ArtistProfile = ({ id, dialogClose }) => {
   }, [data]);
 
   return loading ? (
-    <BackDrop backDropIsOpen={loading} />
+    <Spinner />
   ) : (
-    <Box
-      component='form'
-      sx={{ m: 1, minWidth: '250px', textAlign: 'center' }}
-      noValidate
-      autoComplete='off'
-    >
-      <Typography variant='h6'>ARTIST PROFILE</Typography>
-      <Divider />
-      <Grid container spacing={2} sx={{ my: 2, textAlign: 'center' }}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>
-            First Name: {artist.firstName}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>
-            Last Name: {artist.lastName}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>Country: {artist.country}</Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>Role: {artist.role}</Typography>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Typography variant='overline'>
-            Birth Date: {getFormatedDate(artist.birthDate)}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Typography variant='overline'>
-            Age: {getAge(artist.birthDate)}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Typography variant='overline'>Gender: {artist.gender}</Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>
-            Start Date: {getFormatedDate(artist.startDate)}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>
-            Finish Date: {getFormatedDate(artist.finishDate)}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>Email: {artist.email}</Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>
-            Phone: {artist.phoneNumber}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Divider />
-          <Button
-            variant='contained'
+    <Box sx={{ alignText: 'center' }}>
+      <Box>
+        <Stack direction='row' justifyContent='end'>
+          <IconButton
+            aria-label='info'
+            size='small'
             color='secondary'
-            onClick={dialogClose}
-            sx={{ mt: 1 }}
+            onClick={() => handleDialogOpen('artistEdit', artist._id)}
           >
-            Close
-          </Button>
-        </Grid>
-      </Grid>
+            <ModeEditOutlineOutlinedIcon fontSize='small' />
+          </IconButton>
+          <IconButton
+            aria-label='info'
+            size='small'
+            color='error'
+            onClick={() => handleDialogOpen('artistRemove', artist._id)}
+          >
+            <DeleteIcon fontSize='small' />
+          </IconButton>
+        </Stack> 
+      </Box>
+        <Box>
+        <Divider textAlign="left">PERSONAL INFO</Divider>
+          <Box sx={{ my: 1}}>
+            <Typography variant='body1'>Name: {artist.firstName} {artist.lastName} {artist.gender === 'male' ? <ManIcon sx={{ color: indigo[500] }} /> : <WomanIcon sx={{color: pink[500]}} />} </Typography>
+          <Typography variant='body1'>Country: {artist.country}</Typography>
+          <Typography variant='body1'>Age: {getAge(artist.birthDate)}</Typography>
+          {/* <Typography variant='body1'>Gender: {artist.gender}</Typography> */}
+          </Box>
+          <Divider textAlign="left" >WORK</Divider>
+          <Box sx={{ my: 1}}>
+          <Typography variant='body1'>Role: {artist.role}</Typography>
+        <Typography variant='body1'>
+          Start Date: {getFormatedDate(artist.startDate)}
+        </Typography>
+        <Typography variant='body1'>
+          Finish Date: {getFormatedDate(artist.finishDate)}
+          </Typography>
+          </Box>
+          <Divider textAlign="left" >CONTACT</Divider>
+          <Box sx={{ my: 1}}>
+          <Typography variant='body1'>Email: {artist.email}</Typography>
+        <Typography variant='body1'>Phone: {artist.phoneNumber}</Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };
