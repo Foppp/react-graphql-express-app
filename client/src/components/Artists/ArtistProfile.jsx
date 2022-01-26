@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
-import { useQuery } from '@apollo/client';
 import IconButton from '@mui/material/IconButton';
 import { Box, Divider, Stack } from '@mui/material';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
@@ -8,21 +7,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 
-import { GET_ARTIST } from '../../query/query';
 import getAge from '../../utils/ageCount';
 import getFormatedDate from '../../utils/dateFormat';
 import Spinner from '../Spinners/Spinner.jsx';
 
 const ArtistProfile = ({ id, artists, handleDialogOpen }) => {
   const [artist, setArtist] = useState(null);
-  //   const [error, setError] = useState(null);
-  // const { data, loading } = useQuery(GET_ARTIST, {
-  //   variables: { userId: id },
-  // });
 
   useEffect(() => {
     const artistById = artists.find(({ _id }) => id === _id);
-      setArtist(artistById);
+    setArtist(artistById);
   }, [id]);
 
   return !artist ? (
