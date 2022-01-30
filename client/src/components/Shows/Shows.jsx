@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Spinner from '../Spinners/Spinner.jsx';
+import Grid from '@mui/material/Grid';
 
-import { GET_ALL_SHOWS } from '../../query/query';
-import { Grid } from '@mui/material';
 import Show from './Show.jsx';
 
-const Shows = ({ dialogClose, handleDialogOpen }) => {
-  const [shows, setShows] = useState([]);
+const Shows = ({ handleDialogOpen, shows }) => {
   const [filteredShowList, setFilteredShowList] = useState(shows);
-  const [showsError, setShowsError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, error, refetch } = useQuery(GET_ALL_SHOWS);
 
   const handleSearch = (data, query) => {
     if (query === '') setFilteredShowList(data);
@@ -26,32 +21,13 @@ const Shows = ({ dialogClose, handleDialogOpen }) => {
   };
 
   useEffect(() => {
-    if (data) {
-      const updatedData = data.getShows.map((show) => {
-        const isActive = show.finishDate === '';
-        return { ...show, isActive };
-      });
-      setShows(updatedData);
-      setFilteredShowList(updatedData);
-    }
-  }, [data]);
+    setFilteredShowList(shows);
+  }, [shows]);
 
   useEffect(() => {
     handleSearch(shows, searchQuery);
   }, [searchQuery]);
 
-  useEffect(() => {
-    if (error) {
-      setShowsError(error);
-      console.log(showsError);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (dialogClose) refetch();
-  }, [dialogClose]);
-
-  
   return (
     <>
       <Typography variant='h4' m={1} sx={{ textAlign: 'center' }}>

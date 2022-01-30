@@ -39,6 +39,8 @@ const ModalDialog = ({
   handleSnackBarOpen,
   id,
   type,
+  artists,
+  shows,
 }) => {
   const ModalContent = modals[type];
   return (
@@ -51,6 +53,8 @@ const ModalDialog = ({
         id={id}
         dialogClose={dialogClose}
         handleSnackBarOpen={handleSnackBarOpen}
+        artists={artists}
+        shows={shows}
       />
     </Dialog>
   );

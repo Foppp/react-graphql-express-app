@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -25,7 +25,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import BackDrop from '../Spinners/BackDrop.jsx';
 
 import { EDIT_ARTIST } from '../../mutation/mutation';
-import { GET_ALL_SHOWS, GET_ARTIST } from '../../query/query';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
@@ -54,15 +53,17 @@ const validationSchema = yup.object({
   email: yup.string('Enter email').email('Enter a valid email'),
 });
 
-const ArtistEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
+const ArtistEdit = ({ id, artists, shows, dialogClose, handleSnackBarOpen }) => {
   const [artist, setArtist] = useState(null);
   const [error, setError] = useState(null);
-  const [shows, setShows] = useState([]);
 
-  const { data: showsData } = useQuery(GET_ALL_SHOWS);
-  const { data } = useQuery(GET_ARTIST, {
-    variables: { userId: id },
-  });
+  useEffect(() => {
+    if (artists) {
+      const artistById = artists.find(({ _id }) => id === _id);
+    setArtist(artistById);
+    }
+  }, [artists]);
+
   const [editArtist] = useMutation(EDIT_ARTIST);
 
   const handleEditArtist = async (artist) => {
@@ -83,18 +84,6 @@ const ArtistEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
       </Typography>
     </Box>
   );
-
-  useEffect(() => {
-    if (data) {
-      setArtist(data.getArtist);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (showsData) {
-      setShows(showsData.getShows);
-    }
-  }, [showsData]);
 
   return !artist ? (
     <BackDrop backDropIsOpen={!artist} />

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { Box, Divider, Stack } from '@mui/material';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ManIcon from '@mui/icons-material/Man';
@@ -9,18 +11,27 @@ import WomanIcon from '@mui/icons-material/Woman';
 
 import getAge from '../../utils/ageCount';
 import getFormatedDate from '../../utils/dateFormat';
-import Spinner from '../Spinners/Spinner.jsx';
 
-const ArtistProfile = ({ id, artists, handleDialogOpen }) => {
+const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
   const [artist, setArtist] = useState(null);
+  const [artistShows, setArtistShows] = useState([]);
 
   useEffect(() => {
     const artistById = artists.find(({ _id }) => id === _id);
     setArtist(artistById);
-  }, [id]);
+  }, [id, artists]);
+
+  useEffect(() => {
+    if (artist) {
+      const showsById = shows.filter((show) =>
+        artist.showIds.includes(show._id)
+      );
+      setArtistShows(showsById);
+    }
+  }, [artist, artists]);
 
   return !artist ? (
-    <Spinner />
+    <Typography variant='h6'>Please select artist from list...</Typography>
   ) : (
     <Box sx={{ alignText: 'center' }}>
       <Box>
@@ -71,6 +82,14 @@ const ArtistProfile = ({ id, artists, handleDialogOpen }) => {
           <Typography variant='body1'>
             Finish Date: {getFormatedDate(artist.finishDate)}
           </Typography>
+          <Stack direction='row' spacing={2}>
+            <Typography variant='body1'>Shows:</Typography>
+            {artistShows.map((show) => (
+              <Typography variant='body1' key={show._id}>
+                {show.name}
+              </Typography>
+            ))}
+          </Stack>
         </Box>
         <Divider textAlign='left'>CONTACT</Divider>
         <Box sx={{ my: 1 }}>
