@@ -26,6 +26,7 @@ export const GET_ALL_ARTISTS = gql`
       finishDate
       email
       phoneNumber
+      createdAt
     }
   }
 `;
@@ -45,6 +46,7 @@ export const GET_ARTIST = gql`
       finishDate
       email
       phoneNumber
+      createdAt
     }
   }
 `;

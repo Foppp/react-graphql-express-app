@@ -14,19 +14,18 @@ import Stack from '@mui/material/Stack';
 
 import ArtistProfile from './ArtistProfile.jsx';
 
-const Artists = ({ handleDialogOpen, artists, shows }) => {
+const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   const [filteredArtistList, setFilteredList] = useState([]);
   const [paginatedList, setPaginatedList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentId, setCurrentId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage] = useState(5);
+  const [perPage] = useState(4);
   const [pages, setPages] = useState(0);
 
   const renderArtists = () => (
     <Box sx={{ alignText: 'center' }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={12} md={12} lg={6}>
           <Paper
             component={Stack}
             direction='column'
@@ -63,7 +62,7 @@ const Artists = ({ handleDialogOpen, artists, shows }) => {
                       key={artist._id}
                       artist={artist}
                       setCurrentId={setCurrentId}
-                      currentId={currentId}
+                      currentId={id}
                       fadeIn={artists.length}
                     />
                   ))}
@@ -77,12 +76,12 @@ const Artists = ({ handleDialogOpen, artists, shows }) => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={12} md={12} lg={6}>
           <Paper sx={{ width: '100%', height: '100%', p: 2 }}>
             <ArtistProfile
               handleDialogOpen={handleDialogOpen}
               artists={artists}
-              id={currentId}
+              id={id}
               shows={shows}
             />
           </Paper>

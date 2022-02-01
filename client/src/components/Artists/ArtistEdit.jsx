@@ -53,14 +53,20 @@ const validationSchema = yup.object({
   email: yup.string('Enter email').email('Enter a valid email'),
 });
 
-const ArtistEdit = ({ id, artists, shows, dialogClose, handleSnackBarOpen }) => {
+const ArtistEdit = ({
+  id,
+  artists,
+  shows,
+  dialogClose,
+  handleSnackBarOpen,
+}) => {
   const [artist, setArtist] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (artists) {
       const artistById = artists.find(({ _id }) => id === _id);
-    setArtist(artistById);
+      setArtist(artistById);
     }
   }, [artists]);
 
@@ -105,6 +111,8 @@ const ArtistEdit = ({ id, artists, shows, dialogClose, handleSnackBarOpen }) => 
           finishDate: artist.finishDate,
           email: artist.email,
           phoneNumber: artist.phoneNumber,
+          createdAt: artist.createdAt,
+
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {

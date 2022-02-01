@@ -73,6 +73,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
       finishDate: '',
       email: '',
       phoneNumber: '',
+      createdAt: new Date(),
     },
     validationSchema: yup.object({
       firstName: yup

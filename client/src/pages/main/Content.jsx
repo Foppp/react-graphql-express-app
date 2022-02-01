@@ -67,7 +67,10 @@ const Content = () => {
         const age = getAge(artist.birthDate);
         return { ...artist, isActive, age };
       });
-      setArtists(updatedData);
+      const sortedByNewest = updatedData.sort(
+        (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
+      );
+      setArtists(sortedByNewest);
     }
   }, [artistsData]);
 
@@ -108,6 +111,7 @@ const Content = () => {
         handleSnackBarOpen={handleSnackBarOpen}
         type={modalType}
         id={currentId}
+        setCurrentId={setCurrentId}
         artists={artists}
         shows={shows}
       />

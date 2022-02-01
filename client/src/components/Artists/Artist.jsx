@@ -1,17 +1,16 @@
 import React from 'react';
 import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import { Button, ListItemIcon } from '@mui/material';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
-
 const Artist = ({ artist, setCurrentId, currentId }) => {
-  
   return (
     <>
       <ListItem
@@ -28,7 +27,7 @@ const Artist = ({ artist, setCurrentId, currentId }) => {
         }}
         secondaryAction={
           <AlarmOnIcon color={artist.isActive ? 'success' : 'error'} />
-      }
+        }
         onClick={() => setCurrentId(artist._id)}
       >
         <ListItemIcon>

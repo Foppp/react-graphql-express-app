@@ -26,6 +26,7 @@ const typeDefs = gql`
     finishDate: String!
     email: String!
     phoneNumber: String!
+    createdAt: String!
   }
 
   input ArtistInput {
@@ -40,6 +41,7 @@ const typeDefs = gql`
     finishDate: String!
     email: String!
     phoneNumber: String!
+    createdAt: String!
   }
 
   type Customer {

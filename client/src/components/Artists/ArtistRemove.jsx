@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography, Stack, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+
 import { useMutation } from '@apollo/client';
 import { REMOVE_ARTIST } from '../../mutation/mutation';
 
