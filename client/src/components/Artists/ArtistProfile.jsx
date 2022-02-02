@@ -80,8 +80,6 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
         >
           <Tab label='Personal Info' {...a11yProps(0)} />
           <Tab label='Work Info' {...a11yProps(1)} />
-          <Tab label='Shows' {...a11yProps(2)} />
-          <Tab label='Contact' {...a11yProps(3)} />
         </Tabs>
       </Box>
       <Stack direction='row' justifyContent='end'>
@@ -115,7 +113,9 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
         <Typography variant='body1'>
           Birth Date: {getFormatedDate(artist.birthDate)}
         </Typography>
-        <Typography variant='body1'>Age: {getAge(artist.birthDate)}</Typography>
+          <Typography variant='body1'>Age: {getAge(artist.birthDate)}</Typography>
+          <Typography variant='body1'>Email: {artist.email}</Typography>
+        <Typography variant='body1'>Phone: {artist.phoneNumber}</Typography>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Typography variant='body1'>Role: {artist.role}</Typography>
@@ -124,18 +124,12 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
         </Typography>
         <Typography variant='body1'>
           Finish Date: {getFormatedDate(artist.finishDate)}
-        </Typography>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        {artistShows.map((show) => (
+          </Typography>
+          {artistShows.map((show) => (
           <Typography variant='body1' key={show._id}>
             {show.name}
           </Typography>
         ))}
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Typography variant='body1'>Email: {artist.email}</Typography>
-        <Typography variant='body1'>Phone: {artist.phoneNumber}</Typography>
       </TabPanel>
     </Box>
   );

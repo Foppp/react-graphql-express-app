@@ -9,6 +9,7 @@ import Divider from '@mui/material/Divider';
 import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
+import Chip from '@mui/material/Chip';
 
 const Artist = ({ artist, setCurrentId, currentId }) => {
   return (
@@ -34,7 +35,8 @@ const Artist = ({ artist, setCurrentId, currentId }) => {
           my: 1,
         }}
         secondaryAction={
-          <AlarmOnIcon color={artist.isActive ? 'success' : 'error'} />
+          <Chip variant="outlined" label={artist.isActive ? 'Active' : 'Inactive'} color={artist.isActive ? 'success' : 'error'} size="small" />
+
         }
         onClick={() => setCurrentId(artist._id)}
       >

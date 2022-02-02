@@ -25,13 +25,13 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   const renderArtists = () => (
     <Box sx={{ alignText: 'center' }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={12} lg={6}>
+        <Grid item xs={12} sm={12} md={12} lg={8}>
           <Paper
             component={Stack}
             direction='column'
             justifyContent='space-between'
             elevation={3}
-            sx={{ width: '100%', height: '100%', p: 2, borderRadius: 8 }}
+            sx={{ width: '100%', height: '100%', p: 2, borderRadius: 6 }}
           >
             <Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -77,8 +77,11 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={6}>
-          <Paper sx={{ width: '100%', height: '100%', p: 2, borderRadius: 8 }} elevation={3}>
+        <Grid item xs={12} sm={12} md={12} lg={4}>
+          <Paper
+            sx={{ width: '100%', height: '100%', p: 2, borderRadius: 6 }}
+            elevation={3}
+          >
             <ArtistProfile
               handleDialogOpen={handleDialogOpen}
               artists={artists}
@@ -106,12 +109,6 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   };
 
   useEffect(() => {
-    if (artists && !id) {
-      setCurrentId(artists[0]._id)
-    }
-  }, [artists]);
-  
-  useEffect(() => {
     setPages(Math.ceil(filteredArtistList.length / perPage));
   }, [perPage, filteredArtistList]);
 
@@ -119,11 +116,14 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
     if (artists) {
       setFilteredList(artists);
     }
+    if (artists && !id) {
+      setCurrentId(artists[0]._id);
+    }
   }, [artists]);
 
   useEffect(() => {
     setPaginatedList(paginate(currentPage, perPage, filteredArtistList));
-  }, [currentPage, filteredArtistList]);
+  }, [currentPage, filteredArtistList, perPage]);
 
   useEffect(() => {
     if (artists) {
@@ -132,9 +132,15 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
     }
   }, [searchQuery]);
 
+  useEffect(() => {
+    if (paginatedList.length === 0) {
+      setCurrentPage(1);
+    }
+  }, [paginatedList]);
+
   return (
     <>
-      <Typography variant='h4' m={1} sx={{ textAlign: 'center' }}>
+      <Typography variant='h4' m={1}>
         ARTISTS
       </Typography>
       {!artists ? <Spinner /> : renderArtists()}
