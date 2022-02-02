@@ -5,10 +5,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
-import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import Chip from '@mui/material/Chip';
 
 const Artist = ({ artist, setCurrentId, currentId }) => {
