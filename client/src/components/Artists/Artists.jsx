@@ -30,7 +30,8 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
             component={Stack}
             direction='column'
             justifyContent='space-between'
-            sx={{ width: '100%', height: '100%', p: 2 }}
+            elevation={3}
+            sx={{ width: '100%', height: '100%', p: 2, borderRadius: 8 }}
           >
             <Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -77,7 +78,7 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={6}>
-          <Paper sx={{ width: '100%', height: '100%', p: 2 }}>
+          <Paper sx={{ width: '100%', height: '100%', p: 2, borderRadius: 8 }} elevation={3}>
             <ArtistProfile
               handleDialogOpen={handleDialogOpen}
               artists={artists}

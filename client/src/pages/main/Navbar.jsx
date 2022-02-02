@@ -23,6 +23,7 @@ import Avatar from '@mui/material/Avatar';
 
 import useAuth from '../../hooks/index.jsx';
 import Content from './Content.jsx';
+import Spinner from '../../components/Spinners/Spinner.jsx';
 
 import { GET_USER } from '../../query/query.js';
 
@@ -37,7 +38,12 @@ const pages = [
   // },
   { id: 2, name: 'Artists', path: '/artists', icon: <PeopleOutlinedIcon /> },
   { id: 3, name: 'Shows', path: '/shows', icon: <TheaterComedyOutlinedIcon /> },
-  { id: 4, name: 'Customers', path: '/customers', icon: <CountertopsOutlinedIcon /> },
+  {
+    id: 4,
+    name: 'Customers',
+    path: '/customers',
+    icon: <CountertopsOutlinedIcon />,
+  },
 ];
 
 const settings = [
@@ -53,7 +59,8 @@ const Navbar = (props) => {
   const { window } = props;
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [userName, setUserName] = useState('');
+  const [user, setUser] = useState(null);
+
   const auth = useAuth();
 
   const { data } = useQuery(GET_USER, {
@@ -62,7 +69,7 @@ const Navbar = (props) => {
 
   useEffect(() => {
     if (data) {
-      setUserName(data.getUser.displayName);
+      setUser(data.getUser);
     }
   }, [data]);
 
@@ -71,29 +78,8 @@ const Navbar = (props) => {
   };
 
   const drawer = (
-    <Box sx={{ backgroundColor: '#e3f2fd', height: '100vh' }}>
-      <Toolbar>
-        {userName && (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              textAlign: 'center',
-            }}
-          >
-            <Avatar sx={{ bgcolor: '#3f51b5' }}>
-              {userName.slice(0, 1)}
-            </Avatar>
-            <Typography variant='body2' m={1}>
-              {userName}
-            </Typography>
-          </Box>
-        )}
-      </Toolbar>
-      <Divider />
-      <Box mt={6} >
-        <List>
+<>
+        <List sx={{ mx: 1, mb: 6 }}>
           {pages.map((page) => (
             <ListItem
               button
@@ -102,10 +88,14 @@ const Navbar = (props) => {
               to={page.path}
               onClick={handleDrawerToggle}
               sx={{
-                backgroundColor: location.pathname === page.path ? '#e0e0e0' : 'inherit',
+                textAlign: 'center',
+                borderRadius: 3,
+                backgroundColor:
+                  location.pathname === page.path ? '#e0e0e0' : 'inherit',
                 '&:hover': {
                   backgroundColor: '#e0e0e0',
                 },
+                my: 1,
               }}
             >
               <ListItemIcon>{page.icon}</ListItemIcon>
@@ -113,7 +103,7 @@ const Navbar = (props) => {
             </ListItem>
           ))}
         </List>
-        <Divider />
+        <Divider variant="middle" />
         <List>
           {settings.map((menu) => (
             <ListItem
@@ -122,49 +112,84 @@ const Navbar = (props) => {
               component={Link}
               to={menu.path}
               onClick={handleDrawerToggle}
-              sx={{ borderRight: location.pathname === menu.path ? 3 : 'none'}}
+              sx={{
+                textAlign: 'center',
+                borderRadius: 3,
+                backgroundColor:
+                  location.pathname === menu.path ? '#e0e0e0' : 'inherit',
+                '&:hover': {
+                  backgroundColor: '#e0e0e0',
+                },
+                my: 1,
+              }}
             >
               <ListItemIcon>{menu.icon}</ListItemIcon>
               <ListItemText primary={menu.name} />
             </ListItem>
           ))}
-          <ListItem button onClick={() => auth.logOut()}>
+          <ListItem sx={{
+                textAlign: 'center',
+                borderRadius: 3,
+                '&:hover': {
+                  backgroundColor: '#e0e0e0',
+                },
+                mt: 1,
+          }}
+            button onClick={() => auth.logOut()}>
             <ListItemIcon>
               <LogoutOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary='LogOut' />
           </ListItem>
-        </List>
-      </Box>
-    </Box>
+          </List>
+</>
   );
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return (
+  return !user ? (<Spinner />) : (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position='fixed'>
-        <Toolbar>
+      <AppBar position='fixed' sx={{ bgcolor: '#ffff' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <IconButton
             color='inherit'
             aria-label='open drawer'
             edge='start'
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: 'none' } }}
+            sx={{ mr: 2, display: { md: 'none' }, color: 'black' }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap component='div'>
+          <Typography
+            variant='h6'
+            noWrap
+            component='div'
+            sx={{ color: 'black', display: { xs: 'none', sm: 'block' } }}
+          >
             ENTARTAINMENT
           </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+              alignItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <Typography variant='body2' m={1} sx={{ color: 'black' }}>
+                {user.displayName}
+              </Typography>
+              <Avatar sx={{ bgcolor: '#3f51b5' }}>
+                {user.displayName.slice(0, 1)}
+              </Avatar>
+            </Box>
         </Toolbar>
       </AppBar>
       <Box
-        component='nav'
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-        aria-label='mailbox folders'
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 }}}
+        aria-label='nav head'
       >
         <Drawer
           container={container}
@@ -179,6 +204,7 @@ const Navbar = (props) => {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
+              pt: '70px',
             },
           }}
         >
@@ -187,11 +213,13 @@ const Navbar = (props) => {
         <Drawer
           variant='permanent'
           sx={{
-            display: { xs: 'none', sm: 'none', md: 'block' },
+            display: { xs: 'none', sm: 'none', md: 'flex' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              mt: '65px',
+              mt: '70px',
+              pt: '60px',
+              borderRight: '0px',
             },
           }}
           open

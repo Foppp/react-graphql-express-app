@@ -18,12 +18,20 @@ const Artist = ({ artist, setCurrentId, currentId }) => {
         component={Button}
         fullWidth
         sx={{
+          borderRadius: 3,
           borderLeft: 5,
+          borderTop: 1,
+          borderBottom: 1,
+          borderRight: 1,
           backgroundColor: artist._id === currentId ? '#e0e0e0' : 'inherit',
           borderLeftColor: artist.gender === 'male' ? '#3f51b5' : '#e91e63',
+          borderTopColor: '#e0e0e0',
+          borderBottomColor: '#e0e0e0',
+          borderRightColor: '#e0e0e0',
           '&:hover': {
             backgroundColor: '#e0e0e0',
           },
+          my: 1,
         }}
         secondaryAction={
           <AlarmOnIcon color={artist.isActive ? 'success' : 'error'} />
@@ -58,7 +66,7 @@ const Artist = ({ artist, setCurrentId, currentId }) => {
           }
         />
       </ListItem>
-      <Divider variant='inset' component='li' />
+      {/* <Divider variant='inset' component='li' sx={{ m: 1}} /> */}
     </>
   );
 };

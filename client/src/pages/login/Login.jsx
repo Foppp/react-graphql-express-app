@@ -36,9 +36,10 @@ const Login = () => {
       localStorage.setItem('userId', JSON.stringify(data.login));
       setUsername('');
       setPassword('');
+      auth.logIn();
       const { from } = location.state || { from: { pathname: '/' } };
       navigate(from, { replace: true });
-      auth.logIn();
+
     }
   }, [data])
 
