@@ -91,9 +91,10 @@ const Navbar = (props) => {
               px: 0,
               borderRadius: 3,
               backgroundColor:
-                location.pathname === page.path ? '#e0e0e0' : 'inherit',
+                location.pathname === page.path ? '#ffff' : 'inherit',
+              boxShadow: location.pathname === page.path ? 2 : 0,
               '&:hover': {
-                backgroundColor: '#e0e0e0',
+                backgroundColor: '#ffff',
               },
               my: 1,
             }}
@@ -118,7 +119,7 @@ const Navbar = (props) => {
               px: 0,
               borderRadius: 3,
               backgroundColor:
-                location.pathname === menu.path ? '#e0e0e0' : 'inherit',
+                location.pathname === menu.path ? '#ffff' : 'inherit',
               '&:hover': {
                 backgroundColor: '#e0e0e0',
               },
@@ -235,6 +236,8 @@ const Navbar = (props) => {
               mt: '70px',
               pt: '60px',
               borderRight: '0px',
+              bgcolor: '#f5f5f5',
+
             },
           }}
           open

@@ -6,12 +6,10 @@ import Navbar from "./Navbar.jsx";
 
 const Home = () => {
   return (
-    <>
       <Box>
         <CssBaseline />
         <Navbar />
       </Box>
-    </>
   );
 };
 

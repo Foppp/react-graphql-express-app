@@ -8,7 +8,6 @@ import Home from './pages/main/Home.jsx';
 import Login from './pages/login/Login.jsx';
 
 import { theme } from './assets/styles/theme.js'
-import './App.css';
   
 const App = () => {
 
