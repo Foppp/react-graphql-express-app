@@ -106,6 +106,12 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   };
 
   useEffect(() => {
+    if (artists && !id) {
+      setCurrentId(artists[0]._id)
+    }
+  }, [artists]);
+  
+  useEffect(() => {
     setPages(Math.ceil(filteredArtistList.length / perPage));
   }, [perPage, filteredArtistList]);
 
@@ -129,7 +135,7 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   return (
     <>
       <Typography variant='h4' m={1} sx={{ textAlign: 'center' }}>
-        Artists
+        ARTISTS
       </Typography>
       {!artists ? <Spinner /> : renderArtists()}
     </>

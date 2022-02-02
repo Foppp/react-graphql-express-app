@@ -78,81 +78,96 @@ const Navbar = (props) => {
   };
 
   const drawer = (
-<>
-        <List sx={{ mx: 1, mb: 6 }}>
-          {pages.map((page) => (
-            <ListItem
-              button
-              key={page.id}
-              component={Link}
-              to={page.path}
-              onClick={handleDrawerToggle}
-              sx={{
-                textAlign: 'center',
-                borderRadius: 3,
-                backgroundColor:
-                  location.pathname === page.path ? '#e0e0e0' : 'inherit',
-                '&:hover': {
-                  backgroundColor: '#e0e0e0',
-                },
-                my: 1,
-              }}
-            >
-              <ListItemIcon>{page.icon}</ListItemIcon>
-              <ListItemText primary={page.name} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider variant="middle" />
-        <List>
-          {settings.map((menu) => (
-            <ListItem
-              button
-              key={menu.id}
-              component={Link}
-              to={menu.path}
-              onClick={handleDrawerToggle}
-              sx={{
-                textAlign: 'center',
-                borderRadius: 3,
-                backgroundColor:
-                  location.pathname === menu.path ? '#e0e0e0' : 'inherit',
-                '&:hover': {
-                  backgroundColor: '#e0e0e0',
-                },
-                my: 1,
-              }}
-            >
-              <ListItemIcon>{menu.icon}</ListItemIcon>
-              <ListItemText primary={menu.name} />
-            </ListItem>
-          ))}
-          <ListItem sx={{
-                textAlign: 'center',
-                borderRadius: 3,
-                '&:hover': {
-                  backgroundColor: '#e0e0e0',
-                },
-                mt: 1,
-          }}
-            button onClick={() => auth.logOut()}>
-            <ListItemIcon>
-              <LogoutOutlinedIcon />
+    <>
+      <List sx={{ mx: 1, mb: 6 }}>
+        {pages.map((page) => (
+          <ListItem
+            button
+            key={page.id}
+            component={Link}
+            to={page.path}
+            onClick={handleDrawerToggle}
+            sx={{
+              px: 0,
+              borderRadius: 3,
+              backgroundColor:
+                location.pathname === page.path ? '#e0e0e0' : 'inherit',
+              '&:hover': {
+                backgroundColor: '#e0e0e0',
+              },
+              my: 1,
+            }}
+          >
+            <ListItemIcon sx={{ justifyContent: 'center' }}>
+              {page.icon}
             </ListItemIcon>
-            <ListItemText primary='LogOut' />
+            <ListItemText primary={page.name} sx={{ alignItems: 'center' }} />
           </ListItem>
-          </List>
-</>
+        ))}
+      </List>
+      <Divider variant='middle' />
+      <List sx={{ mx: 1 }}>
+        {settings.map((menu) => (
+          <ListItem
+            button
+            key={menu.id}
+            component={Link}
+            to={menu.path}
+            onClick={handleDrawerToggle}
+            sx={{
+              px: 0,
+              borderRadius: 3,
+              backgroundColor:
+                location.pathname === menu.path ? '#e0e0e0' : 'inherit',
+              '&:hover': {
+                backgroundColor: '#e0e0e0',
+              },
+              my: 1,
+            }}
+          >
+            <ListItemIcon sx={{ justifyContent: 'center' }}>
+              {menu.icon}
+            </ListItemIcon>
+            <ListItemText primary={menu.name} />
+          </ListItem>
+        ))}
+        <ListItem
+          sx={{
+            px: 0,
+            borderRadius: 3,
+            '&:hover': {
+              backgroundColor: '#e0e0e0',
+            },
+            mt: 1,
+          }}
+          button
+          onClick={() => auth.logOut()}
+        >
+          <ListItemIcon sx={{ justifyContent: 'center' }}>
+            <LogoutOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary='LogOut' />
+        </ListItem>
+      </List>
+    </>
   );
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return !user ? (<Spinner />) : (
+  return !user ? (
+    <Spinner />
+  ) : (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position='fixed' sx={{ bgcolor: '#ffff' }}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <IconButton
             color='inherit'
             aria-label='open drawer'
@@ -170,25 +185,25 @@ const Navbar = (props) => {
           >
             ENTARTAINMENT
           </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
               alignItems: 'center',
-                textAlign: 'center',
-              }}
-            >
-              <Typography variant='body2' m={1} sx={{ color: 'black' }}>
-                {user.displayName}
-              </Typography>
-              <Avatar sx={{ bgcolor: '#3f51b5' }}>
-                {user.displayName.slice(0, 1)}
-              </Avatar>
-            </Box>
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant='button' m={1} sx={{ color: 'black' }}>
+              {user.displayName}
+            </Typography>
+            <Avatar sx={{ bgcolor: '#3f51b5' }}>
+              {user.displayName.slice(0, 1)}
+            </Avatar>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 }}}
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label='nav head'
       >
         <Drawer
