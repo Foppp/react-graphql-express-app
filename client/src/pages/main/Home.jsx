@@ -92,7 +92,7 @@ const Navbar = (props) => {
               borderRadius: 3,
               backgroundColor:
                 location.pathname === page.path ? '#ffff' : 'inherit',
-              boxShadow: location.pathname === page.path ? 2 : 0,
+              boxShadow: location.pathname === page.path ? 1 : 0,
               '&:hover': {
                 backgroundColor: '#ffff',
               },
@@ -120,7 +120,7 @@ const Navbar = (props) => {
               borderRadius: 3,
               backgroundColor:
                 location.pathname === menu.path ? '#ffff' : 'inherit',
-              boxShadow: location.pathname === menu.path ? 2 : 0,
+              boxShadow: location.pathname === menu.path ? 1 : 0,
               '&:hover': {
                 backgroundColor: '#e0e0e0',
               },

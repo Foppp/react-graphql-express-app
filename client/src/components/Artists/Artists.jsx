@@ -11,6 +11,7 @@ import Artist from './Artist.jsx';
 import paginate from '../../utils/pagination';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Zoom from '@mui/material/Zoom';
 
 import ArtistProfile from './ArtistProfile.jsx';
 
@@ -21,16 +22,17 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(4);
   const [pages, setPages] = useState(0);
+  const [collapsed, setCollapsed] = useState(false)
 
   const renderArtists = () => (
     <Box sx={{ alignText: 'center' }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={12} lg={8}>
+        <Grid item xs={12} sm={12} md={12} lg={collapsed ? 8 : 12} sx={{ transition: 'all .2s' }}>
           <Paper
             component={Stack}
             direction='column'
             justifyContent='space-between'
-            elevation={3}
+            elevation={1}
             sx={{ width: '100%', height: '100%', p: 2, borderRadius: 6 }}
           >
             <Box>
@@ -78,9 +80,15 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
           </Paper>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={4}>
+        <Zoom
+          in={id}
+          style={{ transitionDelay: id ? '300ms' : '0ms' }}
+          onEnter={() => setCollapsed(true)}
+          onExited={() => setCollapsed(false)}
+        >
           <Paper
             sx={{ width: '100%', height: '100%', p: 2, borderRadius: 6 }}
-            elevation={3}
+            elevation={1}
           >
             <ArtistProfile
               handleDialogOpen={handleDialogOpen}
@@ -88,7 +96,8 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
               id={id}
               shows={shows}
             />
-          </Paper>
+            </Paper>
+            </Zoom>
         </Grid>
       </Grid>
     </Box>

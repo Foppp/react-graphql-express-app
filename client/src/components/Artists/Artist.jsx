@@ -10,6 +10,10 @@ import WomanIcon from '@mui/icons-material/Woman';
 import Chip from '@mui/material/Chip';
 
 const Artist = ({ artist, setCurrentId, currentId }) => {
+  const handleToggleArtist = () => {
+    setCurrentId((prev) => (prev === artist._id ? null : artist._id));
+  };
+
   return (
     <>
       <ListItem
@@ -33,10 +37,14 @@ const Artist = ({ artist, setCurrentId, currentId }) => {
           my: 1,
         }}
         secondaryAction={
-          <Chip variant="outlined" label={artist.isActive ? 'Active' : 'Inactive'} color={artist.isActive ? 'success' : 'error'} size="small" />
-
+          <Chip
+            variant='outlined'
+            label={artist.isActive ? 'Active' : 'Inactive'}
+            color={artist.isActive ? 'success' : 'error'}
+            size='small'
+          />
         }
-        onClick={() => setCurrentId(artist._id)}
+        onClick={handleToggleArtist}
       >
         <ListItemIcon>
           <Avatar
@@ -66,7 +74,6 @@ const Artist = ({ artist, setCurrentId, currentId }) => {
           }
         />
       </ListItem>
-      {/* <Divider variant='inset' component='li' sx={{ m: 1}} /> */}
     </>
   );
 };
