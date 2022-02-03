@@ -14,34 +14,34 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import getAge from '../../utils/ageCount';
 import getFormatedDate from '../../utils/dateFormat';
 
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
+// const TabPanel = (props) => {
+//   const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-};
+//   return (
+//     <div
+//       role='tabpanel'
+//       hidden={value !== index}
+//       id={`simple-tabpanel-${index}`}
+//       aria-labelledby={`simple-tab-${index}`}
+//       {...other}
+//     >
+//       {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+//     </div>
+//   );
+// };
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
+// TabPanel.propTypes = {
+//   children: PropTypes.node,
+//   index: PropTypes.number.isRequired,
+//   value: PropTypes.number.isRequired,
+// };
 
-const a11yProps = (index) => {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-};
+// const a11yProps = (index) => {
+//   return {
+//     id: `simple-tab-${index}`,
+//     'aria-controls': `simple-tabpanel-${index}`,
+//   };
+// };
 
 const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
   const [value, setValue] = useState(0);
@@ -72,7 +72,7 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
     </Box>
   ) : (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -81,7 +81,7 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
           <Tab label='Personal Info' {...a11yProps(0)} />
           <Tab label='Work Info' {...a11yProps(1)} />
         </Tabs>
-      </Box>
+      </Box> */}
       <Stack direction='row' justifyContent='end'>
         <IconButton
           aria-label='info'
@@ -100,7 +100,7 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
           <DeleteIcon fontSize='small' />
         </IconButton>
       </Stack>
-      <TabPanel value={value} index={0}>
+      {/* <TabPanel value={value} index={0}> */}
         <Typography variant='body1'>
           Name: {artist.firstName} {artist.lastName}{' '}
           {artist.gender === 'male' ? (
@@ -116,8 +116,8 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
           <Typography variant='body1'>Age: {getAge(artist.birthDate)}</Typography>
           <Typography variant='body1'>Email: {artist.email}</Typography>
         <Typography variant='body1'>Phone: {artist.phoneNumber}</Typography>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
+      {/* </TabPanel> */}
+      {/* <TabPanel value={value} index={1}> */}
         <Typography variant='body1'>Role: {artist.role}</Typography>
         <Typography variant='body1'>
           Start Date: {getFormatedDate(artist.startDate)}
@@ -130,7 +130,7 @@ const ArtistProfile = ({ id, shows, artists, handleDialogOpen }) => {
             {show.name}
           </Typography>
         ))}
-      </TabPanel>
+      {/* </TabPanel> */}
     </Box>
   );
 };

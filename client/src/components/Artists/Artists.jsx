@@ -81,7 +81,7 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={4}>
         <Zoom
-          in={id}
+          in={id ? true : false}
           style={{ transitionDelay: id ? '300ms' : '0ms' }}
           onEnter={() => setCollapsed(true)}
           onExited={() => setCollapsed(false)}
@@ -124,9 +124,6 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   useEffect(() => {
     if (artists) {
       setFilteredList(artists);
-    }
-    if (artists && !id) {
-      setCurrentId(artists[0]._id);
     }
   }, [artists]);
 
