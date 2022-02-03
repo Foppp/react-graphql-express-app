@@ -7,7 +7,12 @@ import Button from '@mui/material/Button';
 import { useMutation } from '@apollo/client';
 import { REMOVE_ARTIST } from '../../mutation/mutation';
 
-const ArtistRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
+const ArtistRemove = ({
+  id,
+  dialogClose,
+  handleSnackBarOpen,
+  setCurrentId,
+}) => {
   const [remove] = useMutation(REMOVE_ARTIST);
   const [error, setError] = useState(null);
 
@@ -16,6 +21,7 @@ const ArtistRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
       await remove({ variables: { userId: id } });
       dialogClose();
       handleSnackBarOpen();
+      setCurrentId(null);
     } catch (e) {
       setError(e);
       console.log(error);

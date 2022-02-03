@@ -16,7 +16,7 @@ const ArtistProfile = ({
   shows,
   artists,
   handleDialogOpen,
-  setProfileOpen,
+  handleCloseProfile,
 }) => {
   const [artist, setArtist] = useState(null);
   const [artistShows, setArtistShows] = useState([]);
@@ -43,7 +43,7 @@ const ArtistProfile = ({
     <Box sx={{ width: '100%' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box>
-          <IconButton onClick={() => setProfileOpen(false)}>
+          <IconButton onClick={handleCloseProfile}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -67,12 +67,12 @@ const ArtistProfile = ({
         </Box>
       </Box>
       <Typography variant='body1'>
-        Name: {artist.firstName} {artist.lastName}{' '}
+        Name: {artist.firstName} {artist.lastName}
         {artist.gender === 'male' ? (
           <ManIcon sx={{ color: '#3f51b5' }} />
         ) : (
           <WomanIcon sx={{ color: '#e91e63' }} />
-        )}{' '}
+        )}
       </Typography>
       <Typography variant='body1'>Country: {artist.country}</Typography>
       <Typography variant='body1'>

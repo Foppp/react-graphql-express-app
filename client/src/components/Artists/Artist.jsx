@@ -9,17 +9,7 @@ import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import Chip from '@mui/material/Chip';
 
-const Artist = ({ artist, setCurrentId, currentId, setProfileOpen, profileOpen }) => {
-
-  const handleToggleArtist = () => {
-    if (currentId === artist._id) {
-      setProfileOpen(!profileOpen);
-    } else {
-      setCurrentId(artist._id);
-      setProfileOpen(true);
-    }
-  };
-
+const Artist = ({ artist, currentId, handleOpenProfile }) => {
   return (
     <>
       <ListItem
@@ -50,7 +40,7 @@ const Artist = ({ artist, setCurrentId, currentId, setProfileOpen, profileOpen }
             size='small'
           />
         }
-        onClick={handleToggleArtist}
+        onClick={() => handleOpenProfile(artist._id)}
       >
         <ListItemIcon>
           <Avatar

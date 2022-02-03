@@ -10,7 +10,6 @@ import List from '@mui/material/List';
 import Artist from './Artist.jsx';
 import paginate from '../../utils/pagination';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Zoom from '@mui/material/Zoom';
 
 import ArtistProfile from './ArtistProfile.jsx';
@@ -23,18 +22,22 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage] = useState(4);
   const [pages, setPages] = useState(0);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapse, setCollapse] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  const handleCollapseOnExit = () => {
-    setProfileOpen(false);
-    setCollapsed(false);
-    window.scrollTo(0, 0);
-    setCurrentId(null);
+  const handleOpenProfile = (artistId) => {
+    setCurrentId(artistId);
+    setCollapse(true);
+    setProfileOpen(true);
   };
 
-  const handleCollapseOnEnter = () => {
-    setCollapsed(true);
+  const handleCloseProfile = () => {
+    setProfileOpen(false);
+  };
+
+  const handleExitProfile = () => {
+    setCollapse(false);
+    window.scrollTo({ top: 0, behavior: "smooth" })
   };
 
   const handleSearch = (data, query) => {
@@ -52,10 +55,10 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
   };
 
   useEffect(() => {
-    if (profileRef.current && collapsed) {
-      profileRef.current.scrollIntoView();
+    if (!id) {
+      setProfileOpen(false);
     }
-  }, [profileOpen, collapsed]);
+  }, [id]);
 
   useEffect(() => {
     setPages(Math.ceil(filteredArtistList.length / perPage));
@@ -99,15 +102,12 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
               xs={12}
               sm={12}
               md={12}
-              lg={profileOpen ? 8 : 12}
-              sx={{ transition: 'all .2s' }}
+              lg={collapse ? 8 : 12}
+              sx={{ transition: 'all 0.2s ease-in-out' }}
             >
               <Paper
-                component={Stack}
-                direction='column'
-                justifyContent='space-between'
                 elevation={1}
-                sx={{ width: '100%', height: '100%', p: 2, borderRadius: 6 }}
+                sx={{ width: '100%', p: 2, borderRadius: 6 }}
               >
                 <Box>
                   <Box
@@ -143,8 +143,7 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
                           setCurrentId={setCurrentId}
                           currentId={id}
                           fadeIn={artists.length}
-                          setProfileOpen={setProfileOpen}
-                          profileOpen={profileOpen}
+                          handleOpenProfile={handleOpenProfile}
                         />
                       ))}
                     </List>
@@ -161,10 +160,9 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
               <Zoom
                 ref={profileRef}
                 in={profileOpen}
-                style={{ transitionDelay: profileOpen ? '300ms' : '0ms' }}
-                // onEnter={() => setProfileOpen(true)}
-                onEntered={handleCollapseOnEnter}
-                onExited={handleCollapseOnExit}
+                style={{ transitionDelay: profileOpen ? '400ms' : '0ms' }}
+                onEntered={() => profileRef.current.scrollIntoView({ behavior: "smooth" })}
+                onExited={handleExitProfile}
               >
                 <Paper
                   sx={{ width: '100%', height: '100%', p: 2, borderRadius: 6 }}
@@ -172,11 +170,12 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
                 >
                   <ArtistProfile
                     handleDialogOpen={handleDialogOpen}
-                      setProfileOpen={setProfileOpen}
-                      profileOpen={profileOpen}
+                    setProfileOpen={setProfileOpen}
+                    profileOpen={profileOpen}
                     artists={artists}
                     id={id}
                     shows={shows}
+                    handleCloseProfile={handleCloseProfile}
                   />
                 </Paper>
               </Zoom>

@@ -122,6 +122,7 @@ const Content = () => {
           dialogClose={dialogClose}
           type={modalType}
           id={currentId}
+          setCurrentId={setCurrentId}
           artists={artists}
           shows={shows}
         />
