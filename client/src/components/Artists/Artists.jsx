@@ -160,7 +160,7 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
               <Zoom
                 ref={profileRef}
                 in={profileOpen}
-                style={{ transitionDelay: profileOpen ? '400ms' : '0ms' }}
+                style={{ transitionDelay: profileOpen ? '100ms' : '0ms' }}
                 onEntered={() => profileRef.current.scrollIntoView({ behavior: "smooth" })}
                 onExited={handleExitProfile}
               >
