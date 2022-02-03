@@ -9,9 +9,15 @@ import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import Chip from '@mui/material/Chip';
 
-const Artist = ({ artist, setCurrentId, currentId }) => {
+const Artist = ({ artist, setCurrentId, currentId, setProfileOpen, profileOpen }) => {
+
   const handleToggleArtist = () => {
-    setCurrentId((prev) => (prev === artist._id ? null : artist._id));
+    if (currentId === artist._id) {
+      setProfileOpen(!profileOpen);
+    } else {
+      setCurrentId(artist._id);
+      setProfileOpen(true);
+    }
   };
 
   return (
