@@ -142,7 +142,6 @@ const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
                           artist={artist}
                           currentId={id}
                           handleOpenProfile={handleOpenProfile}
-                          profileOpen={profileOpen}
                         />
                       ))}
                     </List>

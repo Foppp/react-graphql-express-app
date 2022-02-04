@@ -10,13 +10,12 @@ import maleArtist from '../../assets/images/maleUser.png';
 import femaleArtist from '../../assets/images/femaleUser.png';
 import Stack from '@mui/material/Stack';
 
-const Artist = ({ artist, currentId, handleOpenProfile, profileOpen }) => {
+const Artist = ({ artist, currentId, handleOpenProfile }) => {
   return (
     <>
       <ListItem
         button
         alignItems='center'
-        selected={artist._id === currentId && profileOpen}
         sx={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
@@ -26,6 +25,7 @@ const Artist = ({ artist, currentId, handleOpenProfile, profileOpen }) => {
           borderBottom: 1,
           borderRight: 1,
           borderLeftColor: artist.gender === 'male' ? '#3f51b5' : '#e91e63',
+          backgroundColor: artist._id === currentId ? '#e3f2fd' : 'inherit',
           borderTopColor: '#e0e0e0',
           borderBottomColor: '#e0e0e0',
           borderRightColor: '#e0e0e0',
