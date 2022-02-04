@@ -58,7 +58,7 @@ const Login = () => {
         <Paper elevation={10} style={paperStyle}>
           <Grid align='center'>
             <AccountBoxOutlinedIcon fontSize="large"/>
-            <h2>Sign In</h2>
+            <Typography variant="h6">Sign In</Typography>
           </Grid>
           <TextField
             inputRef={inpRef}

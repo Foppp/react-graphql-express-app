@@ -59,11 +59,10 @@ const ArtistEdit = ({
   shows,
   dialogClose,
   handleSnackBarOpen,
-  setCurrentId,
 }) => {
   const [artist, setArtist] = useState(null);
   const [error, setError] = useState(null);
-console.log(setCurrentId)
+
   useEffect(() => {
     if (artists) {
       const artistById = artists.find(({ _id }) => id === _id);

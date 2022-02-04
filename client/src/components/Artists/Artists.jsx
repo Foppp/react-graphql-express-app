@@ -14,13 +14,13 @@ import Zoom from '@mui/material/Zoom';
 
 import ArtistProfile from './ArtistProfile.jsx';
 
-const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
+const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
   const profileRef = useRef(null);
   const [filteredArtistList, setFilteredList] = useState([]);
   const [paginatedList, setPaginatedList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage] = useState(4);
+  const [perPage] = useState(5);
   const [pages, setPages] = useState(0);
   const [collapse, setCollapse] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -133,17 +133,16 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
                     />
                   </Box>
                   {paginatedList.length === 0 ? (
-                    <Typography>No artist added</Typography>
+                    <Typography>No artists...</Typography>
                   ) : (
-                    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                    <List sx={{ width: '100%', height: '100%', bgcolor: 'background.paper' }}>
                       {paginatedList.map((artist) => (
                         <Artist
                           key={artist._id}
                           artist={artist}
-                          setCurrentId={setCurrentId}
                           currentId={id}
-                          fadeIn={artists.length}
                           handleOpenProfile={handleOpenProfile}
+                          profileOpen={profileOpen}
                         />
                       ))}
                     </List>
@@ -156,7 +155,7 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
                 />
               </Paper>
             </Grid>
-            <Grid item xs>
+              <Grid item xs>
               <Zoom
                 ref={profileRef}
                 in={profileOpen}
@@ -174,7 +173,6 @@ const Artists = ({ handleDialogOpen, artists, shows, setCurrentId, id }) => {
                     profileOpen={profileOpen}
                     artists={artists}
                     id={id}
-                    shows={shows}
                     handleCloseProfile={handleCloseProfile}
                   />
                 </Paper>

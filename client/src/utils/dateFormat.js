@@ -1,4 +1,4 @@
 export default (date) => {
-  if (date === '') return '-';
+  if (date === '') return '';
   return new Date(date).toLocaleDateString();
 };

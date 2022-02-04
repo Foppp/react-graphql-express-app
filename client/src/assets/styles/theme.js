@@ -9,7 +9,18 @@ export const theme = createTheme({
   typography: {
     fontFamily: [
       'Chilanka',
-      'cursive',
     ].join(','),
+    button: {
+      fontWeight: 500,
+    },
+    body1: {
+      fontWeight: 500,
+    },
+    subtitle1: {
+      fontWeight: 500,
+    },
+    h6: {
+      fontWeight: 500,
+    }
   },
 });

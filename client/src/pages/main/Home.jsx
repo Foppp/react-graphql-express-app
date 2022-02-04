@@ -91,10 +91,10 @@ const Navbar = (props) => {
               px: 0,
               borderRadius: 3,
               backgroundColor:
-                location.pathname === page.path ? '#ffff' : 'inherit',
+                location.pathname === page.path ? '#e3f2fd' : 'inherit',
               boxShadow: location.pathname === page.path ? 1 : 0,
               '&:hover': {
-                backgroundColor: '#ffff',
+                backgroundColor: '#e3f2fd',
               },
               my: 1,
             }}
@@ -102,7 +102,9 @@ const Navbar = (props) => {
             <ListItemIcon sx={{ justifyContent: 'center' }}>
               {page.icon}
             </ListItemIcon>
-            <ListItemText primary={page.name} sx={{ alignItems: 'center' }} />
+            <ListItemText sx={{ alignItems: 'center' }}>
+              <Typography variant='button'>{page.name}</Typography>
+            </ListItemText>
           </ListItem>
         ))}
       </List>
@@ -119,10 +121,10 @@ const Navbar = (props) => {
               px: 0,
               borderRadius: 3,
               backgroundColor:
-                location.pathname === menu.path ? '#ffff' : 'inherit',
+                location.pathname === menu.path ? '#e3f2fd' : 'inherit',
               boxShadow: location.pathname === menu.path ? 1 : 0,
               '&:hover': {
-                backgroundColor: '#e0e0e0',
+                backgroundColor: '#e3f2fd',
               },
               my: 1,
             }}
@@ -130,7 +132,9 @@ const Navbar = (props) => {
             <ListItemIcon sx={{ justifyContent: 'center' }}>
               {menu.icon}
             </ListItemIcon>
-            <ListItemText primary={menu.name} />
+            <ListItemText>
+            <Typography variant='button'>{menu.name}</Typography>
+            </ListItemText>
           </ListItem>
         ))}
         <ListItem
@@ -138,7 +142,7 @@ const Navbar = (props) => {
             px: 0,
             borderRadius: 3,
             '&:hover': {
-              backgroundColor: '#e0e0e0',
+              backgroundColor: '#e3f2fd',
             },
             mt: 1,
           }}
@@ -148,7 +152,9 @@ const Navbar = (props) => {
           <ListItemIcon sx={{ justifyContent: 'center' }}>
             <LogoutOutlinedIcon />
           </ListItemIcon>
-          <ListItemText primary='LogOut' />
+          <ListItemText>
+            <Typography variant='button'>Log Out</Typography>
+            </ListItemText>
         </ListItem>
       </List>
     </>
