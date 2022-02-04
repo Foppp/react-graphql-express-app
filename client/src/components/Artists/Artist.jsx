@@ -4,7 +4,6 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 
 import maleArtist from '../../assets/images/maleUser.png';
@@ -17,8 +16,6 @@ const Artist = ({ artist, currentId, handleOpenProfile, profileOpen }) => {
       <ListItem
         button
         alignItems='center'
-        // component={Button}
-        // fullWidth
         selected={artist._id === currentId && profileOpen}
         sx={{
           display: 'grid',
@@ -55,20 +52,7 @@ const Artist = ({ artist, currentId, handleOpenProfile, profileOpen }) => {
               src={artist.gender === 'male' ? maleArtist : femaleArtist}
             />
           </ListItemIcon>
-          <ListItemText
-            sx={{ color: '#3f51b5' }}
-            //   primary={<Typography variant='body1'>{artist.firstName} {artist.lastName}</Typography>}
-            // secondary={
-            //     <Typography
-            //       sx={{ display: 'inline' }}
-            //       component='span'
-            //       variant='body2'
-            //       color='text.primary'
-            //     >
-            //       {artist.role}
-            //     </Typography>
-            // }
-          >
+          <ListItemText sx={{ color: '#3f51b5' }}>
             <Typography variant='subtitle1'>
               {artist.firstName} {artist.lastName}
             </Typography>
