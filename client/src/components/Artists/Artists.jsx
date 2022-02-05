@@ -39,6 +39,7 @@ const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
 
   const handleExitProfile = () => {
     setCollapse(false);
+    setCurrentId(null)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

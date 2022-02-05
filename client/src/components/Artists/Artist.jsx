@@ -9,38 +9,25 @@ import Chip from '@mui/material/Chip';
 import maleArtist from '../../assets/images/maleUser.png';
 import femaleArtist from '../../assets/images/femaleUser.png';
 import Stack from '@mui/material/Stack';
+import useStyles from '../../assets/styles/artists/artistStyles';
 
 const Artist = ({ artist, currentId, handleOpenProfile }) => {
+  const classes = useStyles(artist);
+
   return (
     <>
       <ListItem
         button
+        selected={artist._id === currentId}
         alignItems='center'
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          borderRadius: 3,
-          borderLeft: 5,
-          borderTop: 1,
-          borderBottom: 1,
-          borderRight: 1,
-          borderLeftColor: artist.gender === 'male' ? '#3f51b5' : '#e91e63',
-          backgroundColor: artist._id === currentId ? '#e3f2fd' : 'inherit',
-          borderTopColor: '#e0e0e0',
-          borderBottomColor: '#e0e0e0',
-          borderRightColor: '#e0e0e0',
-          '&:hover': {
-            backgroundColor: '#e3f2fd',
-          },
-          my: 1,
-        }}
+        className={classes.root}
         secondaryAction={
           <Chip
+            className={classes.chipStatus}
             variant='outlined'
             label={artist.isActive ? 'Aviable' : 'Not Aviable'}
             color={artist.isActive ? 'success' : 'error'}
             size='small'
-            sx={{ display: { xs: 'none', sm: 'block' } }}
           />
         }
         onClick={() => handleOpenProfile(artist._id)}
@@ -52,17 +39,19 @@ const Artist = ({ artist, currentId, handleOpenProfile }) => {
               src={artist.gender === 'male' ? maleArtist : femaleArtist}
             />
           </ListItemIcon>
-          <ListItemText sx={{ color: '#3f51b5' }}>
-            <Typography variant='subtitle1'>
+          <ListItemText>
+            <Typography variant='subtitle1' color='primary'>
               {artist.firstName} {artist.lastName}
             </Typography>
-            <Typography variant='body2' color='text.primary'>
+            <Typography variant='body2' color='secondary'>
               {artist.role}
             </Typography>
           </ListItemText>
         </Stack>
-        <ListItemText sx={{ display: { xs: 'none', sm: 'block' } }}>
-          <Typography variant='body2'>{artist.country}</Typography>
+        <ListItemText className={classes.chipStatus}>
+          <Typography variant='body2' color='secondary'>
+            {artist.country}
+          </Typography>
         </ListItemText>
       </ListItem>
     </>

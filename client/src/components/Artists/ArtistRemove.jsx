@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import { useMutation } from '@apollo/client';
 import { REMOVE_ARTIST } from '../../mutation/mutation';
 
+import useStyles from '../../assets/styles/artists/artistRemove';
+
 const ArtistRemove = ({
   id,
   dialogClose,
@@ -15,6 +17,7 @@ const ArtistRemove = ({
 }) => {
   const [remove] = useMutation(REMOVE_ARTIST);
   const [error, setError] = useState(null);
+  const classes = useStyles();
 
   const handleRemoveArtist = async (id) => {
     try {
@@ -29,13 +32,9 @@ const ArtistRemove = ({
   };
 
   return (
-    <Box sx={{ m: 2, minWidth: '250px', textAlign: 'center' }}>
+    <Box className={classes.root}>
       <Typography variant='h5'>Are you sure ?</Typography>
-      <Stack
-        direction='row'
-        spacing={2}
-        sx={{ justifyContent: 'center', m: 2 }}
-      >
+      <Stack direction='row' spacing={2} className={classes.buttons}>
         <Button color='secondary' onClick={dialogClose}>
           Close
         </Button>

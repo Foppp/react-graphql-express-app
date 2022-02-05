@@ -4,23 +4,17 @@ export const theme = createTheme({
   palette: {
     background: {
       default: "#f5f5f5"
-    }
+    },
+    primary: {
+      main: '#3f51b5',
+    },
+    secondary: {
+      main: '#5f0937',
+    },
   },
   typography: {
     fontFamily: [
-      'Chilanka',
+      'system-ui',
     ].join(','),
-    button: {
-      fontWeight: 500,
-    },
-    body1: {
-      fontWeight: 500,
-    },
-    subtitle1: {
-      fontWeight: 500,
-    },
-    h6: {
-      fontWeight: 500,
-    }
   },
 });

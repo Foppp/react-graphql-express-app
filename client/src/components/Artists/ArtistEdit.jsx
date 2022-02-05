@@ -24,6 +24,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import BackDrop from '../Spinners/BackDrop.jsx';
 
+import useStyles from '../../assets/styles/artists/artistAddEdit';
+
 import { EDIT_ARTIST } from '../../mutation/mutation';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
@@ -60,6 +62,7 @@ const ArtistEdit = ({
   dialogClose,
   handleSnackBarOpen,
 }) => {
+  const classes = useStyles();
   const [artist, setArtist] = useState(null);
   const [error, setError] = useState(null);
 
@@ -84,7 +87,7 @@ const ArtistEdit = ({
   };
 
   const renderError = () => (
-    <Box sx={{ my: 1 }}>
+    <Box className={classes.errorMessage}>
       <Typography color='error'>
         Oops! Something went wrong! Try Again!
       </Typography>
@@ -94,7 +97,7 @@ const ArtistEdit = ({
   return !artist ? (
     <BackDrop backDropIsOpen={!artist} />
   ) : (
-    <Box sx={{ m: 1, p: 1, textAlign: 'center' }}>
+    <Box className={classes.root}>
       <Typography variant='h4'>Edit Artist</Typography>
       <Divider />
       {error && renderError()}
@@ -112,7 +115,6 @@ const ArtistEdit = ({
           email: artist.email,
           phoneNumber: artist.phoneNumber,
           createdAt: artist.createdAt,
-
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
@@ -126,7 +128,7 @@ const ArtistEdit = ({
             autoComplete='off'
             onSubmit={props.handleSubmit}
           >
-            <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+            <Grid container spacing={2} >
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -202,12 +204,12 @@ const ArtistEdit = ({
                   error={props.touched.gender && Boolean(props.errors.gender)}
                   fullWidth
                   disabled={props.isSubmitting && !error}
-                  sx={{ m: 1 }}
                 >
                   <InputLabel id='demo-simple-select-standard-label'>
                     Gender
                   </InputLabel>
                   <Select
+                    className={classes.genderInput}
                     labelId='demo-simple-select-standard-label'
                     id='demo-simple-select-standard'
                     name='gender'
@@ -328,11 +330,7 @@ const ArtistEdit = ({
               </LocalizationProvider>
               <Grid item xs={12}>
                 <Divider />
-                <Stack
-                  direction='row'
-                  spacing={2}
-                  sx={{ justifyContent: 'flex-end', m: 2 }}
-                >
+                <Stack direction='row' spacing={2} className={classes.buttons}>
                   <Button
                     variant='contained'
                     color='secondary'

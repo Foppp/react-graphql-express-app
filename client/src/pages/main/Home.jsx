@@ -103,7 +103,7 @@ const Navbar = (props) => {
               {page.icon}
             </ListItemIcon>
             <ListItemText sx={{ alignItems: 'center' }}>
-              <Typography variant='button'>{page.name}</Typography>
+              <Typography variant='subtitle1'>{page.name}</Typography>
             </ListItemText>
           </ListItem>
         ))}
@@ -133,7 +133,7 @@ const Navbar = (props) => {
               {menu.icon}
             </ListItemIcon>
             <ListItemText>
-            <Typography variant='button'>{menu.name}</Typography>
+            <Typography variant='subtitle1'>{menu.name}</Typography>
             </ListItemText>
           </ListItem>
         ))}
@@ -153,7 +153,7 @@ const Navbar = (props) => {
             <LogoutOutlinedIcon />
           </ListItemIcon>
           <ListItemText>
-            <Typography variant='button'>Log Out</Typography>
+            <Typography variant='subtitle1'>Log Out</Typography>
             </ListItemText>
         </ListItem>
       </List>

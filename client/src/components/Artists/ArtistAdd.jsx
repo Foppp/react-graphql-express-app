@@ -26,10 +26,13 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { CREATE_ARTIST } from '../../mutation/mutation';
 import { GET_ALL_SHOWS } from '../../query/query';
 
+import useStyles from '../../assets/styles/artists/artistAddEdit';
+
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
 
 const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
+  const classes = useStyles();
   const [shows, setShows] = useState([]);
   const [error, setErrors] = useState(null);
   const [addArtist] = useMutation(CREATE_ARTIST);
@@ -53,7 +56,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
   }, [data]);
 
   const renderError = () => (
-    <Box sx={{ my: 1 }}>
+    <Box className={classes.errorMessage}>
       <Typography color='error'>
         Oops! Something went wrong! Try Again!
       </Typography>
@@ -103,7 +106,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
   return (
     <Box
       component='form'
-      sx={{ m: 1, p: 1, textAlign: 'center' }}
+      className={classes.root}
       noValidate
       autoComplete='off'
       onSubmit={formik.handleSubmit}
@@ -111,7 +114,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
       <Typography variant='h4'>Add New Artist</Typography>
       <Divider />
       {error && renderError()}
-      <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <TextField
             fullWidth
@@ -183,12 +186,12 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
             error={formik.touched.gender && Boolean(formik.errors.gender)}
             fullWidth
             disabled={formik.isSubmitting && !error}
-            sx={{ m: 1 }}
           >
             <InputLabel id='demo-simple-select-standard-label'>
               Gender
             </InputLabel>
             <Select
+              className={classes.genderInput}
               labelId='demo-simple-select-standard-label'
               id='demo-simple-select-standard'
               name='gender'
@@ -311,11 +314,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
 
         <Grid item xs={12}>
           <Divider />
-          <Stack
-            direction='row'
-            spacing={2}
-            sx={{ justifyContent: 'flex-end', m: 2 }}
-          >
+          <Stack direction='row' spacing={2} className={classes.buttons}>
             <Button variant='contained' color='secondary' onClick={dialogClose}>
               Close
             </Button>
