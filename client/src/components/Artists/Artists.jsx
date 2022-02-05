@@ -12,10 +12,12 @@ import paginate from '../../utils/pagination';
 import Paper from '@mui/material/Paper';
 import Zoom from '@mui/material/Zoom';
 
+import useStyles from '../../assets/styles/artists/artistsStyles';
 import ArtistProfile from './ArtistProfile.jsx';
 
 const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
   const profileRef = useRef(null);
+  const classes = useStyles();
   const [filteredArtistList, setFilteredList] = useState([]);
   const [paginatedList, setPaginatedList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,7 +39,7 @@ const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
 
   const handleExitProfile = () => {
     setCollapse(false);
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSearch = (data, query) => {
@@ -95,39 +97,34 @@ const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
       {!artists ? (
         <Spinner />
       ) : (
-        <Box sx={{ alignText: 'center' }}>
+        <Box>
           <Grid container spacing={2}>
             <Grid
+              className={classes.listWrapper}
               item
               xs={12}
               sm={12}
               md={12}
               lg={collapse ? 8 : 12}
-              sx={{ transition: 'all 0.2s ease-in-out' }}
             >
-              <Paper
-                elevation={1}
-                sx={{ width: '100%', p: 2, borderRadius: 6 }}
-              >
+              <Paper elevation={1} className={classes.listPaper}>
                 <Box>
-                  <Box
-                    sx={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
+                  <Box className={classes.listActions}>
                     <Button
+                      className={classes.addButton}
                       type='submit'
                       color='primary'
                       variant='contained'
-                      sx={{ margin: '15px 0' }}
                       size='small'
                       onClick={() => handleDialogOpen('artistAdd')}
                     >
                       Add new
                     </Button>
                     <TextField
+                      className={classes.serachField}
                       id='input-with-sx'
                       label='Search...'
                       variant='standard'
-                      sx={{ mb: 2, mx: 2 }}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -135,7 +132,7 @@ const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
                   {paginatedList.length === 0 ? (
                     <Typography>No artists...</Typography>
                   ) : (
-                    <List sx={{ width: '100%', height: '100%', bgcolor: 'background.paper' }}>
+                    <List className={classes.artistList}>
                       {paginatedList.map((artist) => (
                         <Artist
                           key={artist._id}
@@ -148,24 +145,23 @@ const Artists = ({ handleDialogOpen, artists, setCurrentId, id }) => {
                   )}
                 </Box>
                 <Pagination
-                  sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}
+                  className={classes.pagination}
                   count={pages}
                   onChange={(_, value) => setCurrentPage(value)}
                 />
               </Paper>
             </Grid>
-              <Grid item xs>
+            <Grid item xs>
               <Zoom
                 ref={profileRef}
                 in={profileOpen}
                 style={{ transitionDelay: profileOpen ? '100ms' : '0ms' }}
-                onEntered={() => profileRef.current.scrollIntoView({ behavior: "smooth" })}
+                onEntered={() =>
+                  profileRef.current.scrollIntoView({ behavior: 'smooth' })
+                }
                 onExited={handleExitProfile}
               >
-                <Paper
-                  sx={{ width: '100%', height: '100%', p: 2, borderRadius: 6 }}
-                  elevation={1}
-                >
+                <Paper className={classes.profilePaper} elevation={1}>
                   <ArtistProfile
                     handleDialogOpen={handleDialogOpen}
                     setProfileOpen={setProfileOpen}
