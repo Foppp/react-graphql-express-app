@@ -33,7 +33,7 @@ const Artist = ({ artist, currentId, handleOpenProfile }) => {
         onClick={() => handleOpenProfile(artist._id)}
       >
         <Stack direction='row' spacing={2}>
-          <ListItemIcon>
+          <ListItemIcon className={classes.avatar}>
             <Avatar
               alt='Remy Sharp'
               src={artist.gender === 'male' ? maleArtist : femaleArtist}

@@ -24,4 +24,7 @@ export default makeStyles((theme) => ({
       display: 'none',
     },
   },
+  avatar: {
+    alignItems: 'center',
+  }
 }));
