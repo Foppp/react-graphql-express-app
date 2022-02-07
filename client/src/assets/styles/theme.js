@@ -9,8 +9,14 @@ export const theme = createTheme({
       main: '#3f51b5',
     },
     secondary: {
-      main: '#5f0937',
+      main: '#ba68c8',
     },
+    success: {
+      main: '#1b5e20',
+    },
+    error: {
+      main: '#b71c1c',
+    }
   },
   typography: {
     fontFamily: [

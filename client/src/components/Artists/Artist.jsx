@@ -9,6 +9,7 @@ import Chip from '@mui/material/Chip';
 import maleArtist from '../../assets/images/maleUser.png';
 import femaleArtist from '../../assets/images/femaleUser.png';
 import Stack from '@mui/material/Stack';
+
 import useStyles from '../../assets/styles/artists/artistStyles';
 
 const Artist = ({ artist, currentId, handleOpenProfile }) => {

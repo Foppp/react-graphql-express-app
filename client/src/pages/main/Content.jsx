@@ -9,6 +9,10 @@ import Account from '../../components/Account/Account.jsx';
 import ModalDialog from '../../components/Modals/ModalDialog.jsx';
 import SnackBar from '../../components/Modals/SnackBar.jsx';
 import Customers from '../../components/Customers/Customers.jsx';
+import Toolbar from '@mui/material/Toolbar';
+
+import useStyles from '../../assets/styles/content/contentStyles';
+
 import getAge from '../../utils/ageCount';
 
 import { GET_ALL_ARTISTS, GET_ALL_SHOWS } from '../../query/query';
@@ -21,9 +25,10 @@ const menuContent = {
   account: Account,
 };
 
-const Content = () => {
+const Content = ({ drawerWidth }) => {
+  const classes = useStyles(drawerWidth);
   const [artists, setArtists] = useState(null);
-  const [shows, setShows] = useState([])
+  const [shows, setShows] = useState([]);
   const [, setFetchError] = useState(null);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -34,8 +39,16 @@ const Content = () => {
   const { content } = useParams();
   const ContentComponent = menuContent[content] ?? Artists;
 
-  const { data: artistsData, error: artistsError, refetch: artistsRefetch } = useQuery(GET_ALL_ARTISTS);
-  const { data: showsData, error: showsError, refetch: showsRefetch } = useQuery(GET_ALL_SHOWS);
+  const {
+    data: artistsData,
+    error: artistsError,
+    refetch: artistsRefetch,
+  } = useQuery(GET_ALL_ARTISTS);
+  const {
+    data: showsData,
+    error: showsError,
+    refetch: showsRefetch,
+  } = useQuery(GET_ALL_SHOWS);
 
   const handleSnackBarOpen = () => {
     setSnackBarOpen(true);
@@ -100,7 +113,8 @@ const Content = () => {
   }, []);
 
   return (
-    <Box component='main'>
+    <Box component='main' className={classes.root}>
+      <Toolbar />
       <ContentComponent
         dialogOpen={dialogOpen}
         snackBarOpen={snackBarOpen}
@@ -129,9 +143,9 @@ const Content = () => {
       )}
       {snackBarOpen && (
         <SnackBar
-        snackBarOpen={snackBarOpen}
-        handleSnackBarClose={handleSnackBarClose}
-        type={modalType}
+          snackBarOpen={snackBarOpen}
+          handleSnackBarClose={handleSnackBarClose}
+          type={modalType}
         />
       )}
     </Box>

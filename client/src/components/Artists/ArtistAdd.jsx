@@ -319,7 +319,7 @@ const ArtistAdd = ({ dialogClose, handleSnackBarOpen }) => {
               Close
             </Button>
             <Button
-              color='info'
+              color='primary'
               variant='contained'
               type='submit'
               disabled={formik.isSubmitting && !error}
