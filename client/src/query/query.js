@@ -60,6 +60,7 @@ export const GET_ALL_SHOWS = gql`
       startDate
       finishDate
       description
+      createdAt
     }
   }
 `;
@@ -73,6 +74,7 @@ export const GET_SHOW = gql`
       startDate
       finishDate
       description
+      createdAt
     }
   }
 `;
@@ -86,6 +88,7 @@ export const GET_ALL_CUSTOMERS = gql`
       city
       email
       phoneNumber
+      createdAt
     }
   }
 `;
@@ -99,6 +102,7 @@ export const GET_CUSTOMER = gql`
       city
       email
       phoneNumber
+      createdAt
     }
   }
 `;

@@ -51,6 +51,7 @@ const typeDefs = gql`
     city: String!
     email: String!
     phoneNumber: String!
+    createdAt: String!
   }
 
   input CustomerInput {
@@ -59,6 +60,7 @@ const typeDefs = gql`
     city: String!
     email: String!
     phoneNumber: String!
+    createdAt: String!
   }
 
   type Show {
@@ -68,6 +70,7 @@ const typeDefs = gql`
     startDate: String!
     finishDate: String!
     description: String!
+    createdAt: String!
   }
 
   input ShowInput {
@@ -76,6 +79,7 @@ const typeDefs = gql`
     startDate: String!
     finishDate: String!
     description: String!
+    createdAt: String!
   }
 
   type AuthUser {

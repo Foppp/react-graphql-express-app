@@ -59,6 +59,7 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
       city: '',
       email: '',
       phoneNumber: '',
+      createdAt: new Date(),
     },
     validationSchema,
     onSubmit: (values) => {

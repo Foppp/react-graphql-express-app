@@ -93,7 +93,10 @@ const Content = ({ drawerWidth }) => {
         const isActive = show.finishDate === '';
         return { ...show, isActive };
       });
-      setShows(updatedData);
+      const sortedByNewest = updatedData.sort(
+        (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
+      );
+      setShows(sortedByNewest);
     }
   }, [showsData]);
 

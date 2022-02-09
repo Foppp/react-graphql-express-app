@@ -67,9 +67,10 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
     initialValues: {
       name: '',
       artistIds: [],
-      startDate: '',
+      startDate: new Date(),
       finishDate: '',
       description: '',
+      createdAt: new Date(),
     },
     validationSchema,
     onSubmit: (values) => {
