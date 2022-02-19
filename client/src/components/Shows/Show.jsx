@@ -14,7 +14,6 @@ const Show = ({ show, currentId, handleOpenProfile }) => {
   const classes = useStyles(show);
 
   return (
-    <>
       <ListItem
         button
         selected={show._id === currentId}
@@ -50,7 +49,6 @@ const Show = ({ show, currentId, handleOpenProfile }) => {
           </Typography>
         </ListItemText>
       </ListItem>
-    </>
   );
 };
 

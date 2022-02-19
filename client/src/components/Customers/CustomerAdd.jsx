@@ -13,7 +13,7 @@ import Divider from '@mui/material/Divider';
 import useStyles from '../../assets/styles/customers/customerAddEditStyles';
 
 import { CREATE_CUSTOMER } from '../../mutation/mutation';
-
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const validationSchema = yup.object({
   name: yup
     .string('Enter valid name')
@@ -27,6 +27,10 @@ const validationSchema = yup.object({
     .string('Enter valid city')
     .min(2, 'Role should be of minimum 2 characters length')
     .required('City is required'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .required('Phone is required'),
   email: yup.string('Enter email').email('Enter a valid email'),
 });
 
@@ -148,6 +152,7 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
+            required
             id='standard-basic'
             label='Phone'
             name='phoneNumber'
@@ -156,6 +161,8 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
             disabled={formik.isSubmitting && !error}
+            error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+            helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
           />
         </Grid>
         <Grid item xs={12}>
