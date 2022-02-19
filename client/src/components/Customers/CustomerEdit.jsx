@@ -9,8 +9,8 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import BackDrop from '../Spinners/BackDrop.jsx';
 
+import BackDrop from '../Spinners/BackDrop.jsx';
 import useStyles from '../../assets/styles/customers/customerAddEditStyles';
 
 import { EDIT_CUSTOMER } from '../../mutation/mutation';

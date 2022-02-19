@@ -9,12 +9,7 @@ import { REMOVE_ARTIST } from '../../mutation/mutation';
 
 import useStyles from '../../assets/styles/artists/artistRemoveStyles';
 
-const ArtistRemove = ({
-  id,
-  dialogClose,
-  handleSnackBarOpen,
-  setCurrentId,
-}) => {
+const ArtistRemove = ({ id, dialogClose, handleSnackBarOpen, setCurrentId }) => {
   const [remove] = useMutation(REMOVE_ARTIST);
   const [error, setError] = useState(null);
   const classes = useStyles();

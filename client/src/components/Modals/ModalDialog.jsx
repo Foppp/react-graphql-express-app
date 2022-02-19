@@ -18,7 +18,6 @@ const modals = {
   artistAdd: ArtistAdd,
   artistEdit: ArtistEdit,
   artistRemove: ArtistRemove,
-  // artistProfile: ArtistProfile,
   showAdd: ShowAdd,
   showRemove: ShowRemove,
   showEdit: ShowEdit,

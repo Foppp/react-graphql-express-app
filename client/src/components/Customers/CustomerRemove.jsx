@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, Stack, Button } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { REMOVE_CUSTOMER } from '../../mutation/mutation';
+
 import useStyles from '../../assets/styles/artists/artistRemoveStyles';
 
 const CustomerRemove = ({ id, dialogClose, handleSnackBarOpen }) => {

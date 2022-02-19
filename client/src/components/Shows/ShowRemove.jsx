@@ -5,7 +5,7 @@ import { REMOVE_SHOW } from '../../mutation/mutation';
 
 import useStyles from '../../assets/styles/shows/showRemoveStyles';
 
-const ShowRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
+const ShowRemove = ({ id, dialogClose, handleSnackBarOpen, setCurrentId }) => {
   const [remove] = useMutation(REMOVE_SHOW);
   const [error, setError] = useState(null);
   const classes = useStyles();
@@ -15,6 +15,7 @@ const ShowRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
       await remove({ variables: { showId: id } });
       dialogClose();
       handleSnackBarOpen();
+      setCurrentId(null);
     } catch (e) {
       setError(e);
       console.log(error);

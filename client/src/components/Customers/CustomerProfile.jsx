@@ -13,7 +13,12 @@ import customersAvatar from '../../assets/images/customers.png';
 
 import useStyles from '../../assets/styles/customers/customerProfileStyles';
 
-const CustomerProfile = ({ id, customers, handleDialogOpen, handleCloseProfile }) => {
+const CustomerProfile = ({
+  id,
+  customers,
+  handleDialogOpen,
+  handleCloseProfile,
+}) => {
   const [customer, setCustomer] = useState(null);
   const classes = useStyles();
 
@@ -56,7 +61,12 @@ const CustomerProfile = ({ id, customers, handleDialogOpen, handleCloseProfile }
           <Divider className={classes.devider} variant='middle' />
           <Grid container className={classes.profileWrapper}>
             <Grid item lg={12} md={6}>
-              <img src={customersAvatar} alt='danceShow' width='115' height='115' />
+              <img
+                src={customersAvatar}
+                alt='danceShow'
+                width='115'
+                height='115'
+              />
             </Grid>
             <Grid item lg={12} md={6}>
               <Stack

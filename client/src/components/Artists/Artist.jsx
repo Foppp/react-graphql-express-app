@@ -5,10 +5,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 import maleArtist from '../../assets/images/maleUser.png';
 import femaleArtist from '../../assets/images/femaleUser.png';
-import Stack from '@mui/material/Stack';
 
 import useStyles from '../../assets/styles/artists/artistStyles';
 

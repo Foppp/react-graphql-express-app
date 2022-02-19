@@ -46,6 +46,7 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
   }, [data]);
 
   const handleCreateShow = async (show) => {
+    console.log(show)
     try {
       await addShow({ variables: { show } });
       dialogClose();
@@ -80,7 +81,12 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
   });
 
   return (
-    <Box className={classes.root}>
+    <Box
+      className={classes.root}
+      component='form'
+      noValidate
+      onSubmit={formik.handleSubmit}
+    >
       <Typography variant='h4'>Add New Show</Typography>
       <Divider />
       {error && renderError()}
