@@ -41,12 +41,7 @@ const settings = [
   },
 ];
 
-const Sidebar = ({
-  setMobileOpen,
-  handleLogout,
-  mobileOpen,
-  drawerWidth,
-}) => {
+const Sidebar = ({ setMobileOpen, handleLogout, mobileOpen, drawerWidth }) => {
   const location = useLocation();
   const classes = useStyles(drawerWidth);
 

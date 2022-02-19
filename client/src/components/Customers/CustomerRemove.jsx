@@ -5,7 +5,7 @@ import { REMOVE_CUSTOMER } from '../../mutation/mutation';
 
 import useStyles from '../../assets/styles/artists/artistRemoveStyles';
 
-const CustomerRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
+const CustomerRemove = ({ id, dialogClose, handleSnackBarOpen, setCurrentId }) => {
   const [remove] = useMutation(REMOVE_CUSTOMER);
   const [error, setError] = useState(null);
   const classes = useStyles();
@@ -15,6 +15,7 @@ const CustomerRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
       await remove({ variables: { customerId: id } });
       dialogClose();
       handleSnackBarOpen();
+      setCurrentId(null);
     } catch (e) {
       setError(e);
       console.log(error);

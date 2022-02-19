@@ -12,11 +12,14 @@ import Customers from '../../components/Customers/Customers.jsx';
 import Toolbar from '@mui/material/Toolbar';
 
 import useStyles from '../../assets/styles/content/contentStyles';
-
+import sortByNewest from '../../utils/sort.js';
 import getAge from '../../utils/ageCount';
 
-import { GET_ALL_ARTISTS, GET_ALL_SHOWS, GET_ALL_CUSTOMERS } from '../../query/query';
-import sortByNewest from '../../utils/sort.js';
+import {
+  GET_ALL_ARTISTS,
+  GET_ALL_SHOWS,
+  GET_ALL_CUSTOMERS,
+} from '../../query/query';
 
 const menuContent = {
   dashboard: Dashboard,
@@ -25,7 +28,6 @@ const menuContent = {
   customers: Customers,
   account: Account,
 };
-console.log('content')
 
 const Content = ({ drawerWidth }) => {
   const classes = useStyles(drawerWidth);
