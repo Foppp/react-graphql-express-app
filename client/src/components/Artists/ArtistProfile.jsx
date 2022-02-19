@@ -16,7 +16,7 @@ import femaleArtist from '../../assets/images/femaleUser.png';
 import getAge from '../../utils/ageCount';
 import getFormatedDate from '../../utils/dateFormat';
 
-import useStyles from '../../assets/styles/artists/artistProfile';
+import useStyles from '../../assets/styles/artists/artistProfileStyles';
 
 const ArtistProfile = ({
   id,

@@ -19,7 +19,7 @@ export default makeStyles((theme) => ({
     },
     margin: '10px 0 10px 0',
   },
-  chipStatus: {
+  infoColumn: {
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },

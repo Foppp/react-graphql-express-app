@@ -14,7 +14,6 @@ import useStyles from '../../assets/styles/artists/artistStyles';
 
 const Artist = ({ artist, currentId, handleOpenProfile }) => {
   const classes = useStyles(artist);
-
   return (
     <>
       <ListItem

@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { useMutation } from '@apollo/client';
 import { REMOVE_ARTIST } from '../../mutation/mutation';
 
-import useStyles from '../../assets/styles/artists/artistRemove';
+import useStyles from '../../assets/styles/artists/artistRemoveStyles';
 
 const ArtistRemove = ({
   id,

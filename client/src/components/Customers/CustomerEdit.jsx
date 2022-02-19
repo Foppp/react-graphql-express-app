@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import * as yup from 'yup';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -11,34 +11,38 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import BackDrop from '../Spinners/BackDrop.jsx';
 
+import useStyles from '../../assets/styles/customers/customerAddEditStyles';
+
 import { EDIT_CUSTOMER } from '../../mutation/mutation';
-import { GET_CUSTOMER } from '../../query/query';
 
+const validationSchema = yup.object({
+  name: yup
+    .string('Enter valid name')
+    .min(2, 'Name should be of minimum 2 characters length')
+    .required('Name is required'),
+  country: yup
+    .string('Enter valid country')
+    .min(2, 'Country should be of minimum 2 characters length')
+    .required('Country is required'),
+  city: yup
+    .string('Enter valid city')
+    .min(2, 'Role should be of minimum 2 characters length')
+    .required('City is required'),
+  email: yup.string('Enter email').email('Enter a valid email'),
+});
 
-  const validationSchema = yup.object({
-    name: yup
-      .string('Enter valid name')
-      .min(2, 'Name should be of minimum 2 characters length')
-      .required('Name is required'),
-    country: yup
-      .string('Enter valid country')
-      .min(2, 'Country should be of minimum 2 characters length')
-      .required('Country is required'),
-    city: yup
-      .string('Enter valid city')
-      .min(2, 'Role should be of minimum 2 characters length')
-      .required('City is required'),
-    email: yup.string('Enter email').email('Enter a valid email'),
-  });
-
-const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
+const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen, customers }) => {
   const [customer, setCustomer] = useState(null);
   const [error, setError] = useState(null);
-
-  const { data } = useQuery(GET_CUSTOMER, {
-    variables: { customerId: id },
-  });
   const [editCustomer] = useMutation(EDIT_CUSTOMER);
+  const classes = useStyles();
+
+  useEffect(() => {
+    if (customers) {
+      const customerById = customers.find(({ _id }) => id === _id);
+      setCustomer(customerById);
+    }
+  }, [customers]);
 
   const handleEditCustomer = async (customer) => {
     try {
@@ -52,23 +56,17 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
   };
 
   const renderError = () => (
-    <Box sx={{ my: 1 }}>
+    <Box className={classes.errorMessage}>
       <Typography color='error'>
         Oops! Something went wrong! Try Again!
       </Typography>
     </Box>
   );
 
-  useEffect(() => {
-    if (data) {
-      setCustomer(data.getCustomer);
-    }
-  }, [data]);
-
   return !customer ? (
     <BackDrop backDropIsOpen={!customer} />
   ) : (
-    <Box sx={{ m: 1, p: 1, textAlign: 'center' }}>
+    <Box className={classes.root}>
       <Typography variant='h4'>Edit Artist</Typography>
       <Divider />
       {error && renderError()}
@@ -79,6 +77,7 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
           city: customer.city,
           email: customer.email,
           phoneNumber: customer.phoneNumber,
+          createdAt: customer.createdAt,
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
@@ -171,11 +170,7 @@ const CustomerEdit = ({ id, dialogClose, handleSnackBarOpen }) => {
               </Grid>
               <Grid item xs={12}>
                 <Divider />
-                <Stack
-                  direction='row'
-                  spacing={2}
-                  sx={{ justifyContent: 'flex-end', m: 2 }}
-                >
+                <Stack direction='row' spacing={2} className={classes.buttons}>
                   <Button
                     variant='contained'
                     color='secondary'

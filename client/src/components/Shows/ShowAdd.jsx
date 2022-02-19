@@ -9,7 +9,6 @@ import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
@@ -17,6 +16,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
+import useStyles from '../../assets/styles/shows/showAddEditStyles';
 
 import { CREATE_SHOW } from '../../mutation/mutation';
 import { GET_ALL_ARTISTS } from '../../query/query';
@@ -35,7 +36,7 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
   const [error, setError] = useState(null);
   const [addShow] = useMutation(CREATE_SHOW);
   const [artists, setArtists] = useState([]);
-
+  const classes = useStyles();
   const { data } = useQuery(GET_ALL_ARTISTS);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
   };
 
   const renderError = () => (
-    <Box sx={{ my: 1 }}>
+    <Box className={classes.errorMessage}>
       <Typography color='error'>
         Oops! Something went wrong! Try Again!
       </Typography>
@@ -79,17 +80,11 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
   });
 
   return (
-    <Box
-      component='form'
-      sx={{ m: 1, p: 1, textAlign: 'center' }}
-      noValidate
-      autoComplete='off'
-      onSubmit={formik.handleSubmit}
-    >
+    <Box className={classes.root}>
       <Typography variant='h4'>Add New Show</Typography>
       <Divider />
       {error && renderError()}
-      <Grid container spacing={2} sx={{ textAlign: 'center' }}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             fullWidth
@@ -190,11 +185,7 @@ const ShowAdd = ({ dialogClose, handleSnackBarOpen }) => {
         </Grid>
         <Grid item xs={12}>
           <Divider />
-          <Stack
-            direction='row'
-            spacing={2}
-            sx={{ justifyContent: 'flex-end', m: 2 }}
-          >
+          <Stack direction='row' spacing={2} className={classes.buttons}>
             <Button variant='contained' color='secondary' onClick={dialogClose}>
               Close
             </Button>

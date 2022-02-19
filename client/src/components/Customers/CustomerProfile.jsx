@@ -1,72 +1,94 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
-import { useQuery } from '@apollo/client';
+import Grid from '@mui/material/Grid';
 
-import { GET_CUSTOMER} from '../../query/query';
-import BackDrop from '../Spinners/BackDrop.jsx';
+import customersAvatar from '../../assets/images/customers.png';
 
-const CustomerProfile = ({ id, dialogClose }) => {
-  const [customer, setCustomer] = useState({});
-  //   const [error, setError] = useState(null);
+import useStyles from '../../assets/styles/customers/customerProfileStyles';
 
-  const { data, loading } = useQuery(GET_CUSTOMER, {
-    variables: { customerId: id },
-  });
+const CustomerProfile = ({ id, customers, handleDialogOpen, handleCloseProfile }) => {
+  const [customer, setCustomer] = useState(null);
+  const classes = useStyles();
 
   useEffect(() => {
-    if (data) {
-      setCustomer(data.getCustomer);
-    }
-  }, [data]);
+    const customerById = customers.find(({ _id }) => id === _id);
+    setCustomer(customerById);
+  }, [id, customers]);
 
-  return loading ? (
-    <BackDrop backDropIsOpen={loading} />
-  ) : (
-    <Box
-      component='form'
-      sx={{ m: 1, minWidth: '250px', textAlign: 'center' }}
-      noValidate
-      autoComplete='off'
-    >
-      <Typography variant='h6'>CUSTOMER PROFILE</Typography>
-      <Divider />
-      <Grid container spacing={2} sx={{ my: 2, textAlign: 'center' }}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>
-            Name: {customer.name}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>Country: {customer.country}</Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>City: {customer.city}</Typography>
-        </Grid>
-        
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>Email: {customer.email}</Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography variant='overline'>
-            Phone: {customer.phoneNumber}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Divider />
-          <Button
-            variant='contained'
-            color='secondary'
-            onClick={dialogClose}
-            sx={{ mt: 1 }}
-          >
-            Close
-          </Button>
-        </Grid>
-      </Grid>
+  return (
+    <Box className={classes.root}>
+      {!customer ? (
+        <Typography variant='h6'>Please select show from list..!.</Typography>
+      ) : (
+        <Box>
+          <Box className={classes.actions}>
+            <Box>
+              <IconButton onClick={handleCloseProfile}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+            <Box>
+              <IconButton
+                aria-label='info'
+                size='small'
+                color='secondary'
+                onClick={() => handleDialogOpen('customerEdit', customer._id)}
+              >
+                <ModeEditOutlineOutlinedIcon fontSize='small' />
+              </IconButton>
+              <IconButton
+                aria-label='info'
+                size='small'
+                color='error'
+                onClick={() => handleDialogOpen('customerRemove', customer._id)}
+              >
+                <DeleteIcon fontSize='small' />
+              </IconButton>
+            </Box>
+          </Box>
+          <Divider className={classes.devider} variant='middle' />
+          <Grid container className={classes.profileWrapper}>
+            <Grid item lg={12} md={6}>
+              <img src={customersAvatar} alt='danceShow' width='115' height='115' />
+            </Grid>
+            <Grid item lg={12} md={6}>
+              <Stack
+                direction='row'
+                spacing={2}
+                className={classes.profileContent}
+              >
+                <Typography variant='body1'>Customer name:</Typography>
+                <Typography variant='body2'>{customer.name}</Typography>
+              </Stack>
+
+              <Stack
+                direction='row'
+                spacing={2}
+                className={classes.profileContent}
+              >
+                <Typography variant='body1'>Country:</Typography>
+                <Typography variant='body2'>{customer.country}</Typography>
+              </Stack>
+
+              <Stack
+                direction='row'
+                spacing={2}
+                className={classes.profileContent}
+              >
+                <Typography variant='body1'>City:</Typography>
+                <Typography variant='body2'>{customer.city}</Typography>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
     </Box>
   );
 };

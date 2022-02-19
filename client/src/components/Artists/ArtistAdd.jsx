@@ -26,7 +26,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { CREATE_ARTIST } from '../../mutation/mutation';
 import { GET_ALL_SHOWS } from '../../query/query';
 
-import useStyles from '../../assets/styles/artists/artistAddEdit';
+import useStyles from '../../assets/styles/artists/artistAddEditStyles';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;

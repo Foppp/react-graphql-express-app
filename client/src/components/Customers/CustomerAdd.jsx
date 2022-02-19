@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
+import useStyles from '../../assets/styles/customers/customerAddEditStyles';
 
 import { CREATE_CUSTOMER } from '../../mutation/mutation';
 
@@ -32,6 +33,7 @@ const validationSchema = yup.object({
 const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
   const [error, setErrors] = useState(null);
   const [addCustomer] = useMutation(CREATE_CUSTOMER);
+  const classes = useStyles();
 
   const handleCreateCustomer = async (customer) => {
     try {
@@ -45,7 +47,7 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
   };
 
   const renderError = () => (
-    <Box sx={{ my: 1 }}>
+    <Box className={classes.errorMessage}>
       <Typography color='error'>
         Oops! Something went wrong! Try Again!
       </Typography>
@@ -70,7 +72,7 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
   return (
     <Box
       component='form'
-      sx={{ m: 1, p: 1, textAlign: 'center' }}
+      className={classes.root}
       noValidate
       autoComplete='off'
       onSubmit={formik.handleSubmit}
@@ -127,7 +129,7 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
             disabled={formik.isSubmitting && !error}
           />
         </Grid>
-        
+
         <Grid item xs={12} sm={6}>
           <TextField
             fullWidth
@@ -158,11 +160,7 @@ const CustomerAdd = ({ dialogClose, handleSnackBarOpen }) => {
         </Grid>
         <Grid item xs={12}>
           <Divider />
-          <Stack
-            direction='row'
-            spacing={2}
-            sx={{ justifyContent: 'flex-end', m: 2 }}
-          >
+          <Stack direction='row' spacing={2} className={classes.buttons}>
             <Button variant='contained' color='secondary' onClick={dialogClose}>
               Close
             </Button>

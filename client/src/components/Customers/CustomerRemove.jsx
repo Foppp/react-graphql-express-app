@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Box, Typography, Stack, Button } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { REMOVE_CUSTOMER } from '../../mutation/mutation';
+import useStyles from '../../assets/styles/artists/artistRemoveStyles';
 
 const CustomerRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
   const [remove] = useMutation(REMOVE_CUSTOMER);
   const [error, setError] = useState(null);
+  const classes = useStyles();
 
   const handleRemoveCustomer = async (id) => {
     try {
@@ -19,13 +21,9 @@ const CustomerRemove = ({ id, dialogClose, handleSnackBarOpen }) => {
   };
 
   return (
-    <Box sx={{ m: 2, minWidth: '250px', textAlign: 'center' }}>
+    <Box className={classes.root}>
       <Typography variant='h5'>Are you sure ?</Typography>
-      <Stack
-        direction='row'
-        spacing={2}
-        sx={{ justifyContent: 'center', m: 2 }}
-      >
+      <Stack direction='row' spacing={2} className={classes.buttons}>
         <Button color='secondary' onClick={dialogClose}>
           Close
         </Button>

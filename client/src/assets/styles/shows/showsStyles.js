@@ -22,7 +22,7 @@ export default makeStyles({
   serachField: {
     margin: '0 20px 20px 20px',
   },
-  artistList: {
+  showsList: {
     width: '100%',
     height: '100%',
     bgcolor: 'background.paper',

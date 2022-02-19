@@ -6,9 +6,6 @@ export default makeStyles({
     padding: '10px',
     textAlign: 'center',
   },
-  genderInput: {
-    paddingTop: '8px',
-  },
   buttons: {
     justifyContent: 'flex-end',
     margin: '20px',

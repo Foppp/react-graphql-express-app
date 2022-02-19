@@ -17,11 +17,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
+import useStyles from '../../assets/styles/shows/showAddEditStyles';
+
 import BackDrop from '../Spinners/BackDrop.jsx';
 
 import { EDIT_SHOW } from '../../mutation/mutation';
 import { GET_ALL_ARTISTS } from '../../query/query';
-import { GET_SHOW } from '../../query/query';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
 const checkedIcon = <CheckBoxIcon fontSize='small' />;
@@ -36,16 +37,14 @@ const validationSchema = yup.object({
 const getValuesById = (ids, data) =>
   data.filter((value) => ids.includes(value._id));
 
-const ShowEdit = ({ dialogClose, id, handleSnackBarOpen }) => {
+const ShowEdit = ({ dialogClose, id, handleSnackBarOpen, shows }) => {
   const [error, setError] = useState(null);
   const [artists, setArtists] = useState([]);
   const [show, setShow] = useState(null);
+  const classes = useStyles();
 
   const [editShow] = useMutation(EDIT_SHOW);
   const { data } = useQuery(GET_ALL_ARTISTS);
-  const { data: showData } = useQuery(GET_SHOW, {
-    variables: { showId: id },
-  });
 
   useEffect(() => {
     if (data) {
@@ -54,10 +53,11 @@ const ShowEdit = ({ dialogClose, id, handleSnackBarOpen }) => {
   }, [data]);
 
   useEffect(() => {
-    if (showData) {
-      setShow(showData.getShow);
+    if (shows) {
+      const showsById = shows.find(({ _id }) => id === _id);
+      setShow(showsById);
     }
-  }, [showData]);
+  }, [shows]);
 
   const handleEditShow = async (show) => {
     try {
@@ -71,7 +71,7 @@ const ShowEdit = ({ dialogClose, id, handleSnackBarOpen }) => {
   };
 
   const renderError = () => (
-    <Box sx={{ my: 1 }}>
+    <Box className={classes.errorMessage}>
       <Typography color='error'>
         Oops! Something went wrong! Try Again!
       </Typography>
@@ -81,7 +81,7 @@ const ShowEdit = ({ dialogClose, id, handleSnackBarOpen }) => {
   return !show ? (
     <BackDrop backDropIsOpen={!show} />
   ) : (
-    <Box sx={{ m: 1, p: 1, textAlign: 'center' }}>
+    <Box className={classes.root}>
       <Typography variant='h4'>Edit Show</Typography>
       <Divider />
       {error && renderError()}
@@ -92,7 +92,8 @@ const ShowEdit = ({ dialogClose, id, handleSnackBarOpen }) => {
           startDate: show.startDate,
           finishDate: show.finishDate,
           description: show.description,
-          }}
+          createdAt: show.createdAt,
+        }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           handleEditShow(values);
@@ -205,11 +206,7 @@ const ShowEdit = ({ dialogClose, id, handleSnackBarOpen }) => {
               </Grid>
               <Grid item xs={12}>
                 <Divider />
-                <Stack
-                  direction='row'
-                  spacing={2}
-                  sx={{ justifyContent: 'flex-end', m: 2 }}
-                >
+                <Stack direction='row' spacing={2} className={classes.buttons}>
                   <Button
                     variant='contained'
                     color='secondary'

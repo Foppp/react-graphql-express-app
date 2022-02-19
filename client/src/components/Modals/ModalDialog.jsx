@@ -35,6 +35,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const ModalDialog = ({
   dialogOpen,
+  customers,
   dialogClose,
   handleSnackBarOpen,
   id,
@@ -57,6 +58,7 @@ const ModalDialog = ({
         artists={artists}
         shows={shows}
         setCurrentId={setCurrentId}
+        customers={customers}
       />
     </Dialog>
   );

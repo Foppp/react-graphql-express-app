@@ -24,7 +24,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import BackDrop from '../Spinners/BackDrop.jsx';
 
-import useStyles from '../../assets/styles/artists/artistAddEdit';
+import useStyles from '../../assets/styles/artists/artistAddEditStyles';
 
 import { EDIT_ARTIST } from '../../mutation/mutation';
 
@@ -128,7 +128,7 @@ const ArtistEdit = ({
             autoComplete='off'
             onSubmit={props.handleSubmit}
           >
-            <Grid container spacing={2} >
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth

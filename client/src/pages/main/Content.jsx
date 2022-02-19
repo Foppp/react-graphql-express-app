@@ -15,7 +15,8 @@ import useStyles from '../../assets/styles/content/contentStyles';
 
 import getAge from '../../utils/ageCount';
 
-import { GET_ALL_ARTISTS, GET_ALL_SHOWS } from '../../query/query';
+import { GET_ALL_ARTISTS, GET_ALL_SHOWS, GET_ALL_CUSTOMERS } from '../../query/query';
+import sortByNewest from '../../utils/sort.js';
 
 const menuContent = {
   dashboard: Dashboard,
@@ -24,17 +25,18 @@ const menuContent = {
   customers: Customers,
   account: Account,
 };
+console.log('content')
 
 const Content = ({ drawerWidth }) => {
   const classes = useStyles(drawerWidth);
   const [artists, setArtists] = useState(null);
   const [shows, setShows] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [, setFetchError] = useState(null);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [currentId, setCurrentId] = useState(null);
-
   const navigate = useNavigate();
   const { content } = useParams();
   const ContentComponent = menuContent[content] ?? Artists;
@@ -49,6 +51,12 @@ const Content = ({ drawerWidth }) => {
     error: showsError,
     refetch: showsRefetch,
   } = useQuery(GET_ALL_SHOWS);
+
+  const {
+    data: customersData,
+    error: customersError,
+    refetch: customersRefetch,
+  } = useQuery(GET_ALL_CUSTOMERS);
 
   const handleSnackBarOpen = () => {
     setSnackBarOpen(true);
@@ -71,6 +79,7 @@ const Content = ({ drawerWidth }) => {
     setDialogOpen(false);
     artistsRefetch();
     showsRefetch();
+    customersRefetch();
   };
 
   useEffect(() => {
@@ -80,10 +89,7 @@ const Content = ({ drawerWidth }) => {
         const age = getAge(artist.birthDate);
         return { ...artist, isActive, age };
       });
-      const sortedByNewest = updatedData.sort(
-        (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
-      );
-      setArtists(sortedByNewest);
+      setArtists(sortByNewest(updatedData));
     }
   }, [artistsData]);
 
@@ -93,12 +99,16 @@ const Content = ({ drawerWidth }) => {
         const isActive = show.finishDate === '';
         return { ...show, isActive };
       });
-      const sortedByNewest = updatedData.sort(
-        (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
-      );
-      setShows(sortedByNewest);
+      setShows(sortByNewest(updatedData));
     }
   }, [showsData]);
+
+  useEffect(() => {
+    if (customersData) {
+      const sortedCustomerList = sortByNewest(customersData.getCustomers);
+      setCustomers(sortedCustomerList);
+    }
+  }, [customersData]);
 
   useEffect(() => {
     if (artistsError) {
@@ -108,6 +118,10 @@ const Content = ({ drawerWidth }) => {
     if (showsError) {
       setFetchError(showsError);
       console.log(showsError);
+    }
+    if (customersError) {
+      setFetchError(customersError);
+      console.log(customersError);
     }
   }, [artistsError]);
 
@@ -131,6 +145,7 @@ const Content = ({ drawerWidth }) => {
         setCurrentId={setCurrentId}
         artists={artists}
         shows={shows}
+        customers={customers}
       />
       {dialogOpen && (
         <ModalDialog
@@ -142,6 +157,7 @@ const Content = ({ drawerWidth }) => {
           setCurrentId={setCurrentId}
           artists={artists}
           shows={shows}
+          customers={customers}
         />
       )}
       {snackBarOpen && (
