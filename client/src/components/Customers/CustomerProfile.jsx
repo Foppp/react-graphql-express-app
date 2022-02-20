@@ -94,6 +94,14 @@ const CustomerProfile = ({
               >
                 <Typography variant='body1'>City:</Typography>
                 <Typography variant='body2'>{customer.city}</Typography>
+                </Stack>
+                <Stack
+                direction='row'
+                spacing={2}
+                className={classes.profileContent}
+              >
+                <Typography variant='body1'>Phone:</Typography>
+                <Typography variant='body2'>{customer.phoneNumber}</Typography>
               </Stack>
             </Grid>
           </Grid>

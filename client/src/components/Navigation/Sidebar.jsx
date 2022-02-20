@@ -12,6 +12,7 @@ import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlin
 import TheaterComedyOutlinedIcon from '@mui/icons-material/TheaterComedyOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import CountertopsOutlinedIcon from '@mui/icons-material/CountertopsOutlined';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import Drawer from '@mui/material/Drawer';
 import useStyles from '../../assets/styles/navigation/sidebarStyles';
 
@@ -30,6 +31,7 @@ const pages = [
     path: '/customers',
     icon: <CountertopsOutlinedIcon />,
   },
+  { id: 5, name: 'Events', path: '/events', icon: <EventNoteIcon /> },
 ];
 
 const settings = [
@@ -52,20 +54,21 @@ const Sidebar = ({ setMobileOpen, handleLogout, mobileOpen, drawerWidth }) => {
           <ListItem
             button
             className={classes.listItem}
-            selected={location.pathname === page.path}
             key={page.id}
             component={Link}
             to={page.path}
             onClick={() => setMobileOpen(false)}
             sx={{
-              color: location.pathname === page.path ? '#ff5722' : 'inherit',
+              color: location.pathname === page.path ? 'primary.main' : 'inherit',
+              backgroundColor:
+                location.pathname === page.path ? '#ffff' : 'inherit',
               boxShadow: location.pathname === page.path ? 1 : 0,
             }}
           >
             <ListItemIcon
               className={classes.listIcon}
               sx={{
-                color: location.pathname === page.path ? '#ff5722' : 'inherit',
+                color: location.pathname === page.path ? 'primary.main' : '#757575',
               }}
             >
               {page.icon}
@@ -87,12 +90,18 @@ const Sidebar = ({ setMobileOpen, handleLogout, mobileOpen, drawerWidth }) => {
             to={menu.path}
             onClick={() => setMobileOpen(false)}
             sx={{
+              color: location.pathname === menu.path ? 'primary.main' : 'inherit',
               backgroundColor:
-                location.pathname === menu.path ? '#e3f2fd' : 'inherit',
+                location.pathname === menu.path ? '#ffff' : 'inherit',
               boxShadow: location.pathname === menu.path ? 1 : 0,
             }}
           >
-            <ListItemIcon className={classes.listIcon}>
+            <ListItemIcon
+              className={classes.listIcon}
+              sx={{
+                color: location.pathname === menu.path ? 'primary.main' : '#757575',
+              }}
+            >
               {menu.icon}
             </ListItemIcon>
             <ListItemText>

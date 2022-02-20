@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import Box from '@mui/material/Box';
 import Artists from '../../components/Artists/Artists.jsx';
 import Shows from '../../components/Shows/Shows.jsx';
+import ShowEvents from '../../components/ShowEvents/ShowEvents.jsx';
 import Dashboard from '../../components/Dashboard/Dashboard.jsx';
 import Account from '../../components/Account/Account.jsx';
 import ModalDialog from '../../components/Modals/ModalDialog.jsx';
@@ -26,6 +27,7 @@ const menuContent = {
   artists: Artists,
   shows: Shows,
   customers: Customers,
+  events: ShowEvents,
   account: Account,
 };
 

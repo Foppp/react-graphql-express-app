@@ -54,9 +54,10 @@ export default makeStyles((theme) => ({
     marginBottom: '60px',
   },
   listItem: {
-    borderRadius: '20px',
+    borderRadius: '10px',
     '&:hover': {
-      backgroundColor: '#e3f2fd',
+      backgroundColor: '#ffff',
+      color: theme.palette.primary.main,
     },
     margin: '10px 0 10px 0',
   },

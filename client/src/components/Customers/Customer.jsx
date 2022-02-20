@@ -20,7 +20,7 @@ const Customer = ({ customer, currentId, handleOpenProfile }) => {
       className={classes.root}
       onClick={() => handleOpenProfile(customer._id)}
       secondaryAction={
-        <Tooltip title={customer.phoneNumber} placement='left-start'>
+        <Tooltip title={customer.phoneNumber} placement='left-start' arrow>
           <PhoneEnabledIcon color='primary' />
         </Tooltip>
       }
