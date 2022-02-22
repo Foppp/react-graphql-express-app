@@ -2,6 +2,7 @@
   "name": "react-express-scratch",
   "version": "1.0.0",
   "description": "",
+  "private": "true",
   "scripts": {
     "start": "node server.js",
     "webpack": "./node_modules/.bin/webpack -w",
